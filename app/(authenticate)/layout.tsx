@@ -7,13 +7,17 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   const Container = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    margin: 8.75rem 4.56rem 1.63rem 4.5rem;
+    justify-content: center;
+    margin: 8.75rem 0 0 4.5rem;
+    padding-left: 5rem;
+    .img-container {
+      margin-right: 9.37rem;
+    }
   `;
   return (
     <Container>
       {children}
-      <div>
+      <div className='img-container'>
         <Image src={registerImage} alt='register image' />
       </div>
     </Container>

@@ -3,7 +3,7 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 const styles = css`
-  // your global styles
+  //  global styles
 `;
 
 const GlobalStyles = createGlobalStyle`
