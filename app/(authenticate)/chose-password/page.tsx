@@ -2,8 +2,8 @@
 import { Button, Form, FormField, FormItem, Input } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
 import * as Yup from 'yup';
+import Container from './style';
 const page = () => {
   const schema = Yup.object().shape({
     password: Yup.string()
@@ -19,38 +19,7 @@ const page = () => {
   const form = useForm({
     resolver: yupResolver(schema), // yup, joi and even your own.
   });
-  const Container = styled.section`
-    width: 23.31rem;
-    h1 {
-      margin-bottom: 1rem;
-      font-size: 2rem;
-      font-weight: 600;
-      line-height: 1.5rem;
-    }
-    .password-description {
-      margin-bottom: 1.5rem;
-      color: #a0a4a8;
-      font-size: 0.875rem;
-    }
-    .login-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #52575c;
-    }
-    .login-container Button span {
-      font-size: 1.07rem;
-      font-weight: 680;
-    }
-    .input-margin {
-      margin-top: 1rem;
-    }
 
-    .register-button {
-      margin-top: 1rem;
-      width: 100%;
-    }
-  `;
   const onSubmit = async (data) => {
     try {
       console.log(data);

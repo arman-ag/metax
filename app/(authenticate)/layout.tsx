@@ -3,17 +3,17 @@ import registerImage from '@/app/_assets/image/registerImage.png';
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 8.75rem 0 0 4.5rem;
+  padding-left: 5rem;
+  .img-container {
+    margin-right: 9.37rem;
+  }
+`;
 const layout = ({ children }: { children: React.ReactNode }) => {
-  const Container = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 8.75rem 0 0 4.5rem;
-    padding-left: 5rem;
-    .img-container {
-      margin-right: 9.37rem;
-    }
-  `;
   return (
     <Container>
       {children}
