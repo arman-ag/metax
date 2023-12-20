@@ -7,14 +7,22 @@ import {
   FormItem,
   Input,
   Label,
+  Toaster,
+  useToast,
 } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 
 const Login = () => {
+  const { toast } = useToast();
+
+  const router = useRouter();
+
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const schema = Yup.object().shape({
     phone: Yup.string()
@@ -28,18 +36,30 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
+      const res = await signIn('credentials', {
+        phone_number: data.phone,
+        password: data.password,
+        redirect: false,
+        // callbackUrl: `${window.location.origin}`,
+      });
+      console.log('error=>', res);
+      if (res?.error === null) {
+        router.push('/home');
+      }
+      toast({
+        description: ` ${res?.error!}`,
+      });
+    } catch (e) {}
   };
   return (
     <Container>
+      <Toaster dir={'rtl'} />
+
       <h1>متاکس</h1>
       <div>
         <div className='login-container'>
           <p>به سامانه متاکس خوش آمدید</p>
-          <Link href='/sign-up'>
+          <Link href='/signup'>
             <Button size='md' variant='text'>
               <span>ثبت نام</span>
             </Button>
@@ -57,6 +77,7 @@ const Login = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='شماره همراه خود را وارد کنید'
                       {...field}
                       label='شماره همراه '
@@ -73,6 +94,7 @@ const Login = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       type='password'
                       placeholder='کلمه عبور خود را وارد کنید'
                       {...field}

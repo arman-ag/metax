@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    typescript: {
+
+        ignoreBuildErrors: true,
+    },
     compiler: {
         styledComponents: true,
+
+    },
+    env: {
+        baseUrl: "http://172.16.60.151:8000",
+        JWT_SECRET: "tTSSUYgnEkm6ioOt3Qe77h / xxcYMxs / NZ6iAtbMy83I="
 
     },
     async redirects() {

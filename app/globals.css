@@ -16,24 +16,15 @@
   --primary50: #c6a1e4;
   --primary40: #d1b4e9;
   --primary20: #e8d9f4;
+  /* --radix-accordion-content-height: 4rem; */
 }
-/* ::-webkit-file-upload-button {
-  background: #8c43c9;
-  color: white;
-  padding: 1rem;
-  outline: none;
-  width: 10.37rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  border: none;
-  height: 100%;
-} */
+
 label.label input[type='file'] {
   position: absolute;
   top: -2000px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -64,7 +55,7 @@ label.label input[type='file'] {
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
   }
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -76,4 +67,5 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100vh;
 }

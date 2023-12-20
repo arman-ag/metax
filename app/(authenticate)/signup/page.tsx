@@ -1,4 +1,5 @@
 'use client';
+import translatorٍErrorMessage from '@/app/_lib/translator';
 import {
   Button,
   Checkbox,
@@ -7,14 +8,20 @@ import {
   FormItem,
   Input,
   Label,
+  Toaster,
+  useToast,
 } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
+const baseUrl = process.env.baseUrl;
 const SignUp = () => {
+  const router = useRouter();
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
+  const { toast } = useToast();
   const schema = Yup.object().shape({
     phone: Yup.string()
       .matches(phoneRegExp, 'فرمت وارد شده صحیح نمی باشد')
@@ -26,15 +33,36 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
+    const raw = await JSON.stringify({ phone_number: data.phone, email: null });
     try {
-      console.log(data);
-    } catch (e) {
-      console.log(e);
+      const res = await fetch(`${baseUrl}/accounts/signup/`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: raw,
+      });
+      if (res.ok) {
+        await localStorage.setItem('username', data.phone);
+        const response = await res.json();
+        router.push('/otp-code');
+      } else {
+        toast({
+          description: translatorٍErrorMessage(res.status),
+        });
+      }
+    } catch {
+      toast({
+        description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+      });
     }
   };
+
   return (
     <Container>
+      <Toaster dir={'rtl'} />
       <h1>متاکس</h1>
       <div>
         <div className='login-container'>
@@ -57,6 +85,7 @@ const SignUp = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='شماره همراه خود را وارد کنید'
                       {...field}
                       label='شماره همراه *'
@@ -72,6 +101,7 @@ const SignUp = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='ایمیل خود را وارد کنید'
                       {...field}
                       label='ایمیل'
@@ -80,21 +110,7 @@ const SignUp = () => {
                 )}
               />
             </div>
-            <div className='input-margin'>
-              <FormField
-                control={form.control}
-                name='family'
-                render={({ field }) => (
-                  <FormItem>
-                    <Input
-                      placeholder='نام و نام خانوادگی خود را وارد کنید'
-                      {...field}
-                      label='نام و نام خانوادگی'
-                    />
-                  </FormItem>
-                )}
-              />
-            </div>
+
             <div className='checkbox-container'>
               <Checkbox />
               <Label>ذخیره اطلاعات</Label>

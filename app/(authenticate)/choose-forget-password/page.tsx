@@ -6,15 +6,13 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
-const page = () => {
+const ChooseNewPassword = () => {
   const schema = Yup.object().shape({
     password: Yup.string()
       .min(6, 'پسورد نباید کمتر از 6 کارکتر باشد')
       //   .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
-      .max(8, 'پسورد نباید بیشتر  از 8 کارکتر باشد')
       .required('پر کردن این فیلد اجباریست '),
     confirmPassword: Yup.string()
-      //   .email('فرمت وارد شده صحیح نمی باشد')
       .required('پر کردن این فیلد اجباریست')
       .oneOf([Yup.ref('password')], 'پسورد وارد شده یکسان نیست'),
   });
@@ -48,6 +46,7 @@ const page = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='کلمه عبور جدید را وارد نمایید'
                       {...field}
                       label='کلمه عبور'
@@ -63,6 +62,7 @@ const page = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='کلمه عبور جدید را مجدد وارد نمایید'
                       {...field}
                       label='تکرار کلمه عبور'
@@ -87,4 +87,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChooseNewPassword;

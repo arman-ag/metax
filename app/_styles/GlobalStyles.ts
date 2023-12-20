@@ -2,9 +2,7 @@
 
 import { createGlobalStyle, css } from 'styled-components';
 
-const styles = css`
-  //  global styles
-`;
+const styles = css``;
 
 const GlobalStyles = createGlobalStyle`
  ${styles}

@@ -12,15 +12,15 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Container from '../forget-otp-code/style';
+import Container from './style';
 
-const OtpCode = () => {
+const ForgetOtpCode = () => {
   const baseUrl = process.env.baseUrl;
   const router = useRouter();
   const { toast } = useToast();
+  const [countDown, setCountDown] = useState(120);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [countDown, setCountDown] = useState(120);
   const [phoneNumber, setPhoneNumber] = useState('');
   const countdown = () => {
     if (countDown > 0) {
@@ -30,10 +30,11 @@ const OtpCode = () => {
   const resendAuthenticationCode = async () => {
     const raw = await JSON.stringify({
       phone_number: phoneNumber,
-      email: null,
+      forget_password: true,
+      password: '',
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/signup/`, {
+      const res = await fetch(`${baseUrl}/accounts/login/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -41,12 +42,12 @@ const OtpCode = () => {
         method: 'POST',
         body: raw,
       });
+      const response = await res.json();
       if (res.ok) {
-        const response = await res.json();
         setCountDown(120);
       } else {
         toast({
-          description: translatorٍErrorMessage(res.status),
+          description: translatorٍErrorMessage(response.explanation),
         });
       }
     } catch {
@@ -69,9 +70,10 @@ const OtpCode = () => {
         },
         body: jsonOtpCode,
       });
+
       const response = await res.json();
       if (res.ok) {
-        router.push('/choose-password');
+        router.push('/choose-forget-password');
       } else {
         if (res.status === 422) {
           setError(true);
@@ -80,15 +82,14 @@ const OtpCode = () => {
           description: translatorٍErrorMessage(response.explanation),
         });
       }
-      router.push('/choose-password');
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
       });
     }
+    setLoading(false);
   };
   useEffect(() => {
-    //  setPhoneNumber(localStorage.getItem('username'));
     const counter = setInterval(countdown, 1000);
     return () => clearInterval(counter);
   });
@@ -99,9 +100,11 @@ const OtpCode = () => {
 
   const sendOtp = (otpCode: string) => {
     if (otpCode.length === 5) {
+      setLoading(true);
       sendData(otpCode);
     }
   };
+
   return (
     <Container>
       <Toaster dir={'rtl'} />
@@ -112,7 +115,7 @@ const OtpCode = () => {
           <span> کد تایید به شماره</span>
           <span>{` ${phoneNumber} `}</span>
           <span>ارسال شده است. </span>
-          <Link className='change-number' href='/signup'>
+          <Link className='change-number' href='/forget-password'>
             تغییر شماره همراه
           </Link>
         </div>
@@ -132,7 +135,7 @@ const OtpCode = () => {
             isNumberInput
             length={5}
             containerClassName='mt-8'
-            inputClassName='otpInput ml-2 mr-5'
+            inputClassName={`${error && 'otp-error'}  otpInput ml-2 mr-5`}
             onChangeOTP={(otp) => sendOtp(otp)}
           />
           {error && (
@@ -161,4 +164,4 @@ const OtpCode = () => {
   );
 };
 
-export default OtpCode;
+export default ForgetOtpCode;

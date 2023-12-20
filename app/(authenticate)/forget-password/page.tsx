@@ -1,36 +1,70 @@
 'use client';
 import ArrowBackIcon from '@/app/_assets/icon/arrowBack';
-import { Button, Form, FormField, FormItem, Input } from '@haip/design-system';
+import translatorٍErrorMessage from '@/app/_lib/translator';
+import {
+  Button,
+  Form,
+  FormField,
+  FormItem,
+  Input,
+  Toaster,
+  useToast,
+} from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 const ForgetPassword = () => {
+  const { toast } = useToast();
+
+  const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const schema = Yup.object().shape({
-    password: Yup.string()
-      .min(6, 'پسورد نباید کمتر از 6 کارکتر باشد')
-      //   .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
-      .max(8, 'پسورد نباید بیشتر  از 8 کارکتر باشد')
-      .required('پر کردن این فیلد اجباریست '),
-    confirmPassword: Yup.string()
-      //   .email('فرمت وارد شده صحیح نمی باشد')
-      .required('پر کردن این فیلد اجباریست')
-      .oneOf([Yup.ref('password')], 'پسورد وارد شده یکسان نیست'),
+    phone: Yup.string()
+      .matches(phoneRegExp, 'فرمت وارد شده صحیح نمی باشد')
+      .required('پر کردن این فیلد اجباریست'),
   });
   const form = useForm({
     resolver: yupResolver(schema),
   });
+  const baseUrl = process.env.baseUrl;
+  const router = useRouter();
 
   const onSubmit = async (data) => {
+    const raw = await JSON.stringify({
+      phone_number: data.phone,
+      forget_password: true,
+      password: '',
+    });
     try {
-      console.log(data);
-    } catch (e) {
-      console.log(e);
+      const res = await fetch(`${baseUrl}/accounts/login/`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: raw,
+      });
+      if (res.ok) {
+        await localStorage.setItem('username', data.phone);
+        const response = await res.json();
+        router.push('/forget-otp-code');
+      } else {
+        toast({
+          description: translatorٍErrorMessage(res.status),
+        });
+      }
+    } catch {
+      toast({
+        description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+      });
     }
   };
   return (
     <Container>
+      <Toaster dir={'rtl'} />
+
       <h1>بازیابی کلمه عبور</h1>
       <div>
         <div className='login-container'>
@@ -47,10 +81,11 @@ const ForgetPassword = () => {
             <div className='input-margin'>
               <FormField
                 control={form.control}
-                name='confirmPassword'
+                name='phone'
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      inputSize='lg'
                       placeholder='شماره همراه خود را وارد کنید'
                       {...field}
                       label='شماره همراه'
