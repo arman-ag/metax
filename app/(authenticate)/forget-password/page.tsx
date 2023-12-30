@@ -34,11 +34,9 @@ const ForgetPassword = () => {
   const onSubmit = async (data) => {
     const raw = await JSON.stringify({
       phone_number: data.phone,
-      forget_password: true,
-      password: '',
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/login/`, {
+      const res = await fetch(`${baseUrl}/accounts/forget-password/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -48,7 +46,6 @@ const ForgetPassword = () => {
       });
       if (res.ok) {
         await localStorage.setItem('username', data.phone);
-        const response = await res.json();
         router.push('/forget-otp-code');
       } else {
         toast({
@@ -86,7 +83,7 @@ const ForgetPassword = () => {
                   <FormItem>
                     <Input
                       inputSize='lg'
-                      placeholder='شماره همراه خود را وارد کنید'
+                      placeholder='* شماره همراه خود را وارد کنید'
                       {...field}
                       label='شماره همراه'
                     />

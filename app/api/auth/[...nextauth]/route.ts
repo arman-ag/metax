@@ -13,10 +13,10 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         const json = JSON.stringify({
           forget_password: null,
-          phone_number: credentials?.phone_number,
+          username: credentials?.phone_number,
           password: credentials?.password,
         });
-        const res = await fetch(`${baseUrl}/accounts/login/`, {
+        const res = await fetch(`${baseUrl}/accounts/api/token/`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -25,7 +25,6 @@ export const authOptions: AuthOptions = {
           body: json,
         });
         const user = await res.json();
-        console.log(user);
         if (res.statusText === 'OK') {
           console.log('nextauth daki user: ', user);
           return user;
@@ -38,6 +37,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
+        console.log(user);
         token.refreshToken = user.refresh;
         token.accessToken = user.access;
       }
@@ -45,24 +45,23 @@ export const authOptions: AuthOptions = {
     },
     session: ({ session, token }) => {
       if (token) {
-        session.user.accessToken = token.access;
-        session.user.refreshToken = token.refresh;
+        session.user = token;
       }
       return session;
     },
   },
+
   secret: process.env.JWT_SECRET,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
-    signIn: '/(authenticate)/login/page.tsx',
-    signOut: '../../../(authenticate)/login/page.tsx',
-    newUser: '../../../(authenticate)/login/page.tsx',
+    signIn: '/login',
+    signOut: '/login',
+    newUser: '/login',
   },
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

@@ -115,7 +115,6 @@ const ChildItem = styled.div`
 `;
 const ParentItem = styled(AccordionTrigger)`
   background-color: ${({ path }) => {
-    console.log('path===>', path);
     return path ? '#E8D9F4 !important' : 'white';
   }};
   border-right: ${({ path }) =>
@@ -132,7 +131,6 @@ const ParentItem = styled(AccordionTrigger)`
   div {
     display: flex;
     font-weight: 600;
-
     .service-Icon {
       margin-left: 0.5rem;
     }

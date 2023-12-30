@@ -88,7 +88,6 @@ const OtpCode = () => {
     }
   };
   useEffect(() => {
-    //  setPhoneNumber(localStorage.getItem('username'));
     const counter = setInterval(countdown, 1000);
     return () => clearInterval(counter);
   });
@@ -99,6 +98,7 @@ const OtpCode = () => {
 
   const sendOtp = (otpCode: string) => {
     if (otpCode.length === 5) {
+      setLoading(true);
       sendData(otpCode);
     }
   };

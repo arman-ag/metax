@@ -1,4 +1,5 @@
 'use client';
+import LoadingContainer from '@/app/_components/loadingContainer';
 import translatorٍErrorMessage from '@/app/_lib/translator';
 import {
   Button,
@@ -9,13 +10,15 @@ import {
   useToast,
 } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 const ChoosePassword = () => {
-  const router = useRouter();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+
   const schema = Yup.object().shape({
     userPassword: Yup.string()
       .min(6, 'پسورد نباید کمتر از 6 کارکتر باشد')
@@ -32,6 +35,8 @@ const ChoosePassword = () => {
   const baseUrl = process.env.baseUrl;
 
   const onSubmit = async (data) => {
+    setLoading(true);
+
     const phone = await localStorage.getItem('username');
 
     const raw = await JSON.stringify({
@@ -48,13 +53,18 @@ const ChoosePassword = () => {
         method: 'POST',
         body: raw,
       });
+      const response = res.json();
+      console.log('response', response);
       if (res.ok) {
-        await localStorage.setItem('username', data.phone);
-        const response = await res.json();
-        router.push('/home');
+        await signIn('credentials', {
+          phone_number: phone,
+          password: data.userPassword,
+          redirect: true,
+          callbackUrl: '/dashboard',
+        });
       } else {
         toast({
-          description: translatorٍErrorMessage(res.status),
+          description: translatorٍErrorMessage(response?.explanation),
         });
       }
     } catch {
@@ -66,6 +76,8 @@ const ChoosePassword = () => {
 
   return (
     <Container>
+      {loading && <LoadingContainer />}
+
       <h1>تعیین کلمه عبور</h1>
       <div>
         <div className='login-container'>
@@ -85,7 +97,7 @@ const ChoosePassword = () => {
                     <Input
                       inputSize='lg'
                       type='password'
-                      placeholder='کلمه عبور خود را وارد کنید'
+                      placeholder='* کلمه عبور خود را وارد کنید'
                       {...field}
                       label='کلمه عبور'
                     />
@@ -102,7 +114,7 @@ const ChoosePassword = () => {
                     <Input
                       inputSize='lg'
                       type='password'
-                      placeholder='کلمه عبور خود را تکرار کنید'
+                      placeholder='* کلمه عبور خود را تکرار کنید'
                       {...field}
                       label='تکرار کلمه عبور'
                     />
@@ -116,7 +128,6 @@ const ChoosePassword = () => {
             </Button>
           </form>
         </Form>
-        <div className='arrangementInfo-container'></div>
       </div>
     </Container>
   );

@@ -1,10 +1,10 @@
 'use client';
 import DashboardIcon from '@/app/_assets/icon/dashboard';
+import PersonIcon from '@/app/_assets/icon/person';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AccordionService from './accordionService';
 import { MenuItem, MenuSection } from './style';
-
 const Menu = () => {
   const paths = usePathname();
 
@@ -37,8 +37,10 @@ const Menu = () => {
           <div>تاریخچه پردازش ها</div>
         </MenuItem>
       </Link>
-      <Link href='#'>
-        <MenuItem>
+      <Link href='/profile'>
+        <MenuItem path={paths.search('profile') > 0}>
+          <PersonIcon className=' icon' />
+
           <div>حساب کاربری</div>
         </MenuItem>
       </Link>

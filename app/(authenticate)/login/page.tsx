@@ -13,15 +13,12 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 
 const Login = () => {
   const { toast } = useToast();
-
-  const router = useRouter();
 
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const schema = Yup.object().shape({
@@ -39,16 +36,14 @@ const Login = () => {
       const res = await signIn('credentials', {
         phone_number: data.phone,
         password: data.password,
-        redirect: false,
-        // callbackUrl: `${window.location.origin}`,
+        redirect: true,
+        callbackUrl: '/dashboard',
       });
-      console.log('error=>', res);
-      if (res?.error === null) {
-        router.push('/home');
+      if (res?.error !== null) {
+        toast({
+          description: ` ${res?.error!}`,
+        });
       }
-      toast({
-        description: ` ${res?.error!}`,
-      });
     } catch (e) {}
   };
   return (

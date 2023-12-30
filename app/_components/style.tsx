@@ -26,4 +26,21 @@ const SearchContainer = styled.div`
     align-items: center;
   }
 `;
-export { SearchContainer };
+const UploadButtonContainer = styled.label`
+  border-radius: 1rem;
+  text-align: center;
+  background-color: #8c43c9;
+  color: white;
+  cursor: pointer;
+  .child-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  input[type='file'] {
+    position: absolute;
+    top: -2000px;
+  }
+`;
+export { SearchContainer, UploadButtonContainer };

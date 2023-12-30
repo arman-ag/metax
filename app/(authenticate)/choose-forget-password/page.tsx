@@ -1,12 +1,27 @@
 'use client';
 import ArrowBackIcon from '@/app/_assets/icon/arrowBack';
-import { Button, Form, FormField, FormItem, Input } from '@haip/design-system';
+import LoadingContainer from '@/app/_components/loadingContainer';
+import translatorٍErrorMessage from '@/app/_lib/translator';
+import {
+  Button,
+  Form,
+  FormField,
+  FormItem,
+  Input,
+  Toaster,
+  toast,
+} from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 const ChooseNewPassword = () => {
+  const [loading, setLoading] = useState(false);
+  const baseUrl = process.env.baseUrl;
+
   const schema = Yup.object().shape({
     password: Yup.string()
       .min(6, 'پسورد نباید کمتر از 6 کارکتر باشد')
@@ -21,14 +36,47 @@ const ChooseNewPassword = () => {
   });
 
   const onSubmit = async (data) => {
+    setLoading(true);
+    const phone = await localStorage.getItem('username');
+
+    const raw = await JSON.stringify({
+      phone_number: phone,
+      new_password: data.password,
+      repeat_new_password: data.confirmPassword,
+    });
     try {
-      console.log(data);
-    } catch (e) {
-      console.log(e);
+      const res = await fetch(`${baseUrl}/accounts/set-password/`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: raw,
+      });
+      const response = res.json();
+      console.log('response', response);
+      if (res.ok) {
+        await signIn('credentials', {
+          phone_number: phone,
+          password: data.password,
+          redirect: true,
+          callbackUrl: '/dashboard',
+        });
+      } else {
+        toast({
+          description: translatorٍErrorMessage(response?.explanation),
+        });
+      }
+    } catch {
+      toast({
+        description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+      });
     }
   };
   return (
     <Container>
+      <Toaster dir={'rtl'} />
+      {loading && <LoadingContainer />}
       <h1>بازیابی کلمه عبور</h1>
       <div>
         <div className='login-container'>
@@ -46,8 +94,9 @@ const ChooseNewPassword = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      type='password'
                       inputSize='lg'
-                      placeholder='کلمه عبور جدید را وارد نمایید'
+                      placeholder='* کلمه عبور جدید را وارد نمایید'
                       {...field}
                       label='کلمه عبور'
                     />
@@ -62,8 +111,9 @@ const ChooseNewPassword = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Input
+                      type='password'
                       inputSize='lg'
-                      placeholder='کلمه عبور جدید را مجدد وارد نمایید'
+                      placeholder='* کلمه عبور جدید را مجدد وارد نمایید'
                       {...field}
                       label='تکرار کلمه عبور'
                     />

@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@haip/design-system": "^0.2.9",
+    "@haip/design-system": "file:haip-design-system-0.3.0.tgz",
     "@next/font": "^14.0.3",
+    "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-context-menu": "^2.1.5",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-direction": "^1.0.1",
+    "@stitches/react": "^1.2.8",
     "axios": "^1.6.2",
     "babel-plugin-styled-components": "^2.1.4",
     "classnames": "^2.3.2",

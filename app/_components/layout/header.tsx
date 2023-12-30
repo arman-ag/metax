@@ -1,8 +1,11 @@
 'use client';
 import ArrowDownIcon from '@/app/_assets/icon/arrowdown';
-import userImage from '@/app/_assets/images/user.png';
+import userImage from '@/app/_assets/image/user.png';
 import { Search } from '@/app/_components/search';
+
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import {
   BellIconElement,
   HeaderElement,
@@ -10,6 +13,11 @@ import {
   UserAccountContainer,
 } from './style';
 const Header = () => {
+  const router = useRouter();
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <HeaderElement>
       <HeadingContainer>
@@ -27,6 +35,8 @@ const Header = () => {
               <ArrowDownIcon className='Arrow-Down-Icon' />
             </UserAccountContainer>
           </button>
+
+          <button onClick={() => handleSignOut()}>Sign out</button>
         </div>
       </div>
     </HeaderElement>

@@ -34,7 +34,10 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data: any) => {
-    const raw = await JSON.stringify({ phone_number: data.phone, email: null });
+    const raw = await JSON.stringify({
+      phone_number: data.phone,
+      email: data.email,
+    });
     try {
       const res = await fetch(`${baseUrl}/accounts/signup/`, {
         headers: {
@@ -44,13 +47,14 @@ const SignUp = () => {
         method: 'POST',
         body: raw,
       });
+      const response = await res.json();
+
       if (res.ok) {
         await localStorage.setItem('username', data.phone);
-        const response = await res.json();
         router.push('/otp-code');
       } else {
         toast({
-          description: translatorٍErrorMessage(res.status),
+          description: translatorٍErrorMessage(response.explanation),
         });
       }
     } catch {
@@ -63,6 +67,7 @@ const SignUp = () => {
   return (
     <Container>
       <Toaster dir={'rtl'} />
+
       <h1>متاکس</h1>
       <div>
         <div className='login-container'>
