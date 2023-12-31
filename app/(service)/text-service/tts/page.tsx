@@ -1,17 +1,33 @@
 'use client';
 import DownloadFile from '@/app/_components/download';
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
-  Textarea,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Toaster,
   useToast,
 } from '@haip/design-system';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  AudioPlayer,
+  AudioPlayerContainer,
+  Divider,
+  FlexAudioPlayerContainer,
+  H1,
+  H2,
+} from '../../audio-service/denoiser/style';
+import {
+  CustomTextarea,
+  FlexBox,
+  TextProcessingButton,
+} from '../correct-dictation/style';
+import { TTSContainer } from './style';
 const TTS = () => {
   const { toast } = useToast();
 
@@ -39,50 +55,71 @@ const TTS = () => {
     }
   };
   return (
-    <div className='relative'>
-      <div className='flex flex-col  justify-center items-center'>
-        <Toaster dir={'rtl'} />
-        <div className='w-[68.125rem] h-[38.5rem] rounded overflow-hidden shadow-lg p-6'>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                defaultValue={'سلام چطوری'}
-                name='textfield'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        onKeyDown={() => setTTS('')}
-                        {...field}
-                        label=''
-                        dir='rtl'
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <div dir='ltr'>
-                <Button className='mt-[2.25rem]' type='submit'>
-                  پردازش متن
-                </Button>
-              </div>
-            </form>
-          </Form>
-          <div className='w-full  h-[.01rem] bg-gray-400 my-7' />
-          <h2 className='text-[1.2rem] font-semibold mb-[2.44rem]'>
-            نتیجه نهایی
-          </h2>
-          <p className='mb-4'>متن خوانده شده</p>
-          <div className='flex items-center mt-[.56rem]'>
-            <audio src={tts} controls className='w-[33.21rem]' />
-
-            <DownloadFile href={tts} />
-          </div>
-          <div />
-          <div />
-        </div>
-      </div>
+    <div>
+      <Toaster dir={'rtl'} />
+      <H1>تبدیل متن به گفتار</H1>
+      <Tabs dir='rtl' defaultValue='process'>
+        <TabsList>
+          <TabsTrigger halfBorder={false} value='process'>
+            پردازش
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='documentation'>
+            مستندات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='server-result'>
+            پاسخ سرور
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='log'>
+            گزارشات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='price'>
+            قیمت
+          </TabsTrigger>
+        </TabsList>
+        <Divider />
+        <TabsContent value='process'>
+          <TTSContainer>
+            <H2>وارد کردن متن</H2>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FlexBox>
+                  <FormField
+                    control={form.control}
+                    defaultValue={'سلام چطوری'}
+                    name='textfield'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <CustomTextarea
+                            onKeyDown={() => setTTS('')}
+                            {...field}
+                            label=''
+                            dir='rtl'
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <TextProcessingButton size='sm' type='submit'>
+                    پردازش متن
+                  </TextProcessingButton>
+                </FlexBox>
+              </form>
+            </Form>
+            <Divider />
+            <H2>نتیجه نهایی</H2>
+            <FlexAudioPlayerContainer>
+              <p>متن خوانده شده</p>
+              <AudioPlayerContainer>
+                <AudioPlayer src={tts} controls />
+                <DownloadFile size='sm' href={tts} />
+              </AudioPlayerContainer>
+            </FlexAudioPlayerContainer>
+            <div />
+            <div />
+          </TTSContainer>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

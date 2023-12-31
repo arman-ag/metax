@@ -1,18 +1,20 @@
 import DownloadIcon from '@/app/_assets/icon/download';
-import { Button } from '@haip/design-system';
 import Link from 'next/link';
+import { ChildDownloadButton } from './style';
 type props = {
   href: string;
+  size?: string;
+  className?: string;
 };
-const DownloadFile = ({ href }: props) => {
+const DownloadFile = ({ href, size, className }: props) => {
   return (
-    <Link className='mr-5 w-28' download={true} href={href}>
-      <Button variant={'outline'}>
+    <Link className={className} download={true} href={href}>
+      <ChildDownloadButton size={size} variant={'outline'}>
         <div className='flex items-center'>
           <span className='text-[0.75rem] text-[#924dcc]'>دانلود </span>
           <DownloadIcon className={'mr-2 text-primary100'} />
         </div>
-      </Button>
+      </ChildDownloadButton>
     </Link>
   );
 };

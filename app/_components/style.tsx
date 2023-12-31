@@ -1,3 +1,4 @@
+import { Button } from '@haip/design-system';
 import styled from 'styled-components';
 
 const SearchContainer = styled.div`
@@ -43,4 +44,9 @@ const UploadButtonContainer = styled.label`
     top: -2000px;
   }
 `;
-export { SearchContainer, UploadButtonContainer };
+const ChildDownloadButton = styled(Button)`
+  padding: 0;
+  width: 5.62rem;
+  margin-right: 1rem;
+`;
+export { ChildDownloadButton, SearchContainer, UploadButtonContainer };

@@ -1,8 +1,28 @@
 'use client';
-import DownloadFile from '@/app/_components/download';
-import UploadButton from '@/app/_components/uploadButton';
-import { Button, Toaster, useToast } from '@haip/design-system';
+import FileIcon from '@/app/_assets/icon/file';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Toaster,
+  useToast,
+} from '@haip/design-system';
 import { useEffect, useState } from 'react';
+import {
+  AudioContainer,
+  AudioPlayer,
+  AudioPlayerContainer,
+  AudioProcessingButton,
+  Divider,
+  FlexAudioPlayerContainer,
+  FlexContainer,
+  FluidDownloadButton,
+  FluidGalleryButton,
+  H1,
+  H2,
+} from '../denoiser/style';
+import { MusicSeparatorContainer } from './style';
 const MusicSeparator = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
@@ -130,54 +150,67 @@ const MusicSeparator = () => {
     );
   }, []);
   return (
-    <div className='relative'>
+    <div>
       <Toaster dir={'rtl'} />
+      <H1>جداسازی صدای خواننده از موسیقی</H1>
+      <Tabs dir='rtl' defaultValue='process'>
+        <TabsList>
+          <TabsTrigger halfBorder={false} value='process'>
+            پردازش
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='documentation'>
+            مستندات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='server-result'>
+            پاسخ سرور
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='log'>
+            گزارشات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='price'>
+            قیمت
+          </TabsTrigger>
+        </TabsList>
+        <Divider />
+        <TabsContent value='process'>
+          <MusicSeparatorContainer>
+            <H2>بارگذاری فایل</H2>
+            <AudioContainer>
+              <FluidGalleryButton size={'sm'} variant={'outline'}>
+                <FileIcon />
+                <span>فایل ها</span>
+              </FluidGalleryButton>
+              <FlexContainer>
+                <AudioPlayer src={voiceUrl} controls />
 
-      <div className='flex flex-col  justify-center items-center'>
-        <div className='w-[68.125rem] h-[38.5rem] rounded overflow-hidden shadow-lg p-6'>
-          <h2 className='text-[1.2rem] font-semibold mb-[2.44rem]'>
-            گذاشتن صوت
-          </h2>
-          <audio src={voiceUrl} controls className='w-full' />
-          <div className='flex mt-[1.56rem]'>
-            <UploadButton send={browseFile} />
-            <Button
-              size='md'
-              className='mr-2'
-              variant={'outline'}
-              onClick={() => submitFile()}
-            >
-              فرستادن موزیک
-            </Button>
-          </div>
-          <div dir='ltr'>
-            <Button onClick={() => sendVoiceId()} size='lg'>
-              {/* <Countdown minutes={5} seconds={0} /> */}
-              پردازش صوت
-            </Button>
-          </div>
-          <div className='w-full  h-[.01rem] bg-gray-400 my-7' />
-          <h2 className='text-[1.2rem] font-semibold mb-[2.44rem]'>
-            نتیجه نهایی
-          </h2>
-          <p className='my-4'>صدا خواننده</p>
-          <div>
-            <div className='flex items-center mr-[1.5rem]'>
-              <audio src={blobVocalFileUrl} controls className='w-full' />
+                <AudioProcessingButton onClick={sendVoiceId} size='sm'>
+                  پردازش صوت
+                </AudioProcessingButton>
+              </FlexContainer>
+            </AudioContainer>
+            <Divider />
 
-              <DownloadFile href={blobVocalFileUrl} />
-            </div>
-          </div>
-          <p className='my-4'>صدا موزیک</p>
-          <div>
-            <div className='flex items-center mr-[1.5rem]'>
-              <audio src={blobMusicFileUrl} controls className='w-full' />
+            <div />
+            <H2>نتیجه نهایی</H2>
+            <FlexAudioPlayerContainer>
+              <p>صدای خواننده</p>
+              <AudioPlayerContainer>
+                <AudioPlayer src={blobVocalFileUrl} controls />
 
-              <DownloadFile href={blobMusicFileUrl} />
-            </div>
-          </div>
-        </div>
-      </div>
+                <FluidDownloadButton size='sm' href={blobVocalFileUrl} />
+              </AudioPlayerContainer>
+            </FlexAudioPlayerContainer>
+            <FlexAudioPlayerContainer>
+              <p>صدای موسیقی</p>
+              <AudioPlayerContainer>
+                <AudioPlayer src={blobMusicFileUrl} controls />
+
+                <FluidDownloadButton size='sm' href={blobMusicFileUrl} />
+              </AudioPlayerContainer>
+            </FlexAudioPlayerContainer>
+          </MusicSeparatorContainer>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

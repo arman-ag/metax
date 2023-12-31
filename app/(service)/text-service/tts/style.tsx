@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-const AsrContainer = styled.div`
+const TTSContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
-const ResultContainer = styled.div`
-  width: 35.5rem;
+const AudioPlayer = styled.audio`
+  width: 25.125rem;
 `;
-
-export { AsrContainer, ResultContainer };
+export { AudioPlayer, TTSContainer };

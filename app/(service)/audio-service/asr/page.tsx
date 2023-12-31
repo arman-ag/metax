@@ -1,8 +1,25 @@
 'use client';
-import UploadButton from '@/app/_components/uploadButton';
-import { Button, Toaster, useToast } from '@haip/design-system';
+import FileIcon from '@/app/_assets/icon/file';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Toaster,
+  useToast,
+} from '@haip/design-system';
 import { useState } from 'react';
-import { AsrContainer } from './style';
+import {
+  AudioContainer,
+  AudioPlayer,
+  AudioProcessingButton,
+  Divider,
+  FlexContainer,
+  GalleryButton,
+  H1,
+  H2,
+} from '../denoiser/style';
+import { AsrContainer, ResultContainer } from './style';
 const SST = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
@@ -37,27 +54,50 @@ const SST = () => {
   };
   return (
     <div>
-      <AsrContainer>
-        <div>
-          <h2 className='my-4 font-semibold text-[1.2rem] '>گذاشتن صوت</h2>
-          <audio src={voiceUrl} controls className='w-full' />
-          <div className='flex mt-[1.56rem]'>
-            <UploadButton send={browseFile} />
-          </div>
-          <div dir='ltr'>
-            <Button onClick={() => submitFile()} size='lg'>
-              پردازش صوت
-            </Button>
-          </div>
-          <div className='w-full h-[.01rem] bg-gray-400 my-7' />
-          <h2 className=' mb-[2.44rem] font-semibold text-[1.2rem]'>
-            نتیجه نهایی
-          </h2>
-          <div className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
-            {showResult && asrVoice}
-          </div>
-        </div>
-      </AsrContainer>
+      <H1>تبدیل گفتار به نوشتار</H1>
+      <Tabs dir='rtl' defaultValue='process'>
+        <TabsList>
+          <TabsTrigger halfBorder={false} value='process'>
+            پردازش
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='documentation'>
+            مستندات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='server-result'>
+            پاسخ سرور
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='log'>
+            گزارشات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='price'>
+            قیمت
+          </TabsTrigger>
+        </TabsList>
+        <Divider />
+        <TabsContent value='process'>
+          <AsrContainer>
+            <H2>بارگذاری فایل</H2>
+            <AudioContainer>
+              <GalleryButton size={'sm'} variant={'outline'}>
+                <FileIcon />
+                <span>فایل ها</span>
+              </GalleryButton>
+              <FlexContainer>
+                <AudioPlayer src={voiceUrl} controls />
+                <AudioProcessingButton onClick={() => submitFile()} size='sm'>
+                  پردازش صوت
+                </AudioProcessingButton>
+              </FlexContainer>
+            </AudioContainer>
+            <div />
+            <Divider />
+            <H2>نتیجه نهایی</H2>
+            <ResultContainer className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
+              {showResult && asrVoice}
+            </ResultContainer>
+          </AsrContainer>
+        </TabsContent>
+      </Tabs>
       <Toaster dir={'rtl'} />
     </div>
   );

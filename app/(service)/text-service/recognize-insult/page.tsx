@@ -2,18 +2,28 @@
 
 import HappyIcon from '@/app/_assets/icon/happy';
 import SadIcon from '@/app/_assets/icon/sad';
+import LoadingContainer from '@/app/_components/loadingContainer';
 import {
-  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
-  Textarea,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Toaster,
   useToast,
 } from '@haip/design-system';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Divider, H1, H2 } from '../../audio-service/denoiser/style';
+import {
+  CustomTextarea,
+  FlexBox,
+  TextProcessingButton,
+} from '../correct-dictation/style';
+import { InsultResultBox, RecognizeInsultContainer } from './style';
 const RecognizeInsult = () => {
   const form = useForm();
   const { toast } = useToast();
@@ -38,71 +48,83 @@ const RecognizeInsult = () => {
       });
       console.log('error------------>', e);
     }
+    sensation;
   };
   return (
-    <div className='relative'>
+    <div>
       <Toaster dir={'rtl'} />
-      <div className='flex flex-col  justify-center items-center'>
-        <div className='w-[68.125rem] h-[38.5rem] rounded overflow-hidden shadow-lg p-6'>
-          <h2 className=' font-semibold text-[1.2rem]'>گذاشتن متن</h2>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                defaultValue={'زیبا'}
-                name='textfield'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        onKeyDown={() => setShowResult(false)}
-                        label=''
-                        {...field}
-                        dir='rtl'
-                      />
-                    </FormControl>
-                  </FormItem>
+      <H1>تشخیص توهین</H1>
+      <Tabs dir='rtl' defaultValue='process'>
+        <TabsList>
+          <TabsTrigger halfBorder={false} value='process'>
+            پردازش
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='documentation'>
+            مستندات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='server-result'>
+            پاسخ سرور
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='log'>
+            گزارشات
+          </TabsTrigger>
+          <TabsTrigger halfBorder={false} value='price'>
+            قیمت
+          </TabsTrigger>
+        </TabsList>
+        <Divider />
+        <TabsContent value='process'>
+          <RecognizeInsultContainer>
+            <H2 className=' font-semibold text-[1.2rem]'>گذاشتن متن</H2>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FlexBox>
+                  <FormField
+                    control={form.control}
+                    defaultValue={'زیبا'}
+                    name='textfield'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <CustomTextarea
+                            onKeyDown={() => setShowResult(false)}
+                            label=''
+                            {...field}
+                            dir='rtl'
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <TextProcessingButton size='sm' type='submit'>
+                    پردازش متن
+                  </TextProcessingButton>
+                </FlexBox>
+              </form>
+            </Form>
+            <Divider />
+            <H2>نتیجه نهایی</H2>
+            <div className='flex justify-center'>
+              <InsultResultBox sensation={sensation}>
+                {!showResult && <LoadingContainer />}
+                {sensation === 'Neutral' ? (
+                  <div>
+                    <HappyIcon />
+                    <span>این متن توهین آمیز نیست</span>
+                  </div>
+                ) : (
+                  <div>
+                    <SadIcon />
+                    <span>این متن توهین آمیز است</span>
+                  </div>
                 )}
-              />
-              <div dir='ltr'>
-                <Button className='mt-[2.25rem]' type='submit'>
-                  پردازش متن
-                </Button>
-              </div>
-            </form>
-          </Form>
-          <div className='w-full  h-[.01rem] bg-gray-400 my-7' />
-          <h2 className='text-[1.2rem] font-semibold mb-[2.44rem]'>
-            نتیجه نهایی
-          </h2>
-          <div className='flex justify-center'>
-            <div
-              className={`relative h-[4.1rem] w-[20.375rem] ${
-                sensation === 'Neutral' ? 'bg-[#306A04]' : 'bg-[#EC4A5E]'
-              }  rounded-[0.5rem] flex  items-center  justify-center text-[#EFEFEF]`}
-            >
-              {!showResult && (
-                <div className='h-[4.1rem] w-[20.375rem] bg-white absolute top-0 left-0  opacity-90 text-black flex justify-center  items-center z-30'>
-                  درحال پردازش
-                </div>
-              )}
-              {sensation === 'Neutral' ? (
-                <div className='flex  items-center  '>
-                  <HappyIcon />
-                  <span className='mr-[1.5rem]'>این متن توهین آمیز نیست</span>
-                </div>
-              ) : (
-                <div className='flex  items-center '>
-                  <SadIcon />
-                  <span className='mr-[1.5rem]'>این متن توهین آمیز است</span>
-                </div>
-              )}
+              </InsultResultBox>
             </div>
-          </div>
-          <div />
-          <div />
-        </div>
-      </div>
+            <div />
+            <div />
+          </RecognizeInsultContainer>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

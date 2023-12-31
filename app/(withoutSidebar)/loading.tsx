@@ -1,5 +1,8 @@
+'use client';
+import LoadingContainer from '../_components/loadingContainer';
+
 const loading = () => {
-  return <div>loading</div>;
+  return <LoadingContainer />;
 };
 
 export default loading;
