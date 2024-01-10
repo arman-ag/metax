@@ -1,4 +1,5 @@
 'use client';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import {
   Form,
   FormControl,
@@ -45,6 +46,8 @@ const CorrectDictation = () => {
     <div>
       <Toaster dir={'rtl'} />
       <H1>غلط املایی</H1>
+      <NextBreadcrumb />
+
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>

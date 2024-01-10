@@ -64,14 +64,14 @@ const AccordionService = () => {
                   </Link>
                 </AccordionContent>
                 <AccordionContent>
-                  {/* <Link href='/audio-service/music-separator'>
+                  <Link href='/audio-service/music-separator'>
                     <ChildItem
                       path={paths.search('music-separator') > 0}
                       className='content'
                     >
                       جدا سازی موسیقی و خواننده
                     </ChildItem>
-                  </Link> */}
+                  </Link>
                 </AccordionContent>
                 <AccordionContent>
                   <Link href='/audio-service/asr'>

@@ -1,6 +1,7 @@
 'use client';
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import UploadButton from '@/app/_components/uploadButton';
 import {
@@ -73,6 +74,7 @@ const ASR = () => {
   return (
     <div>
       <H1>تبدیل گفتار به نوشتار</H1>
+      <NextBreadcrumb />
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>

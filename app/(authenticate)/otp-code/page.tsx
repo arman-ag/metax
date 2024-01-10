@@ -2,7 +2,7 @@
 
 import ArrowBackIcon from '@/app/_assets/icon/arrowBack';
 import LoadingContainer from '@/app/_components/loadingContainer';
-import translatorٍErrorMessage from '@/app/_lib/translator';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Button,
   OTPInputComponent,

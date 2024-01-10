@@ -2,6 +2,7 @@
 
 import HappyIcon from '@/app/_assets/icon/happy';
 import SadIcon from '@/app/_assets/icon/sad';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import {
   Form,
   FormControl,
@@ -50,6 +51,8 @@ const RecognizeInsult = () => {
     <div>
       <Toaster dir={'rtl'} />
       <H1>تشخیص توهین</H1>
+      <NextBreadcrumb />
+
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>

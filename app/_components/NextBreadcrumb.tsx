@@ -1,55 +1,34 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { breadCrumbTranslator } from '../_lib/translator';
+import { BreadCrumbContainer } from './style';
 
-type TBreadCrumbProps = {
-  homeElement: ReactNode;
-  separator: ReactNode;
-  containerClasses?: string;
-  listClasses?: string;
-  activeClasses?: string;
-  capitalizeLinks?: boolean;
-};
-
-const NextBreadcrumb = ({
-  homeElement,
-  separator,
-  containerClasses,
-  listClasses,
-  activeClasses,
-  capitalizeLinks,
-}: TBreadCrumbProps) => {
+const NextBreadcrumb = () => {
   const paths = usePathname();
   const pathNames = paths.split('/').filter((path) => path);
 
   return (
-    <div>
-      <ul className={containerClasses}>
-        <li className={listClasses}>
-          <Link href={'/'}>{homeElement}</Link>
-        </li>
-        {pathNames.length > 0 && separator}
-        {pathNames.map((link, index) => {
-          let href = `/${pathNames.slice(0, index + 1).join('/')}`;
-          let itemClasses =
-            paths === href ? `${listClasses} ${activeClasses}` : listClasses;
-          let itemLink = capitalizeLinks
-            ? link[0].toUpperCase() + link.slice(1, link.length)
-            : link;
-          return (
-            <React.Fragment key={index}>
-              <li className={itemClasses}>
-                <Link href={href}>{itemLink}</Link>
-              </li>
-              {pathNames.length !== index + 1 && separator}
-            </React.Fragment>
-          );
-        })}
-      </ul>
-    </div>
+    <BreadCrumbContainer>
+      <span>
+        <Link href={'/dashboard'}>خانه </Link>
+      </span>
+      {pathNames.map((link, index) => {
+        let href = `/${pathNames.slice(0, index + 1).join('/')}`;
+        return (
+          <React.Fragment key={index}>
+            <span>
+              <Link href={href}>
+                &nbsp; / &nbsp; {breadCrumbTranslator(link)}
+              </Link>
+            </span>
+          </React.Fragment>
+        );
+      })}
+    </BreadCrumbContainer>
   );
 };
 

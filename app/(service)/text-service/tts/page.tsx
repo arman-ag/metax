@@ -1,4 +1,5 @@
 'use client';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import DownloadFile from '@/app/_components/download';
 import {
   Form,
@@ -49,6 +50,8 @@ const TTS = () => {
     <div>
       <Toaster dir={'rtl'} />
       <H1>تبدیل متن به گفتار</H1>
+      <NextBreadcrumb />
+
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>

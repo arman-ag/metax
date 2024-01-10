@@ -75,8 +75,17 @@ const FileContainer = styled.div`
   color: #52575c;
   margin-top: 0.5rem;
 `;
-
+const BreadCrumbContainer = styled.div`
+  display: flex;
+  margin: 0.82rem 1.75rem 1.69rem 0;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem;
+  color: #52575c;
+`;
 export {
+  BreadCrumbContainer,
   ChildDownloadButton,
   DateBox,
   FileContainer,

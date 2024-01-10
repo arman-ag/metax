@@ -5,6 +5,7 @@ import GlobalStyles from './_styles/GlobalStyles';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
 import AllProviders from './provider';
+import { Providers } from './redux/provider';
 
 const myFont = localFont({ src: './_assets/font/YekanBakhFaNum-Regular.woff' });
 export const metadata: Metadata = {
@@ -24,8 +25,7 @@ export default async function RootLayout({
       <body dir='rtl' className={myFont.className}>
         <AllProviders session={session}>
           <GlobalStyles />
-
-          {children}
+          <Providers>{children}</Providers>
         </AllProviders>
       </body>
     </html>

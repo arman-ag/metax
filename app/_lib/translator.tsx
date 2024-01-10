@@ -26,4 +26,34 @@ const translatorٍErrorMessage = (error) => {
   }
   return res;
 };
-export default translatorٍErrorMessage;
+const breadCrumbTranslator = (text) => {
+  let result = '';
+  switch (text) {
+    case 'audio-service':
+      result = 'سرویس صوت';
+      break;
+    case 'asr':
+      result = 'سرویس ASR';
+      break;
+    case 'denoiser':
+      result = 'سرویس دینویزر';
+      break;
+    case 'music-separator':
+      result = ' سرویس جدا سازی موسیقی و خواننده';
+      break;
+    case 'text-service':
+      result = 'سرویس متن';
+      break;
+    case 'correct-dictation':
+      result = 'سرویس غلط املایی';
+      break;
+    case 'recognize-insult':
+      result = 'سرویس تشخیص توهین';
+      break;
+    case 'tts':
+      result = 'سرویس tts';
+      break;
+  }
+  return result;
+};
+export { breadCrumbTranslator, translatorٍErrorMessage };

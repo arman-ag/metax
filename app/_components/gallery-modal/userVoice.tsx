@@ -33,7 +33,7 @@ const UserVoice = ({ setFocusItem }) => {
     setEnableActionBar({ rename: false, delete: false });
     SetRename(false);
   };
-  //  focus item action
+  //  focus item actionMusicContainer
   const diagnosisFocusItem = (event, focusItemId: number) => {
     SetRename(false);
     event.stopPropagation();

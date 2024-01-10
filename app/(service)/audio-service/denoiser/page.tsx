@@ -2,6 +2,7 @@
 
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import {
   Dialog,
@@ -113,6 +114,8 @@ const Denoiser = () => {
   return (
     <div>
       <H1>دینویزر</H1>
+      <NextBreadcrumb />
+
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>

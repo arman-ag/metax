@@ -1,6 +1,7 @@
 'use client';
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import {
   Dialog,
@@ -153,6 +154,8 @@ const MusicSeparator = () => {
     <div>
       <Toaster dir={'rtl'} />
       <H1>جداسازی صدای خواننده از موسیقی</H1>
+      <NextBreadcrumb />
+
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
           <TabsTrigger halfBorder={false} value='process'>
