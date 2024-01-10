@@ -1,4 +1,5 @@
 'use client';
+import LoadingContainer from '@/app/_components/loadingContainer';
 import translatorٍErrorMessage from '@/app/_lib/translator';
 import {
   Button,
@@ -14,11 +15,13 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 const baseUrl = process.env.baseUrl;
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const { toast } = useToast();
@@ -34,12 +37,13 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     const raw = await JSON.stringify({
       phone_number: data.phone,
-      email: data.email,
+      email: data.email ? data.email : null,
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/signup/`, {
+      const res = await fetch(`${baseUrl}/accounts/check-user-exist/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -50,12 +54,14 @@ const SignUp = () => {
       const response = await res.json();
 
       if (res.ok) {
+        setLoading(false);
         await localStorage.setItem('username', data.phone);
         router.push('/otp-code');
       } else {
         toast({
           description: translatorٍErrorMessage(response.explanation),
         });
+        setLoading(false);
       }
     } catch {
       toast({
@@ -67,7 +73,7 @@ const SignUp = () => {
   return (
     <Container>
       <Toaster dir={'rtl'} />
-
+      {loading && <LoadingContainer />}
       <h1>متاکس</h1>
       <div>
         <div className='login-container'>

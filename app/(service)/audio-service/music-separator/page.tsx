@@ -1,6 +1,10 @@
 'use client';
+import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import Gallery from '@/app/_components/gallery-modal/gallery';
 import {
+  Dialog,
+  DialogTrigger,
   Tabs,
   TabsContent,
   TabsList,
@@ -30,12 +34,8 @@ const MusicSeparator = () => {
   const [blobMusicFileUrl, setBlobMusicFileUrl] = useState('/metaMusicRes.wav');
   const [responseId, setResponseId] = useState();
   const [voiceUrl, setVoiceUrl] = useState('/metamusic.wav');
-  const browseFile = (e) => {
-    setVoice(e.target.files[0]);
-    setVoiceUrl(URL.createObjectURL(e.target.files[0]));
-    setBlobVocalFileUrl('');
-    setBlobMusicFileUrl('');
-  };
+  const [focusItem, setFocusItem] = useState({});
+
   const submitFile = async () => {
     const formData = new FormData();
     formData.append('title', 'test8');
@@ -176,14 +176,23 @@ const MusicSeparator = () => {
           <MusicSeparatorContainer>
             <H2>بارگذاری فایل</H2>
             <AudioContainer>
-              <FluidGalleryButton size={'sm'} variant={'outline'}>
-                <FileIcon />
-                <span>فایل ها</span>
-              </FluidGalleryButton>
-              <FlexContainer>
-                <AudioPlayer src={voiceUrl} controls />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <FluidGalleryButton size={'sm'} variant={'outline'}>
+                    <FileIcon />
+                    <span>فایل ها</span>
+                  </FluidGalleryButton>
+                </DialogTrigger>
 
-                <AudioProcessingButton onClick={sendVoiceId} size='sm'>
+                <DialogContentContainer dir={'rtl'}>
+                  <Gallery setFocusItem={setFocusItem} />
+                </DialogContentContainer>
+              </Dialog>
+
+              <FlexContainer>
+                <AudioPlayer src={focusItem.voice_file} controls />
+
+                <AudioProcessingButton onClick={submitFile} size='sm'>
                   پردازش صوت
                 </AudioProcessingButton>
               </FlexContainer>

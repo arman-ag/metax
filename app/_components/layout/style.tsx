@@ -48,13 +48,12 @@ const BellIconElement = styled(BellIcon)({
 });
 const UserAccountContainer = styled.div`
   display: flex;
-
   align-items: center;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5rem;
   .Arrow-Down-Icon {
-    margin-right: 0.25rem;
+    margin-right: 0.5rem;
   }
 `;
 const MenuItem = styled.div`
@@ -109,13 +108,40 @@ const GrandChildMenuItem = styled.div`
   margin-bottom: 0.5rem;
   background-color: '#f3ecfa';
 `;
+const HeaderProfileContainer = styled.button`
+  /* &:focus {
+    background-color: #fbf7fd;
+  }
+  &:active {
+    background-color: #fbf7fd;
+  } */
+  /* background-color: ${({ focus }) => (focus ? '#fbf7fd' : 'white')}; */
+  outline: none;
+  width: 12.5rem;
+  height: 4.68rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  img {
+    margin-left: 1.25rem;
+  }
+`;
+const DividerProfileItem = styled.div`
+  width: 100%;
+  height: 0.1rem;
+  background-color: #efefef;
+`;
+
 export {
   BellIconElement,
   ChildMenuItem,
+  DividerProfileItem,
   GrandChildMenuItem,
   GridContainer,
   HeaderContainer,
   HeaderElement,
+  HeaderProfileContainer,
   HeadingContainer,
   InternalWrapper,
   MainContainer,

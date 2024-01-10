@@ -14,8 +14,7 @@ const translatorٍErrorMessage = (error) => {
       res = 'کد ارسال شده اشتباه است';
       break;
     case 'the user exist, please try forget password':
-      res =
-        'شماره تلفن ثبت شده است،درصورت فراموشی رمز عبور از بخش فراموشی رمز عبور استفاده کنید.';
+      res = 'شماره تلفن ثبت شده است لطفا از بخش ورود استفاده کنید.';
       break;
     case 'you can request sms code every 2 minute, please wait a little bit':
       res = 'برای دریافت مجدد پیامک دو دقیقه صبر کنید';

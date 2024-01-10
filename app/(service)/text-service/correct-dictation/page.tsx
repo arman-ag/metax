@@ -14,6 +14,7 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Divider, H1, H2 } from '../../audio-service/denoiser/style';
+import { getCorrectDictation } from './service';
 import {
   CorrectDictationContainer,
   CustomTextarea,
@@ -31,13 +32,7 @@ const CorrectDictation = () => {
     const formdata = new FormData();
     formdata.append('text', data.textfield);
     try {
-      const res = await fetch('http://10.82.82.100:2001/chat', {
-        method: 'POST',
-
-        body: formdata,
-        redirect: 'follow',
-      });
-      const response = await res.json();
+      const response = await getCorrectDictation(formdata);
       setNormalizer(response.text);
     } catch (e) {
       toast({

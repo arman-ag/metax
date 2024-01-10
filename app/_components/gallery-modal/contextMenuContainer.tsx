@@ -4,15 +4,19 @@ import { ContextMenuContent, ContextMenuItem } from './rightClickStyle';
 type ContextMenuContainerProps = { children: ReactNode };
 const ContextMenuContainer = ({
   children,
-  focusElement,
+  handleContextRename,
+  handleDeleteAction,
 }: ContextMenuContainerProps) => {
   return (
-    <ContextMenu.Root>
+    <ContextMenu.Root modal={true}>
       <ContextMenu.Trigger>{children}</ContextMenu.Trigger>
-
       <ContextMenuContent>
-        <ContextMenuItem onClick={focusElement}>ویرایش فایل</ContextMenuItem>
-        <ContextMenuItem>حذف فایل</ContextMenuItem>
+        <ContextMenuItem asChild>
+          <div onClick={handleContextRename}>ویرایش فایل</div>
+        </ContextMenuItem>
+        <ContextMenuItem asChild>
+          <div onClick={handleDeleteAction}>حذف فایل</div>
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu.Root>
   );

@@ -18,7 +18,6 @@ import Container from './style';
 const ChoosePassword = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-
   const schema = Yup.object().shape({
     userPassword: Yup.string()
       .min(6, 'پسورد نباید کمتر از 6 کارکتر باشد')
@@ -36,6 +35,7 @@ const ChoosePassword = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    const token = localStorage.getItem('OTPAuth');
 
     const phone = await localStorage.getItem('username');
 
@@ -49,12 +49,12 @@ const ChoosePassword = () => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         method: 'POST',
         body: raw,
       });
       const response = res.json();
-      console.log('response', response);
       if (res.ok) {
         await signIn('credentials', {
           phone_number: phone,
@@ -67,10 +67,12 @@ const ChoosePassword = () => {
           description: translatorٍErrorMessage(response?.explanation),
         });
       }
+      setLoading(false);
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
       });
+      setLoading(false);
     }
   };
 

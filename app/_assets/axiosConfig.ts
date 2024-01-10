@@ -6,7 +6,7 @@ const configureHeader = async () => {
   } = await getSession();
 
   return {
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken ? accessToken : ''}` },
   };
 };
 export default configureHeader;

@@ -27,6 +27,7 @@ import {
   FlexBox,
   TextProcessingButton,
 } from '../correct-dictation/style';
+import getAudioFile from './service';
 import { TTSContainer } from './style';
 const TTS = () => {
   const { toast } = useToast();
@@ -34,19 +35,9 @@ const TTS = () => {
   const form = useForm();
   const [tts, setTTS] = useState('./ttsAudio.wav');
   const onSubmit = async (data) => {
-    const formdata = new FormData();
-    formdata.append('text', data.textfield);
     try {
-      const res = await fetch(
-        `http://10.82.82.100:2008/api/tts?text=${data.textfield}&voice=fa/haaniye_low&noiseScale=0.667&noiseW=0.8&lengthScale=1&ssml=false&audioTarget=client`,
-        {
-          method: 'GET',
-          redirect: 'follow',
-        }
-      );
-      const blob = await res.blob();
-
-      setTTS(URL.createObjectURL(blob));
+      const blobRes = await getAudioFile(data.textfield);
+      setTTS(URL.createObjectURL(blobRes));
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,

@@ -13,13 +13,14 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import Container from './style';
 
 const Login = () => {
+  const router = useRouter();
   const { toast } = useToast();
-
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const schema = Yup.object().shape({
     phone: Yup.string()
@@ -36,13 +37,15 @@ const Login = () => {
       const res = await signIn('credentials', {
         phone_number: data.phone,
         password: data.password,
-        redirect: true,
-        callbackUrl: '/dashboard',
+        redirect: false,
       });
+      console.log('res', res);
       if (res?.error !== null) {
         toast({
-          description: ` ${res?.error!}`,
+          description: ` کاربری با این مشخصات وجود ندارد`,
         });
+      } else {
+        router.push('/dashboard');
       }
     } catch (e) {}
   };

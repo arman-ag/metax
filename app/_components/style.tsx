@@ -49,4 +49,38 @@ const ChildDownloadButton = styled(Button)`
   width: 5.62rem;
   margin-right: 1rem;
 `;
-export { ChildDownloadButton, SearchContainer, UploadButtonContainer };
+const StatusItemContainer = styled.div`
+  display: flex;
+  border-top: solid 0.1rem #e0e0e0;
+  flex-direction: column;
+  padding: 1.2rem;
+  h1 {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+`;
+const DateBox = styled.div`
+  color: #52575c;
+  font-size: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  button {
+    width: 3.68rem;
+    margin-left: 0.12rem;
+  }
+`;
+const FileContainer = styled.div`
+  font-size: 0.75rem;
+  color: #52575c;
+  margin-top: 0.5rem;
+`;
+
+export {
+  ChildDownloadButton,
+  DateBox,
+  FileContainer,
+  SearchContainer,
+  StatusItemContainer,
+  UploadButtonContainer,
+};

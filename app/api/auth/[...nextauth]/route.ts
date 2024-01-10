@@ -37,7 +37,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        console.log(user);
+        console.log('user=======>', user);
         token.refreshToken = user.refresh;
         token.accessToken = user.access;
       }
@@ -57,8 +57,9 @@ export const authOptions: AuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
-    signIn: '/login',
-    signOut: '/login',
+    signIn: '/signin',
+    signOut: '/signin',
+    error: '/404',
     newUser: '/login',
   },
 };

@@ -1,5 +1,5 @@
 const PaymentBar = () => {
-  return <div>PaymentBar</div>;
+  return <div></div>;
 };
 
 export default PaymentBar;

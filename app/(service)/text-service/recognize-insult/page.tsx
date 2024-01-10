@@ -2,7 +2,6 @@
 
 import HappyIcon from '@/app/_assets/icon/happy';
 import SadIcon from '@/app/_assets/icon/sad';
-import LoadingContainer from '@/app/_components/loadingContainer';
 import {
   Form,
   FormControl,
@@ -23,6 +22,7 @@ import {
   FlexBox,
   TextProcessingButton,
 } from '../correct-dictation/style';
+import insultResult from './service';
 import { InsultResultBox, RecognizeInsultContainer } from './style';
 const RecognizeInsult = () => {
   const form = useForm();
@@ -34,14 +34,10 @@ const RecognizeInsult = () => {
     const formdata = new FormData();
     formdata.append('text', data.textfield);
     try {
-      const res = await fetch('http://hirax.com:2005/get_text_hate', {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow',
-      });
-      const response = await res.text();
+      const response = await insultResult(formdata);
       setSensation(response);
-      setShowResult(true);
+
+      setShowResult(false);
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
@@ -106,7 +102,7 @@ const RecognizeInsult = () => {
             <H2>نتیجه نهایی</H2>
             <div className='flex justify-center'>
               <InsultResultBox sensation={sensation}>
-                {!showResult && <LoadingContainer />}
+                {/* {!showResult && <LoadingContainer />} */}
                 {sensation === 'Neutral' ? (
                   <div>
                     <HappyIcon />

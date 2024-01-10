@@ -5,16 +5,18 @@ import { ThemeProvider } from 'styled-components';
 import StyledComponentsRegistry from './_lib/registry';
 import theme from './_styles/theme';
 
-const Providers = (props: React.PropsWithChildren) => {
+const AllProviders = (props: React.PropsWithChildren) => {
   return (
     <StyledComponentsRegistry>
+      {/* <Providers> */}
       <ThemeProvider theme={theme}>
         <SessionProvider session={props.session}>
           {props.children}
         </SessionProvider>
       </ThemeProvider>
+      {/* </Providers> */}
     </StyledComponentsRegistry>
   );
 };
 
-export default Providers;
+export default AllProviders;

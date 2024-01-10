@@ -7,51 +7,62 @@ type MusicContainerProps = {
   id: string;
   rename: boolean;
 };
-
 const MusicContainer = ({
-  fileName,
-  id,
+  item,
+  diagnosisFocusItem,
   rename,
-  SetRename,
+  renameAction,
+  deleteAction,
 }: MusicContainerProps) => {
-  const [value, setValue] = useState(fileName);
-  const inputRef = useRef(null);
-  const [focus, setFocus] = useState(false);
-
+  const [value, setValue] = useState(item.file_name);
+  const inputRef = useRef();
+  const handleContextRename = (event) => {
+    diagnosisFocusItem(event, item.id);
+    renameAction(event);
+  };
+  const handleDeleteAction = (event) => {
+    deleteAction(event, item.id);
+  };
+  const handleTextAreaValue = (e) => {
+    setValue(e.target.value);
+  };
+  const handleSubmitTextArea = (e) => {
+    e.preventDefault();
+    renameAction(e, item.id, value);
+  };
   // useEffect(() => {
-  //   if (true) {
-  //     inputRef?.current?.focus();
-  //     console.log('active=>', active);
+  //   const indexOfDot = value.indexOf('.');
+  //   if (indexOfDot !== -1) {
+  //     inputRef.current.selectionStart = indexOfDot;
+  //     inputRef.current.selectionEnd = inputRef.current.value.length;
   //   }
-  // }, [inputRef?.current, active]);
-  const focusElement = () => {
-    SetRename();
-    inputRef?.current?.focus();
-    console.log('focused');
-  };
-  const handleMusicContainerAction = (event) => {
-    event?.preventDefault();
-    setFocus(true);
-  };
+
+  //   inputRef.current;
+  // }, [value]);
+
   return (
     <div>
-      <ContextMenuContainer focusElement={focusElement}>
+      <ContextMenuContainer
+        handleContextRename={handleContextRename}
+        handleDeleteAction={handleDeleteAction}
+      >
         <MusicContainerStyle
-          focus={focus}
-          onClick={handleMusicContainerAction}
-          id={id}
+          focus={item.focus}
+          onClick={(event) => diagnosisFocusItem(event, item.id)}
         >
           <MusicIcon />
-          <FileNameDivision
-            ref={inputRef}
-            disabled={rename && focus}
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-          />
+          {!(rename && item.focus) ? (
+            <span>{item.file_name}</span>
+          ) : (
+            <FileNameDivision
+              ref={inputRef}
+              autoFocus
+              onBlur={(event) => handleSubmitTextArea(event)}
+              onChange={(event) => handleTextAreaValue(event)}
+              value={value}
+            />
+          )}
         </MusicContainerStyle>
-        <button style={{ marginTop: '50px' }} onClick={focusElement}>
-          focus
-        </button>
       </ContextMenuContainer>
     </div>
   );

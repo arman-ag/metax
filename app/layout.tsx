@@ -4,7 +4,7 @@ import localFont from 'next/font/local';
 import GlobalStyles from './_styles/GlobalStyles';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
-import Providers from './provider';
+import AllProviders from './provider';
 
 const myFont = localFont({ src: './_assets/font/YekanBakhFaNum-Regular.woff' });
 export const metadata: Metadata = {
@@ -22,11 +22,11 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body dir='rtl' className={myFont.className}>
-        <Providers session={session}>
+        <AllProviders session={session}>
           <GlobalStyles />
 
           {children}
-        </Providers>
+        </AllProviders>
       </body>
     </html>
   );

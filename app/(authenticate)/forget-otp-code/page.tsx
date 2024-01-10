@@ -30,11 +30,9 @@ const ForgetOtpCode = () => {
   const resendAuthenticationCode = async () => {
     const raw = await JSON.stringify({
       phone_number: phoneNumber,
-      forget_password: true,
-      password: '',
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/login/`, {
+      const res = await fetch(`${baseUrl}/accounts/send-sms-code/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -60,10 +58,9 @@ const ForgetOtpCode = () => {
     const jsonOtpCode = JSON.stringify({
       phone_number: phoneNumber,
       sms_code: parseInt(otpCode),
-      repeat_sms_code: null,
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/validator/`, {
+      const res = await fetch(`${baseUrl}/accounts/otp-validation/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,6 +70,7 @@ const ForgetOtpCode = () => {
 
       const response = await res.json();
       if (res.ok) {
+        localStorage.setItem('OTPAuth', response.access);
         router.push('/choose-forget-password');
       } else {
         if (res.status === 422) {

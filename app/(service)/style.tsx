@@ -1,3 +1,4 @@
+import { DropDown } from '@haip/design-system';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -36,4 +37,22 @@ const PaymentBarContainer = styled.div`
   border-radius: 0.5rem;
   height: 100%;
 `;
-export { MainContainer, PaymentBarContainer, StatusContainer, ViewService };
+const DropDownStatusMenuFilter = styled(DropDown)`
+  width: 9rem;
+`;
+const HeaderStatusMenu = styled.div`
+  padding: 1.13rem 1.75rem;
+  h1 {
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+  }
+`;
+export {
+  DropDownStatusMenuFilter,
+  HeaderStatusMenu,
+  MainContainer,
+  PaymentBarContainer,
+  StatusContainer,
+  ViewService,
+};

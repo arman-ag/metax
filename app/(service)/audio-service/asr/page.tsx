@@ -1,6 +1,11 @@
 'use client';
+import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import Gallery from '@/app/_components/gallery-modal/gallery';
+import UploadButton from '@/app/_components/uploadButton';
 import {
+  Dialog,
+  DialogTrigger,
   Tabs,
   TabsContent,
   TabsList,
@@ -15,23 +20,35 @@ import {
   AudioProcessingButton,
   Divider,
   FlexContainer,
-  GalleryButton,
   H1,
   H2,
 } from '../denoiser/style';
 import { AsrContainer, ResultContainer } from './style';
-const SST = () => {
+const ASR = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [asrVoice, setAsrVoice] = useState('تست ویف تست ویف خسوه');
   const [voiceUrl, setVoiceUrl] = useState('/defaultVoice.wav');
   const [showResult, setShowResult] = useState(true);
+  const [focusItem, setFocusItem] = useState({});
   const browseFile = (e) => {
     setVoice(e.target.files[0]);
     setVoiceUrl(URL.createObjectURL(e.target.files[0]));
     setShowResult(false);
   };
   const submitFile = async () => {
+    // const response = await axios.get(focusItem.voice_file, {
+    //   headers: {
+    //     'Content-Type': 'audio/wav',
+    //   },
+    //   responseType: 'arraybuffer',
+    // });
+
+    // console.log('res', response);
+    // const blobResponse = await res.body.blob();
+    // const newBlob = new Blob([blobResponse]);
+    // console.log('audioBinary', audioBinary);
+    // const blobAudio = await audioBinary.blob();
     const formData = new FormData();
     formData.append('file', voice);
 
@@ -52,6 +69,7 @@ const SST = () => {
       setShowResult(false);
     }
   };
+  console.log('focusItem', focusItem);
   return (
     <div>
       <H1>تبدیل گفتار به نوشتار</H1>
@@ -78,10 +96,27 @@ const SST = () => {
           <AsrContainer>
             <H2>بارگذاری فایل</H2>
             <AudioContainer>
-              <GalleryButton size={'sm'} variant={'outline'}>
-                <FileIcon />
-                <span>فایل ها</span>
-              </GalleryButton>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <UploadButton send={browseFile} variant='outline'>
+                    <FileIcon />
+                    <span
+                      style={{
+                        color: 'black',
+                        margin: '1.2rem .5rem',
+                        fontSize: '.9rem',
+                      }}
+                    >
+                      فایل ها
+                    </span>
+                  </UploadButton>
+                </DialogTrigger>
+
+                <DialogContentContainer dir={'rtl'}>
+                  <Gallery setFocusItem={setFocusItem} />
+                </DialogContentContainer>
+              </Dialog>
+
               <FlexContainer>
                 <AudioPlayer src={voiceUrl} controls />
                 <AudioProcessingButton onClick={() => submitFile()} size='sm'>
@@ -102,4 +137,4 @@ const SST = () => {
     </div>
   );
 };
-export default SST;
+export default ASR;

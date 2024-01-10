@@ -37,6 +37,8 @@ const ChooseNewPassword = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    const token = localStorage.getItem('OTPAuth');
+
     const phone = await localStorage.getItem('username');
 
     const raw = await JSON.stringify({
@@ -49,12 +51,12 @@ const ChooseNewPassword = () => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         method: 'POST',
         body: raw,
       });
       const response = res.json();
-      console.log('response', response);
       if (res.ok) {
         await signIn('credentials', {
           phone_number: phone,
@@ -66,11 +68,13 @@ const ChooseNewPassword = () => {
         toast({
           description: translatorٍErrorMessage(response?.explanation),
         });
+        setLoading(false);
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
       });
+      setLoading(false);
     }
   };
   return (

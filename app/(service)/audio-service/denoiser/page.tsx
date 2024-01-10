@@ -1,7 +1,11 @@
 'use client';
 
+import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
+import Gallery from '@/app/_components/gallery-modal/gallery';
 import {
+  Dialog,
+  DialogTrigger,
   Tabs,
   TabsContent,
   TabsList,
@@ -9,7 +13,12 @@ import {
   Toaster,
   useToast,
 } from '@haip/design-system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  callDenoiseService,
+  getDownloadFileLink,
+  getHighDenoiseResult,
+} from './service';
 import {
   AudioContainer,
   AudioPlayer,
@@ -29,64 +38,43 @@ const Denoiser = () => {
   const [voice, setVoice] = useState(null);
   const [voiceUrl, setVoiceUrl] = useState('./metVocalRes.wav');
   const [responseId, setResponseId] = useState('');
-  const [denoiseFileAddressUrl, setDenoiseFileAddressUrl] =
-    useState('./metVocalRes.wav');
-  // const browseFile = (e) => {
-  //   setVoice(e.target.files[0]);
-  //   setVoiceUrl(URL.createObjectURL(e.target.files[0]));
-  //   setDenoiseFileAddressUrl('');
-  // };
-  // const submitFile = async () => {
-  //   const formData = new FormData();
-  //   formData.append('title', 'test8');
-  //   formData.append('description', 'test2');
-  //   formData.append('voice_file', voice);
-  //   try {
-  //     const res = await fetch(
-  //       'http://172.16.60.151:8000/voice-gallery/crud-voice/',
-  //       {
-  //         method: 'POST',
-  //         body: formData,
-  //       }
-  //     );
-  //     const responseId = await res.json();
-  //     setResponseId(responseId.id.toString());
-  //   } catch (e) {
-  //     toast({
-  //       description: `${e}:خطا در شبکه`,
-  //     });
-  //     console.log('error', e);
-  //   }
-  // };
-  const sendVoiceId = async () => {
+  const [denoiseFileAddressUrl, setDenoiseFileAddressUrl] = useState();
+  const [focusItem, setFocusItem] = useState({});
+  console.log('focusItem', focusItem);
+  const submitFile = async () => {
+    const formData = new FormData();
+    formData.append('voice_path', 'media/hey_holoo.wav');
+
     try {
-      const formData = new FormData();
-      formData.append('voice_id', responseId.toString());
-      formData.append('file_extension', 'wav');
-      const getFileAddress = await fetch(
-        'http://172.16.60.151:8000/denoise/high-denoise-process/',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-      const response = await getFileAddress.json();
-      const { output_file: outputFileAddress } = await response;
-      const denoiseFormData = await new FormData();
-      await denoiseFormData.append(
-        'high_denoise_result_link',
-        outputFileAddress
-      );
-      await denoiseFormData.append('high_denoise_result_file_extension', 'wav');
-      const getDenoiseFileAddress = await fetch(
-        'http://172.16.60.151:8000/denoise/high-denoise-result/',
-        {
-          method: 'POST',
-          body: denoiseFormData,
-        }
-      );
-      const DenoiseFileAddress = await getDenoiseFileAddress.blob();
-      setDenoiseFileAddressUrl(URL.createObjectURL(DenoiseFileAddress));
+      const response = await callDenoiseService(formData);
+      setResponseId('f08514ed-1c06-4331-88ac-ea1735aa65fc');
+    } catch (e) {
+      toast({
+        description: `${e}:خطا در شبکه`,
+      });
+      console.log('error', e);
+    }
+  };
+  const getFile = async () => {
+    try {
+      const response = await getHighDenoiseResult();
+      console.log(response);
+      // const { output_file: outputFileAddress } = await response;
+      // const denoiseFormData = await new FormData();
+      // await denoiseFormData.append(
+      //   'high_denoise_result_link',
+      //   outputFileAddress
+      // );
+      // await denoiseFormData.append('high_denoise_result_file_extension', 'wav');
+      // const getDenoiseFileAddress = await fetch(
+      //   'http://172.16.60.151:8000/denoise/high-denoise-result/',
+      //   {
+      //     method: 'POST',
+      //     body: denoiseFormData,
+      //   }
+      // );
+      // const DenoiseFileAddress = await getDenoiseFileAddress.blob();
+      // setDenoiseFileAddressUrl(URL.createObjectURL(DenoiseFileAddress));
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
@@ -110,6 +98,18 @@ const Denoiser = () => {
   //     true
   //   );
   // }, []);
+  useEffect(() => {
+    (async function () {
+      const response = await getHighDenoiseResult();
+      const addressFile = response[0].output_file;
+      const formData = new FormData();
+      formData.append('result_link', addressFile);
+      const resultAudio = await getDownloadFileLink(formData);
+      console.log(resultAudio);
+      setDenoiseFileAddressUrl(URL.createObjectURL(resultAudio));
+    })();
+  }, []);
+
   return (
     <div>
       <H1>دینویزر</H1>
@@ -136,13 +136,22 @@ const Denoiser = () => {
           <DenoiserContainer>
             <H2>بارگذاری فایل</H2>
             <AudioContainer>
-              <FluidGalleryButton size={'sm'} variant={'outline'}>
-                <FileIcon />
-                <span>فایل ها</span>
-              </FluidGalleryButton>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <FluidGalleryButton size={'sm'} variant={'outline'}>
+                    <FileIcon />
+                    <span>فایل ها</span>
+                  </FluidGalleryButton>
+                </DialogTrigger>
+
+                <DialogContentContainer dir={'rtl'}>
+                  <Gallery setFocusItem={setFocusItem} />
+                </DialogContentContainer>
+              </Dialog>
+
               <FlexContainer>
-                <AudioPlayer src={voiceUrl} controls />
-                <AudioProcessingButton onClick={sendVoiceId} size='sm'>
+                <AudioPlayer src={focusItem.voice_file} controls />
+                <AudioProcessingButton onClick={getFile} size='sm'>
                   پردازش صوت
                 </AudioProcessingButton>
               </FlexContainer>
