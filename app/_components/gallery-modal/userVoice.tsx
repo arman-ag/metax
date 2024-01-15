@@ -3,7 +3,9 @@ import BlackPencilIcon from '@/app/_assets/icon/blackPencil';
 import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
+import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import MusicContainer from './musicContainer';
 import { MusicIconContainer } from './rightClickStyle';
 import { UploadVoice, getGalleryVoice, updateVoice } from './service';
@@ -16,7 +18,8 @@ import {
   RenameButton,
 } from './style';
 
-const UserVoice = ({ setFocusItem }) => {
+const UserVoice = () => {
+  const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rename, SetRename] = useState(false);
@@ -44,7 +47,7 @@ const UserVoice = ({ setFocusItem }) => {
     }
     const focusFileList = fileList.map((item) => {
       if (item.id === focusItemId) {
-        setFocusItem({ ...item });
+        dispatch(selectedItem(item));
         return { ...item, focus: true };
       } else {
         return { ...item, focus: false };

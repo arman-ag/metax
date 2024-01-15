@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { breadCrumbTranslator } from '../_lib/translator';
 import { BreadCrumbContainer } from './style';
@@ -13,18 +12,11 @@ const NextBreadcrumb = () => {
 
   return (
     <BreadCrumbContainer>
-      <span>
-        <Link href={'/dashboard'}>خانه </Link>
-      </span>
+      <span>خانه</span>
       {pathNames.map((link, index) => {
-        let href = `/${pathNames.slice(0, index + 1).join('/')}`;
         return (
           <React.Fragment key={index}>
-            <span>
-              <Link href={href}>
-                &nbsp; / &nbsp; {breadCrumbTranslator(link)}
-              </Link>
-            </span>
+            <span>&nbsp; / &nbsp; {breadCrumbTranslator(link)}</span>
           </React.Fragment>
         );
       })}

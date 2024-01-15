@@ -16,6 +16,7 @@ const AllProviders = (props: React.PropsWithChildren) => {
       </ThemeProvider>
       {/* </Providers> */}
     </StyledComponentsRegistry>
+
   );
 };
 

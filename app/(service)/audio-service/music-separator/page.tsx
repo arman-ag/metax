@@ -3,6 +3,7 @@ import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import { getServiceStatusList } from '@/app/redux/features/serviceStatus/statusSlice';
 import {
   Dialog,
   DialogTrigger,
@@ -14,6 +15,8 @@ import {
   useToast,
 } from '@haip/design-system';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDownloadFileLink } from '../denoiser/service';
 import {
   AudioContainer,
   AudioPlayer,
@@ -27,113 +30,108 @@ import {
   H1,
   H2,
 } from '../denoiser/style';
+import { callLowDenoiseService, getLowDenoiseResult } from './service';
 import { MusicSeparatorContainer } from './style';
 const MusicSeparator = () => {
+  const dispatch = useDispatch();
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [blobVocalFileUrl, setBlobVocalFileUrl] = useState('/metVocalRes.wav');
   const [blobMusicFileUrl, setBlobMusicFileUrl] = useState('/metaMusicRes.wav');
   const [responseId, setResponseId] = useState();
-  const [voiceUrl, setVoiceUrl] = useState('/metamusic.wav');
   const [focusItem, setFocusItem] = useState({});
+  const { selectedItemGallery } = useSelector((state) => state);
+  const { serviceSliceReducer } = useSelector((state) => state);
 
   const submitFile = async () => {
-    const formData = new FormData();
-    formData.append('title', 'test8');
-    formData.append('description', 'test2');
-    formData.append('voice_file', voice);
     try {
-      const getId = await fetch(
-        'http://172.16.60.151:8000/voice-gallery/crud-voice/',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-      const responseGetId = await getId.json();
-      setResponseId(responseGetId.id);
+      const formData = new FormData();
+      formData.append('voice_path', selectedItemGallery.voice_file);
+      const response = await callLowDenoiseService(formData);
+      localStorage.setItem('music', response.celery_task_id);
+      dispatch(getServiceStatusList());
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
       });
-      console.log('error', e);
+      console.log('error============>', e);
     }
   };
-  const sendVoiceId = async () => {
-    if (responseId) {
-      try {
-        //send id
-        console.log(responseId);
-
-        const formData = new FormData();
-        formData.append('voice_id', responseId.toString());
-        formData.append('file_extension', 'wav');
-        formData.append('sr', '44100');
-        formData.append('n_fft', '2048');
-        formData.append('crop_size', '256');
-        formData.append('batch_size', '4');
-        formData.append('hop_length', '1024');
-        console.log('formData==>', formData);
-        const getFileAddress = await fetch(
-          'http://172.16.60.151:8000/denoise/low-denoise-process/',
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
-        const response = await getFileAddress.json();
-        //file address
-        const { vocal_file: vocalFileAddress } = await response;
-        const { instrument_file: instrumentFileAddress } = await response;
-        // get vocal file  address
-        const vocalFileAddressFormData = await new FormData();
-        await vocalFileAddressFormData.append(
-          'low_denoise_result_link',
-          vocalFileAddress
-        );
-        await vocalFileAddressFormData.append(
-          'low_denoise_result_file_extension',
-          'wav'
-        );
-
-        const getVocalFileAddress = await fetch(
-          'http://172.16.60.151:8000/denoise/low-denoise-result/',
-          {
-            method: 'POST',
-            body: vocalFileAddressFormData,
-          }
-        );
-        //get music file
-        const musicFileAddressFormData = await new FormData();
-        await musicFileAddressFormData.append(
-          'low_denoise_result_link',
-          instrumentFileAddress
-        );
-        await musicFileAddressFormData.append(
-          'low_denoise_result_file_extension',
-          'wav'
-        );
-        const getMusicFileAddress = await fetch(
-          'http://172.16.60.151:8000/denoise/low-denoise-result/',
-          {
-            method: 'POST',
-            body: musicFileAddressFormData,
-          }
-        );
-        //blob vocal file
-        const blobVocalFile = await getVocalFileAddress.blob();
-        setBlobVocalFileUrl(URL.createObjectURL(blobVocalFile));
-        //blob music file
-        const blobMusicFile = await getMusicFileAddress.blob();
-        setBlobMusicFileUrl(URL.createObjectURL(blobMusicFile));
-      } catch (e) {
-        toast({
-          description: `${e}:خطا در شبکه`,
-        });
-        console.log('error============>', e);
+  //get lowDenoise result
+  useEffect(() => {
+    const celeryTaskId = localStorage.getItem('music');
+    //check  result status to success
+    const result = serviceSliceReducer?.data?.results?.some((item) => {
+      return item.celery_task_id === celeryTaskId && item.status === 'success';
+    });
+    //get audio link
+    (async function () {
+      if (result) {
+        const celeryFormData = new FormData();
+        celeryFormData.append('celery_task_id', celeryTaskId);
+        const response = await getLowDenoiseResult(celeryFormData);
+        const addressFile = response.output_file;
+        const addressFormData = new FormData();
+        addressFormData.append('result_link', addressFile);
+        const resultAudio = await getDownloadFileLink(addressFormData);
+        console.log(resultAudio);
+        // setDenoiseFileAddressUrl(URL.createObjectURL(resultAudio));
       }
-    }
-  };
+    })();
+  }, [serviceSliceReducer]);
+
+  //       //file address
+  //       const { vocal_file: vocalFileAddress } = await response;
+  //       const { instrument_file: instrumentFileAddress } = await response;
+  //       // get vocal file  address
+  //       const vocalFileAddressFormData = await new FormData();
+  //       await vocalFileAddressFormData.append(
+  //         'low_denoise_result_link',
+  //         vocalFileAddress
+  //       );
+  //       await vocalFileAddressFormData.append(
+  //         'low_denoise_result_file_extension',
+  //         'wav'
+  //       );
+
+  //       const getVocalFileAddress = await fetch(
+  //         'http://172.16.60.151:8000/denoise/low-denoise-result/',
+  //         {
+  //           method: 'POST',
+  //           body: vocalFileAddressFormData,
+  //         }
+  //       );
+  //       //get music file
+  //       const musicFileAddressFormData = await new FormData();
+  //       await musicFileAddressFormData.append(
+  //         'low_denoise_result_link',
+  //         instrumentFileAddress
+  //       );
+  //       await musicFileAddressFormData.append(
+  //         'low_denoise_result_file_extension',
+  //         'wav'
+  //       );
+  //       const getMusicFileAddress = await fetch(
+  //         'http://172.16.60.151:8000/denoise/low-denoise-result/',
+  //         {
+  //           method: 'POST',
+  //           body: musicFileAddressFormData,
+  //         }
+  //       );
+  //       //blob vocal file
+  //       const blobVocalFile = await getVocalFileAddress.blob();
+  //       setBlobVocalFileUrl(URL.createObjectURL(blobVocalFile));
+  //       //blob music file
+  //       const blobMusicFile = await getMusicFileAddress.blob();
+  //       setBlobMusicFileUrl(URL.createObjectURL(blobMusicFile));
+  //     } catch (e) {
+  //       toast({
+  //         description: `${e}:خطا در شبکه`,
+  //       });
+  //       console.log('error============>', e);
+  //     }
+  //   }
+  // };
   // pause another audio player
 
   useEffect(() => {
@@ -193,7 +191,7 @@ const MusicSeparator = () => {
               </Dialog>
 
               <FlexContainer>
-                <AudioPlayer src={focusItem.voice_file} controls />
+                <AudioPlayer src={selectedItemGallery?.voice_file} controls />
 
                 <AudioProcessingButton onClick={submitFile} size='sm'>
                   پردازش صوت

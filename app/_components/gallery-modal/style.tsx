@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import UploadButton from '../uploadButton';
 
 const MusicContainerStyle = styled.div`
-  max-width: 3.187rem;
+  max-width: 3.8rem;
   margin-top: 1rem;
   margin-left: 1.5rem;
   min-height: 5.68rem;
@@ -91,11 +91,20 @@ const ContainerSearch = styled.div`
     left: 2.06rem;
   }
 `;
+const FileNameContainer = styled.span`
+  display: inline-block;
+  direction: ltr;
+  width: 3.8rem;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+`;
 export {
   ActionContainer,
   ContainerSearch,
   DeleteButton,
   Divider,
+  FileNameContainer,
   FileNameDivision,
   GalleryTabsContainer,
   GalleryUploadButton,

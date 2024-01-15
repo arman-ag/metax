@@ -1,7 +1,17 @@
 import MusicIcon from '@/app/_assets/icon/musicIcon';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@haip/design-system';
 import { useRef, useState } from 'react';
 import ContextMenuContainer from './contextMenuContainer';
-import { FileNameDivision, MusicContainerStyle } from './style';
+import {
+  FileNameContainer,
+  FileNameDivision,
+  MusicContainerStyle,
+} from './style';
 type MusicContainerProps = {
   fileName: string;
   id: string;
@@ -52,7 +62,16 @@ const MusicContainer = ({
         >
           <MusicIcon />
           {!(rename && item.focus) ? (
-            <span>{item.file_name}</span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <FileNameContainer>{item.file_name}</FileNameContainer>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>{item.file_name}</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           ) : (
             <FileNameDivision
               ref={inputRef}

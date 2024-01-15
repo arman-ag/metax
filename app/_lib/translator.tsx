@@ -56,4 +56,20 @@ const breadCrumbTranslator = (text) => {
   }
   return result;
 };
-export { breadCrumbTranslator, translatorٍErrorMessage };
+
+const translateService = (text) => {
+  let result = {};
+  switch (text) {
+    case 'high denoise':
+      result = { serviceName: 'دینویزر', address: '/audio-service/denoiser' };
+      break;
+    case 'low denoise':
+      result = {
+        serviceName: 'جداسازی موسیقی و خواننده',
+        address: '/audio-service/music-separator',
+      };
+      break;
+  }
+  return result;
+};
+export { breadCrumbTranslator, translateService, translatorٍErrorMessage };

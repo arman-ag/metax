@@ -70,7 +70,7 @@ const ASR = () => {
       setShowResult(false);
     }
   };
-  console.log('focusItem', focusItem);
+
   return (
     <div>
       <H1>تبدیل گفتار به نوشتار</H1>

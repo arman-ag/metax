@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './features/counterSlice';
+import selectedItemGallery from './features/selectedGalleryItem/selectedSlice';
+import serviceSliceReducer from './features/serviceStatus/statusSlice';
 export const store = configureStore({
   reducer: {
-    counterReducer,
+    serviceSliceReducer,
+    selectedItemGallery,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

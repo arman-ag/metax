@@ -8,7 +8,7 @@ type props = {
 };
 const DownloadFile = ({ href, size, className }: props) => {
   return (
-    <Link className={className} download={true} href={'#'}>
+    <Link className={className} download={true} href={href}>
       <ChildDownloadButton size={size} variant={'outline'}>
         <div className='flex items-center'>
           <span className='text-[0.75rem] text-[#924dcc]'>دانلود </span>

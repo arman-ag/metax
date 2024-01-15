@@ -3,20 +3,21 @@ import axios from 'axios';
 const callDenoiseService = async (path) => {
   console.log(path);
   const res = await axios.post(
-    'http://172.16.60.151:8002/denoise/high-denoise/',
+    'http://172.16.60.151:8004/denoise/high-denoise/',
     path
   );
-  return res;
+  return res.data;
 };
-const getHighDenoiseResult = async () => {
-  const res = await axios.get(
-    'http://172.16.60.151:8002/results/high-denoise/'
+const getHighDenoiseResult = async (celeryTaskId) => {
+  const res = await axios.post(
+    'http://172.16.60.151:8004/results/get-high-denoise/',
+    celeryTaskId
   );
-  return res.data.results;
+  return res.data;
 };
 const getDownloadFileLink = async (formData) => {
   const res = await axios.post(
-    'http://172.16.60.151:8002/results/download-file/',
+    'http://172.16.60.151:8004/results/download-file/',
     formData,
     {
       responseType: 'blob',

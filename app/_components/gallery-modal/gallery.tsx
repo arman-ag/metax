@@ -3,14 +3,14 @@ import { ContainerSearch, H1 } from '@/app/_components/gallery-modal/style';
 import UserVoice from '@/app/_components/gallery-modal/userVoice';
 import { Search } from '@/app/_components/search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@haip/design-system';
-const Gallery = ({ setFocusItem }) => {
+const Gallery = () => {
   return (
     <div>
       <H1>گالری</H1>
       <ContainerSearch>
         <Search />
       </ContainerSearch>
-      <div>
+      <div style={{ height: '43.1875rem' }}>
         <Tabs dir='rtl' defaultValue='user-voice'>
           <TabsList>
             <TabsTrigger halfBorder={false} value='user-voice'>
@@ -25,14 +25,10 @@ const Gallery = ({ setFocusItem }) => {
           </TabsList>
           <BorderBottom />
           <TabsContent value='user-voice'>
-            <UserVoice setFocusItem={setFocusItem} />
+            <UserVoice />
           </TabsContent>
-          <TabsContent value='user-image'>
-            <div style={{ minHeight: '34.06rem' }} />
-          </TabsContent>
-          <TabsContent value='user-film'>
-            <div style={{ minHeight: '34.06rem' }} />
-          </TabsContent>
+          <TabsContent value='user-image'></TabsContent>
+          <TabsContent value='user-film'></TabsContent>
         </Tabs>
       </div>
     </div>
