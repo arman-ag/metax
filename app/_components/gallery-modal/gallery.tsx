@@ -3,7 +3,7 @@ import { ContainerSearch, H1 } from '@/app/_components/gallery-modal/style';
 import UserVoice from '@/app/_components/gallery-modal/userVoice';
 import { Search } from '@/app/_components/search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@haip/design-system';
-const Gallery = () => {
+const Gallery = ({ setOpen }) => {
   return (
     <div>
       <H1>گالری</H1>
@@ -25,7 +25,7 @@ const Gallery = () => {
           </TabsList>
           <BorderBottom />
           <TabsContent value='user-voice'>
-            <UserVoice />
+            <UserVoice setOpen={setOpen} />
           </TabsContent>
           <TabsContent value='user-image'></TabsContent>
           <TabsContent value='user-film'></TabsContent>

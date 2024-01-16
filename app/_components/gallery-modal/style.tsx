@@ -94,7 +94,7 @@ const ContainerSearch = styled.div`
 const FileNameContainer = styled.span`
   display: inline-block;
   direction: ltr;
-  width: 3.8rem;
+  width: 3.1rem;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;

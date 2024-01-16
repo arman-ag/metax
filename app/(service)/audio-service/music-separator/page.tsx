@@ -3,7 +3,6 @@ import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
-import { getServiceStatusList } from '@/app/redux/features/serviceStatus/statusSlice';
 import {
   Dialog,
   DialogTrigger,
@@ -49,7 +48,6 @@ const MusicSeparator = () => {
       formData.append('voice_path', selectedItemGallery.voice_file);
       const response = await callLowDenoiseService(formData);
       localStorage.setItem('music', response.celery_task_id);
-      dispatch(getServiceStatusList());
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
@@ -148,6 +146,7 @@ const MusicSeparator = () => {
       true
     );
   }, []);
+  const [open, setOpen] = useState(false);
   return (
     <div>
       <Toaster dir={'rtl'} />
@@ -186,10 +185,9 @@ const MusicSeparator = () => {
                 </DialogTrigger>
 
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery setFocusItem={setFocusItem} />
+                  <Gallery setOpen={setOpen} setFocusItem={setFocusItem} />
                 </DialogContentContainer>
               </Dialog>
-
               <FlexContainer>
                 <AudioPlayer src={selectedItemGallery?.voice_file} controls />
 

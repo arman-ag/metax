@@ -1,7 +1,9 @@
 'use client';
 
 import PencilIcon from '@/app/_assets/icon/pencel';
+// import UserDefaultImage from '@/app/_assets/icon/userDefault';
 import UploadButton from '@/app/_components/uploadButton';
+import { storeUserImage } from '@/app/redux/features/userImage/imageSlice';
 import {
   Tabs,
   TabsContent,
@@ -10,9 +12,10 @@ import {
   Toaster,
 } from '@haip/design-system';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import CreateNewPassword from './createNewPassword';
 import EditProfile from './editProfile';
-import { convertImageLinkToFile, getUserDetail } from './service';
+import { getUserDetail } from './service';
 import ShowProfile from './showProfile';
 import {
   BorderBottom,
@@ -24,35 +27,31 @@ import {
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [phoneNumber, setPhoneNUmber] = useState('09365725645');
-  const [showImage, setShowImage] = useState(null);
   const [image, setImage] = useState(null);
   const [profileInfo, setProfileInfo] = useState();
   const [loading, setLoading] = useState(true);
-
+  const baseUrl = process.env.baseUrl;
+  const dispatch = useDispatch();
   const browseFile = (event) => {
     if (event.target.files && event.target.files[0]) {
       setImage(event?.target.files[0]);
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setShowImage(event?.target?.result);
-      };
-      reader.readAsDataURL(event.target.files[0]);
     }
   };
-
+  console.log('profile', image);
   useEffect(() => {
     (async function () {
-      const {
-        data: [rawData],
-      } = await getUserDetail();
-      console.log('profileInfooo', rawData?.profile_picture);
+      const rawData = await getUserDetail();
       setProfileInfo(rawData);
-      setImage(rawData?.profile_picture);
-      convertImageLinkToFile(rawData?.profile_picture);
+      if (rawData?.profile_picture) {
+        setImage(baseUrl + rawData?.profile_picture);
+        dispatch(storeUserImage(baseUrl + rawData?.profile_picture));
+      } else {
+        setImage('/userDefault.png');
+        dispatch(storeUserImage('/userDefault.png'));
+      }
       setLoading(false);
     })();
   }, [editProfile]);
-
   {
     return !loading ? (
       <ProfileContainer>
@@ -66,11 +65,7 @@ const Profile = () => {
             </UploadButton>
 
             <div className='img-container'>
-              <img
-                width='100px'
-                alt='user showImage'
-                src={!showImage ? profileInfo.profile_picture : showImage}
-              />
+              <img width='100px' alt='user showImage' src={image} />
             </div>
           </div>
           <p>شماره همراه:{phoneNumber}</p>

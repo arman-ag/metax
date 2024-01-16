@@ -3,11 +3,13 @@ import { Form, FormControl, FormField, FormItem } from '@haip/design-system';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import PajamasIcon from '../_assets/icon/pajamas';
 import Layout from '../_components/layout/index';
 import StatusMenuItem from '../_components/statusMenuItem';
 import { getServiceStatusList } from '../redux/features/serviceStatus/statusSlice';
 import PaymentBar from './paymentBar';
 import {
+  DayProcessContainer,
   DropDownStatusMenuFilter,
   HeaderStatusMenu,
   MainContainer,
@@ -76,7 +78,10 @@ export default function DashboardLayout({
           ) : (
             <>
               <HeaderStatusMenu>
-                <h1>وضعیت پردازش های روز </h1>
+                <DayProcessContainer>
+                  <PajamasIcon />
+                  <h1>وضعیت پردازش های روز </h1>
+                </DayProcessContainer>
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}

@@ -39,9 +39,7 @@ import {
 const Denoiser = () => {
   const dispatch = useDispatch();
   const { toast } = useToast();
-  // const [voice, setVoice] = useState(null);
-  // const [voiceUrl, setVoiceUrl] = useState('./metVocalRes.wav');
-  // const [responseId, setResponseId] = useState('');
+
   const [denoiseFileAddressUrl, setDenoiseFileAddressUrl] = useState('');
   const { selectedItemGallery } = useSelector((state) => state);
   const { serviceSliceReducer } = useSelector((state) => state);

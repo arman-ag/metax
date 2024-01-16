@@ -4,6 +4,7 @@ import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
 import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
+import { Dialog } from '@radix-ui/react-dialog';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import MusicContainer from './musicContainer';
@@ -18,7 +19,7 @@ import {
   RenameButton,
 } from './style';
 
-const UserVoice = () => {
+const UserVoice = ({ setOpen }) => {
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,7 +179,9 @@ const UserVoice = () => {
           </MusicIconContainer>
         </div>
       </GalleryTabsContainer>
-      {/* <Button  >ثبت</Button> */}
+      <Dialog.Close>
+        <div>casc</div>
+      </Dialog.Close>
     </div>
   );
 };

@@ -1,14 +1,15 @@
 'use client';
+import { getUserDetail } from '@/app/(withoutSidebar)/profile/service';
 import ArrowDownIcon from '@/app/_assets/icon/arrowdown';
 import ExitIcon from '@/app/_assets/icon/exit';
 import Person2Icon from '@/app/_assets/icon/person2';
-import userImage from '@/app/_assets/image/user.png';
 import { Search } from '@/app/_components/search';
+import { storeUserImage } from '@/app/redux/features/userImage/imageSlice';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { signOut } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { DropdownMenuContent, DropdownMenuItem } from './dropDownStyles';
 import {
   BellIconElement,
@@ -22,8 +23,22 @@ const Header = () => {
   const handleSignOut = async () => {
     await signOut({ callbackUrl: '/login' });
   };
+  const dispatch = useDispatch();
   const [buttonFocus, setButtonFocus] = useState(true);
-  console.log(buttonFocus);
+  const baseUrl = process.env.baseUrl;
+  const { userImage } = useSelector((state) => state);
+
+  useEffect(() => {
+    (async function () {
+      const rawData = await getUserDetail();
+      if (rawData?.profile_picture) {
+        dispatch(storeUserImage(baseUrl + rawData?.profile_picture));
+      } else {
+        dispatch(storeUserImage('/userDefault.png'));
+      }
+    })();
+  }, []);
+
   return (
     <HeaderElement>
       <HeadingContainer>
@@ -37,12 +52,7 @@ const Header = () => {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <HeaderProfileContainer onClick={() => setButtonFocus(false)}>
-                <Image
-                  alt='user image'
-                  src={userImage}
-                  width={48}
-                  height={48}
-                />
+                <img alt='user image' src={userImage} width={48} height={48} />
                 <UserAccountContainer>
                   حساب کاربری
                   <ArrowDownIcon className='Arrow-Down-Icon' />

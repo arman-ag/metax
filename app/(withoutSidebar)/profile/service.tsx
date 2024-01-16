@@ -13,9 +13,8 @@ type passwordType = {
   repeat_new_password: string;
 };
 const posteUserDetail = async (userDetail: UserDetailType) => {
-  console.log('baseUrl=>', `${baseUrl}/accounts/dashboard/`);
   return axios.put(
-    `${baseUrl}/accounts/dashboard/`,
+    `${baseUrl}/accounts/user/update-detail/`,
     userDetail,
     await configureHeader()
   );
@@ -23,24 +22,25 @@ const posteUserDetail = async (userDetail: UserDetailType) => {
 
 const postNewPassword = async (passwords: passwordType) => {
   return axios.put(
-    `${baseUrl}/accounts/update-password/`,
+    `${baseUrl}/accounts/user/change-current-password/`,
     passwords,
     await configureHeader()
   );
 };
 const getUserDetail = async () => {
   const service = await axios.get(
-    `${baseUrl}/accounts/dashboard/`,
+    `${baseUrl}/accounts/user/detail/`,
     await configureHeader()
   );
-  return service;
+  return service.data;
 };
 
 const convertImageLinkToFile = async (url: string) => {
   const response = await axios.get(url, { responseType: 'blob' });
   console.log('File created successfully:', response);
   const blob = response.data;
-  const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+  const file = new File([blob], 'image.jpg', { type: blob.type });
+  return file;
 };
 
 export {

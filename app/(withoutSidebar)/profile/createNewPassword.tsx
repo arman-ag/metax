@@ -34,12 +34,12 @@ const CreateNewPassword = () => {
 
   const onSubmit = async (data) => {
     const choseNewPassword = {
-      password: data.oldPassword,
+      current_password: data.oldPassword,
       new_password: data.newPassword,
       repeat_new_password: data.retypeNewPassword,
     };
     const responsePostNewPassword = await postNewPassword(choseNewPassword);
-    if (responsePostNewPassword !== 204) {
+    if (responsePostNewPassword.status !== 204) {
       toast({
         description: translatorٍErrorMessage(
           ` ${responsePostNewPassword?.error!}`

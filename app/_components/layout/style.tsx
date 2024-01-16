@@ -8,7 +8,7 @@ const GridContainer = styled.div`
     '  menu main main main main main ';
   background-color: #ededed;
   grid-template-rows: 4.68rem auto;
-  grid-template-columns: 13.4rem auto auto auto auto 18.6rem;
+  grid-template-columns: 13.4rem auto auto auto auto auto;
   height: 100vh;
 `;
 
