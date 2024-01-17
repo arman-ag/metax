@@ -4,7 +4,7 @@ import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
 import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
-import { Dialog } from '@radix-ui/react-dialog';
+import { Button, DialogTrigger } from '@haip/design-system';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import MusicContainer from './musicContainer';
@@ -17,9 +17,10 @@ import {
   GalleryTabsContainer,
   GalleryUploadButton,
   RenameButton,
+  SubmitGalleryButton,
 } from './style';
 
-const UserVoice = ({ setOpen }) => {
+const UserVoice = () => {
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ const UserVoice = ({ setOpen }) => {
     rename: false,
     delete: false,
   });
+  const [focusItem, setFocusItem] = useState({});
   //blur items action
   const blurItem = () => {
     const selectAllFile = fileList.map((item) => {
@@ -48,7 +50,7 @@ const UserVoice = ({ setOpen }) => {
     }
     const focusFileList = fileList.map((item) => {
       if (item.id === focusItemId) {
-        dispatch(selectedItem(item));
+        setFocusItem(item);
         return { ...item, focus: true };
       } else {
         return { ...item, focus: false };
@@ -57,6 +59,7 @@ const UserVoice = ({ setOpen }) => {
     setEnableActionBar({ rename: true, delete: true });
     setFileList([...focusFileList]);
   };
+
   //rename Action
   const renameAction = async (event, id = null, value = '') => {
     event.stopPropagation();
@@ -123,11 +126,11 @@ const UserVoice = ({ setOpen }) => {
         setLoading(false);
         setFileList([...response]);
       }
-      console.log('response=====>', response);
     })();
   }, []);
-  console.log('focusItemId', fileList);
-
+  const actionChoseButton = () => {
+    dispatch(selectedItem(focusItem));
+  };
   return loading ? (
     <div>loading....</div>
   ) : (
@@ -178,10 +181,14 @@ const UserVoice = ({ setOpen }) => {
             ))}
           </MusicIconContainer>
         </div>
+        <SubmitGalleryButton>
+          <DialogTrigger asChild>
+            <Button onClick={actionChoseButton} type='button'>
+              تایید
+            </Button>
+          </DialogTrigger>
+        </SubmitGalleryButton>
       </GalleryTabsContainer>
-      <Dialog.Close>
-        <div>casc</div>
-      </Dialog.Close>
     </div>
   );
 };

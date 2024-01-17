@@ -33,8 +33,6 @@ const Header = () => {
       const rawData = await getUserDetail();
       if (rawData?.profile_picture) {
         dispatch(storeUserImage(baseUrl + rawData?.profile_picture));
-      } else {
-        dispatch(storeUserImage('/userDefault.png'));
       }
     })();
   }, []);
@@ -52,7 +50,12 @@ const Header = () => {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <HeaderProfileContainer onClick={() => setButtonFocus(false)}>
-                <img alt='user image' src={userImage} width={48} height={48} />
+                <img
+                  alt='user image'
+                  src={userImage.link}
+                  width={48}
+                  height={48}
+                />
                 <UserAccountContainer>
                   حساب کاربری
                   <ArrowDownIcon className='Arrow-Down-Icon' />

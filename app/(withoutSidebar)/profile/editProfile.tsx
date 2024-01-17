@@ -11,10 +11,10 @@ import {
   useToast,
 } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { convertImageLinkToFile, posteUserDetail } from './service';
+import { posteUserDetail } from './service';
 import { EditProfileContainer } from './style';
 
 type EditProfileProps = {
@@ -23,11 +23,11 @@ type EditProfileProps = {
 };
 const EditProfile = ({
   setEditProfile,
+  entryImage,
   profileInfo,
-  image,
 }: EditProfileProps) => {
   const { toast } = useToast();
-  const [imageFile, setImageFile] = useState();
+  const [imageFile, setImageFile] = useState(null);
   const schema = Yup.object().shape({
     name: Yup.string().min(2, 'نام نباید کمتر از 2 کارکتر باشد'),
     family: Yup.string().min(2, 'نام خانوادگی نباید کمتر از 2 کارکتر باشد'),
@@ -36,25 +36,33 @@ const EditProfile = ({
   const form = useForm({
     resolver: yupResolver(schema),
   });
-  useEffect(() => {
-    const file = convertImageLinkToFile(image);
-    setImageFile(file);
-  }, []);
+  // useEffect(() => {
+  //   (async function () {
+  //     const file = await convertImageLinkToFile(image);
+  //     setImageFile(file);
+  //   })();
+  // }, []);
   const onSubmit = async (data) => {
+    console.log(!entryImage);
     const userDetails = {
-      first_name: data.name || null,
-      last_name: data.family || null,
-      email: data.email || null,
-      province: data.province.value,
+      first_name: data.name || '',
+      last_name: data.family || '',
+      email: data.email || '',
+      province: data.province.value || '',
     };
-    const formData = new FormData();
-    for (const key in userDetails) {
-      formData.append(key, userDetails[key]);
+    if (!entryImage) {
+      userDetails.profile_picture = null;
+      var responseUserDetail = await posteUserDetail(userDetails);
+    } else {
+      const formData = new FormData();
+      for (const key in userDetails) {
+        formData.append(key, userDetails[key]);
+      }
+
+      formData.append('profile_picture', entryImage);
+      var responseUserDetail = await posteUserDetail(formData);
     }
 
-    formData.append('profile_picture', imageFile);
-
-    const responseUserDetail = await posteUserDetail(formData);
     if (responseUserDetail.status === 204) {
       setEditProfile(false);
     } else {

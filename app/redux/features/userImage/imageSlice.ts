@@ -1,12 +1,12 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
-const initialState = { id: 0 };
+const initialState = { link: '/userDefault.png' };
 export const userImage = createSlice({
   name: 'userImage',
   initialState,
   reducers: {
     storeUserImage: (state, action) => {
-      return action.payload;
+      return { link: action.payload };
     },
   },
 });

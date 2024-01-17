@@ -26,7 +26,7 @@ const translatorٍErrorMessage = (error) => {
   }
   return res;
 };
-const breadCrumbTranslator = (text) => {
+const breadCrumbTranslator = (text: string) => {
   let result = '';
   switch (text) {
     case 'audio-service':
@@ -57,7 +57,7 @@ const breadCrumbTranslator = (text) => {
   return result;
 };
 
-const translateService = (text) => {
+const translateService = (text: string) => {
   let result = {};
   switch (text) {
     case 'high denoise':
@@ -72,4 +72,27 @@ const translateService = (text) => {
   }
   return result;
 };
-export { breadCrumbTranslator, translateService, translatorٍErrorMessage };
+const translateServiceStatus = (text: string) => {
+  let result = {};
+  switch (text) {
+    case 'success':
+      result = { color: '#07955E', status: 'موفق' };
+      break;
+    case 'pending':
+      result = { color: '#1596CB', status: 'در حال پردازش' };
+      break;
+    case 'failure':
+      result = { color: '#CC5B4E', status: 'ناموفق' };
+      break;
+    case 'started':
+      result = { color: '#1596CB', status: 'در حال پردازش' };
+      break;
+  }
+  return result;
+};
+export {
+  breadCrumbTranslator,
+  translateService,
+  translateServiceStatus,
+  translatorٍErrorMessage,
+};

@@ -13,11 +13,19 @@ type passwordType = {
   repeat_new_password: string;
 };
 const posteUserDetail = async (userDetail: UserDetailType) => {
-  return axios.put(
-    `${baseUrl}/accounts/user/update-detail/`,
-    userDetail,
-    await configureHeader()
-  );
+  if (userDetail instanceof FormData) {
+    return axios.put(
+      `${baseUrl}/accounts/user/update-detail/`,
+      userDetail,
+      await configureHeader()
+    );
+  } else {
+    return axios.put(
+      `${baseUrl}/accounts/user/update-detail/`,
+      { ...userDetail },
+      await configureHeader()
+    );
+  }
 };
 
 const postNewPassword = async (passwords: passwordType) => {
@@ -36,11 +44,16 @@ const getUserDetail = async () => {
 };
 
 const convertImageLinkToFile = async (url: string) => {
-  const response = await axios.get(url, { responseType: 'blob' });
-  console.log('File created successfully:', response);
-  const blob = response.data;
-  const file = new File([blob], 'image.jpg', { type: blob.type });
-  return file;
+  console.log(url);
+  const response = await axios.get(url, { responseType: 'arraybuffer' });
+  const arayBuffer = response.data;
+  console.log('aadcadw', arayBuffer);
+  return new File([arayBuffer], 'user_image', { type: '' });
+  // const reader = new FileReader();
+  // reader.onloadend = () => resolve(reader.result);
+  // //  reader.onerror = reject;
+  // reader.readAsDataURL(blob);
+  // return reader;
 };
 
 export {

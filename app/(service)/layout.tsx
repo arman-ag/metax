@@ -65,7 +65,6 @@ export default function DashboardLayout({
     dispatch(getServiceStatusList());
   }, []);
 
-  console.log(serviceSliceReducer);
   return (
     <Layout>
       <MainContainer>

@@ -1,8 +1,13 @@
 import { Button } from '@haip/design-system';
 import moment from 'jalali-moment';
 import Link from 'next/link';
-import { translateService } from '../_lib/translator';
-import { DateBox, FileContainer, StatusItemContainer } from './style';
+import { translateService, translateServiceStatus } from '../_lib/translator';
+import {
+  DateBox,
+  FileContainer,
+  StatusItemContainer,
+  StatusResult,
+} from './style';
 const StatusMenuItem = ({ item }) => {
   return (
     <StatusItemContainer>
@@ -18,14 +23,14 @@ const StatusMenuItem = ({ item }) => {
             {moment(item.publish_date).locale('fa').format('YYYY/MM/DD')}
           </span>
         </div>
-        <div>
-          <span>{item.status}</span>
+        <StatusResult status={translateServiceStatus(item.status)}>
+          <span>{translateServiceStatus(item.status).status}</span>
           <Link href={translateService(item.service_name).address}>
             <Button size='sm' variant='outline'>
               باز کردن
             </Button>
           </Link>
-        </div>
+        </StatusResult>
       </DateBox>
     </StatusItemContainer>
   );

@@ -14,7 +14,7 @@ import {
   useToast,
 } from '@haip/design-system';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getDownloadFileLink } from '../denoiser/service';
 import {
   AudioContainer,
@@ -32,13 +32,11 @@ import {
 import { callLowDenoiseService, getLowDenoiseResult } from './service';
 import { MusicSeparatorContainer } from './style';
 const MusicSeparator = () => {
-  const dispatch = useDispatch();
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [blobVocalFileUrl, setBlobVocalFileUrl] = useState('/metVocalRes.wav');
   const [blobMusicFileUrl, setBlobMusicFileUrl] = useState('/metaMusicRes.wav');
   const [responseId, setResponseId] = useState();
-  const [focusItem, setFocusItem] = useState({});
   const { selectedItemGallery } = useSelector((state) => state);
   const { serviceSliceReducer } = useSelector((state) => state);
 
@@ -118,9 +116,7 @@ const MusicSeparator = () => {
   //       );
   //       //blob vocal file
   //       const blobVocalFile = await getVocalFileAddress.blob();
-  //       setBlobVocalFileUrl(URL.createObjectURL(blobVocalFile));
-  //       //blob music file
-  //       const blobMusicFile = await getMusicFileAddress.blob();
+  //       setBlobVocalFileUFluidGalleryButtonActionle = await getMusicFileAddress.blob();
   //       setBlobMusicFileUrl(URL.createObjectURL(blobMusicFile));
   //     } catch (e) {
   //       toast({
@@ -146,7 +142,7 @@ const MusicSeparator = () => {
       true
     );
   }, []);
-  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <Toaster dir={'rtl'} />
@@ -178,14 +174,18 @@ const MusicSeparator = () => {
             <AudioContainer>
               <Dialog>
                 <DialogTrigger asChild>
-                  <FluidGalleryButton size={'sm'} variant={'outline'}>
+                  <FluidGalleryButton
+                    onClick={fluidGalleryButtonAction}
+                    size={'sm'}
+                    variant={'outline'}
+                  >
                     <FileIcon />
                     <span>فایل ها</span>
                   </FluidGalleryButton>
                 </DialogTrigger>
 
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery setOpen={setOpen} setFocusItem={setFocusItem} />
+                  <Gallery />
                 </DialogContentContainer>
               </Dialog>
               <FlexContainer>

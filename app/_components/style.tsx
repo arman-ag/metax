@@ -84,6 +84,19 @@ const BreadCrumbContainer = styled.div`
   line-height: 1.75rem;
   color: #52575c;
 `;
+const StatusResult = styled.div`
+  span {
+    color: ${({ status }) => status.color};
+    margin-left: 0.75rem;
+    font-size: 0.625rem;
+    font-style: normal;
+    font-weight: 600;
+  }
+  button {
+    color: ${({ status }) => status.color};
+    border-color: ${({ status }) => status.color};
+  }
+`;
 export {
   BreadCrumbContainer,
   ChildDownloadButton,
@@ -91,5 +104,6 @@ export {
   FileContainer,
   SearchContainer,
   StatusItemContainer,
+  StatusResult,
   UploadButtonContainer,
 };

@@ -26,28 +26,26 @@ import {
 
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
-  const [phoneNumber, setPhoneNUmber] = useState('09365725645');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
+  const [entryImage, setEntryImage] = useState(null);
   const [profileInfo, setProfileInfo] = useState();
   const [loading, setLoading] = useState(true);
   const baseUrl = process.env.baseUrl;
   const dispatch = useDispatch();
   const browseFile = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setImage(event?.target.files[0]);
+      setImage(URL.createObjectURL(event?.target.files[0]));
+      setEntryImage(event?.target.files[0]);
     }
   };
-  console.log('profile', image);
   useEffect(() => {
+    setImage('/userDefault.png');
     (async function () {
       const rawData = await getUserDetail();
       setProfileInfo(rawData);
       if (rawData?.profile_picture) {
         setImage(baseUrl + rawData?.profile_picture);
         dispatch(storeUserImage(baseUrl + rawData?.profile_picture));
-      } else {
-        setImage('/userDefault.png');
-        dispatch(storeUserImage('/userDefault.png'));
       }
       setLoading(false);
     })();
@@ -59,16 +57,18 @@ const Profile = () => {
         <Title>حساب کاربری</Title>
         <UserImageContainer>
           <div className='upload-button-container'>
-            <UploadButton send={browseFile}>
-              <PencilIcon className='icon' />
-              ویرایش
-            </UploadButton>
+            {editProfile && (
+              <UploadButton send={browseFile}>
+                <PencilIcon className='icon' />
+                ویرایش
+              </UploadButton>
+            )}
 
             <div className='img-container'>
               <img width='100px' alt='user showImage' src={image} />
             </div>
           </div>
-          <p>شماره همراه:{phoneNumber}</p>
+          <p>شماره همراه:{profileInfo.username}</p>
         </UserImageContainer>
         <Tabs dir='rtl' defaultValue='user-specifications'>
           <TabsList>
@@ -86,6 +86,7 @@ const Profile = () => {
                 profileInfo={profileInfo}
                 setEditProfile={setEditProfile}
                 image={image}
+                entryImage={entryImage}
               />
             ) : (
               <ShowProfile

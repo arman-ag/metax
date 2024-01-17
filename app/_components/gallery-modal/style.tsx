@@ -99,6 +99,14 @@ const FileNameContainer = styled.span`
   overflow: hidden !important;
   text-overflow: ellipsis;
 `;
+const SubmitGalleryButton = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  height: 6.62rem;
+  z-index: 100;
+`;
 export {
   ActionContainer,
   ContainerSearch,
@@ -111,4 +119,5 @@ export {
   H1,
   MusicContainerStyle,
   RenameButton,
+  SubmitGalleryButton,
 };

@@ -9,7 +9,7 @@ const nextConfig = {
 
     },
     env: {
-        baseUrl: "http://172.16.60.151:8000",
+        baseUrl: "http://172.16.16.127:8001",
         JWT_SECRET: "tTSSUYgnEkm6ioOt3Qe77h / xxcYMxs / NZ6iAtbMy83I=",
         NEXTAUTH_URL: 'http://172.16.60.162:3000/'
     },
@@ -22,6 +22,8 @@ const nextConfig = {
             },
         ]
     },
+    // output: 'export',
+
 };
 
 module.exports = nextConfig
