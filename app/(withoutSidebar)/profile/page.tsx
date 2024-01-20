@@ -68,7 +68,7 @@ const Profile = () => {
               <img width='100px' alt='user showImage' src={image} />
             </div>
           </div>
-          <p>شماره همراه:{profileInfo.username}</p>
+          <p>{profileInfo.username}</p>
         </UserImageContainer>
         <Tabs dir='rtl' defaultValue='user-specifications'>
           <TabsList>
