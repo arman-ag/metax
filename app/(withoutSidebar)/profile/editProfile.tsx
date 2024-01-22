@@ -67,7 +67,8 @@ const EditProfile = ({
       setEditProfile(false);
     } else {
       toast({
-        description: translatorٍErrorMessage(` ${responseUserDetail?.error!}`),
+        description: translatorٍErrorMessage(` ${responseUserDetail?.status}`),
+        variant: 'destructive',
       });
     }
   };

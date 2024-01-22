@@ -55,6 +55,7 @@ const Denoiser = () => {
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
+        variant: 'destructive',
       });
       console.log('error', e);
     }
@@ -64,7 +65,11 @@ const Denoiser = () => {
   useEffect(() => {
     const celeryTaskId = localStorage.getItem('denoiser');
     //check  result status to success
-    const result = serviceSliceReducer?.data?.results?.some((item) => {
+    const result = serviceSliceReducer?.data?.some((item) => {
+      console.log(
+        'denoiseFileAddressUrl===========>',
+        item.celery_task_id === celeryTaskId && item.status === 'success'
+      );
       return item.celery_task_id === celeryTaskId && item.status === 'success';
     });
     //get audio link
@@ -81,7 +86,6 @@ const Denoiser = () => {
       }
     })();
   }, [serviceSliceReducer]);
-
   return (
     <div>
       <H1>دینویزر</H1>

@@ -10,19 +10,31 @@ const translatorٍErrorMessage = (error) => {
     case 400:
       res = 'مشخصات را مطابق فرمت خواسته شده وارد کنید';
       break;
-    case 'the sms code is not valid':
+    case '409':
       res = 'کد ارسال شده اشتباه است';
       break;
-    case 'the user exist, please try forget password':
+    case 409:
       res = 'شماره تلفن ثبت شده است لطفا از بخش ورود استفاده کنید.';
       break;
-    case 'you can request sms code every 2 minute, please wait a little bit':
+    case 406:
       res = 'برای دریافت مجدد پیامک دو دقیقه صبر کنید';
+      break;
+    case 409:
+      res = 'کد وارد شده صحیح نمی باشد';
+      break;
+    case 401:
+      res = 'بریا انجام این فعالیت نیاز به لوگین کردن دارید';
+      break;
+    case 422:
+      res = 'لطف پسورد را مطابق الگو خواسته شده وارد کنید ';
+      break;
+    case 204:
+      res = 'اطلاعات اپدیت شد';
       break;
 
     default:
-      res = 'I have never heard of that fruit...';
-      return;
+      res = 'خطا ... ';
+      break;
   }
   return res;
 };

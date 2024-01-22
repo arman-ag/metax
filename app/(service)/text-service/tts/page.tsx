@@ -42,6 +42,7 @@ const TTS = () => {
     } catch (e) {
       toast({
         description: `${e}:خطا در شبکه`,
+        variant: 'destructive',
       });
       console.log('error------------>', e);
     }

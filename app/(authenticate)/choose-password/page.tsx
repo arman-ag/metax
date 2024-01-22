@@ -36,6 +36,7 @@ const ChoosePassword = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     const token = localStorage.getItem('OTPAuth');
+    console.log('token=====>', token);
 
     const phone = await localStorage.getItem('username');
 
@@ -64,13 +65,15 @@ const ChoosePassword = () => {
         });
       } else {
         toast({
-          description: translatorٍErrorMessage(response?.explanation),
+          description: translatorٍErrorMessage(response?.status),
+          variant: 'destructive',
         });
       }
       setLoading(false);
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
       setLoading(false);
     }

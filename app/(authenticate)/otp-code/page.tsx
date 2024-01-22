@@ -46,11 +46,13 @@ const OtpCode = () => {
       } else {
         toast({
           description: translatorٍErrorMessage(res.status),
+          variant: 'destructive',
         });
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
     }
   };
@@ -78,13 +80,15 @@ const OtpCode = () => {
           setError(true);
         }
         toast({
-          description: translatorٍErrorMessage(response.explanation),
+          description: translatorٍErrorMessage(response.status),
+          variant: 'destructive',
         });
       }
       router.push('/choose-password');
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
     }
   };

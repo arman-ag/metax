@@ -66,13 +66,15 @@ const ChooseNewPassword = () => {
         });
       } else {
         toast({
-          description: translatorٍErrorMessage(response?.explanation),
+          description: translatorٍErrorMessage(response?.status),
+          variant: 'destructive',
         });
         setLoading(false);
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
       setLoading(false);
     }

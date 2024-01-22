@@ -15,6 +15,7 @@ import {
   BellIconElement,
   DividerProfileItem,
   HeaderElement,
+  HeaderImgContainer,
   HeaderProfileContainer,
   HeadingContainer,
   UserAccountContainer,
@@ -50,12 +51,7 @@ const Header = () => {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <HeaderProfileContainer onClick={() => setButtonFocus(false)}>
-                <img
-                  alt='user image'
-                  src={userImage.link}
-                  width={48}
-                  height={48}
-                />
+                <HeaderImgContainer alt='user image' src={userImage.link} />
                 <UserAccountContainer>
                   حساب کاربری
                   <ArrowDownIcon className='Arrow-Down-Icon' />

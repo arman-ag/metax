@@ -43,20 +43,17 @@ export default function DashboardLayout({
     const intervalId = setInterval(() => {
       dispatch(getServiceStatusList());
     }, 3000);
-    console.log('serviceSliceReducer', serviceSliceReducer);
-    if (serviceSliceReducer?.data?.results?.length !== 0) {
-      const isPendedService = serviceSliceReducer?.data?.results?.some(
-        (item) => {
-          return item.status === 'started' || item.status === 'pending';
-        }
-      );
-      console.log('isPendedService', isPendedService);
+    if (serviceSliceReducer?.data?.length !== 0) {
+      const isPendedService = serviceSliceReducer?.data?.some((item) => {
+        return item.status === 'started' || item.status === 'pending';
+      });
       if (!isPendedService) {
         clearInterval(intervalId);
       }
     } else {
       clearInterval(intervalId);
     }
+    console.log('isPendedService++++', serviceSliceReducer?.data);
     return () => clearInterval(intervalId);
   }, [serviceSliceReducer]);
 
@@ -64,7 +61,22 @@ export default function DashboardLayout({
   useEffect(() => {
     dispatch(getServiceStatusList());
   }, []);
-
+  // pause another audio player
+  useEffect(() => {
+    document.addEventListener(
+      'play',
+      function (e) {
+        var audios = document.getElementsByTagName('audio');
+        for (var i = 0, len = audios.length; i < len; i++) {
+          if (audios[i] != e.target) {
+            audios[i].pause();
+          }
+        }
+      },
+      true
+    );
+  }, []);
+  console.log('serviceSliceReducer', serviceSliceReducer);
   return (
     <Layout>
       <MainContainer>
@@ -121,7 +133,7 @@ export default function DashboardLayout({
                 </Form>
               </HeaderStatusMenu>
               <div>
-                {serviceSliceReducer?.data?.results?.map((item, key) => {
+                {serviceSliceReducer?.data?.map((item, key) => {
                   return <StatusMenuItem item={item} key={key} />;
                 })}
               </div>

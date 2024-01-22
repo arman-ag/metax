@@ -54,12 +54,22 @@ const itemStyles = {
   fontSize: '0.75rem',
   fontWeight: 400,
   lineHeight: '1.25rem',
-  backgroundColor: '#FBF7FD',
+  backgroundColor: '#ffffff',
   cursor: 'pointer',
 
   '&[data-disabled]': {
     color: mauve.mauve8,
     pointerEvents: 'none',
+  },
+  '&:hover': {
+    borderRadius: ' 0rem 0rem .8rem .8rem',
+
+    backgroundColor: '#FBF7FD',
+  },
+  '&:active': {
+    borderRadius: ' 0rem 0rem .8rem .8rem',
+
+    backgroundColor: '#FBF7FD',
   },
 };
 

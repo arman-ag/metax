@@ -1,5 +1,4 @@
 'use client';
-import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Button,
   Form,
@@ -13,6 +12,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { postNewPassword } from './service';
 import { ChoseNewPasswordContainer } from './style';
 const CreateNewPassword = () => {
@@ -42,8 +43,9 @@ const CreateNewPassword = () => {
     if (responsePostNewPassword.status !== 204) {
       toast({
         description: translatorٍErrorMessage(
-          ` ${responsePostNewPassword?.error!}`
+          ` ${responsePostNewPassword?.status}`
         ),
+        variant: 'destructive',
       });
     }
   };

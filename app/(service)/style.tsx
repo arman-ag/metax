@@ -8,14 +8,13 @@ const MainContainer = styled.div`
     ' viewService viewService viewService serviceStatus ';
   grid-template-rows: 6.37rem auto;
   grid-template-columns: auto auto auto 21rem;
-  height: 100%;
   row-gap: 0.69rem;
   column-gap: 1.5rem;
+  height: 90.7vh;
 `;
 const StatusContainer = styled.div`
   grid-area: serviceStatus;
   overflow: auto;
-  height: 100%;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
@@ -23,6 +22,7 @@ const StatusContainer = styled.div`
 `;
 const ViewService = styled.div`
   grid-area: viewService;
+  overflow: auto;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),

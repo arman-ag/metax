@@ -45,12 +45,14 @@ const ForgetOtpCode = () => {
         setCountDown(120);
       } else {
         toast({
-          description: translatorٍErrorMessage(response.explanation),
+          description: translatorٍErrorMessage(response.status),
+          variant: 'destructive',
         });
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
     }
   };
@@ -77,7 +79,8 @@ const ForgetOtpCode = () => {
           setError(true);
         }
         toast({
-          description: translatorٍErrorMessage(response.explanation),
+          description: translatorٍErrorMessage(response.status),
+          variant: 'destructive',
         });
       }
     } catch {

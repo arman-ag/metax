@@ -14,7 +14,7 @@ const GridContainer = styled.div`
 
 const MainContainer = styled.div`
   grid-area: main;
-  padding: 1.31rem 1.5rem;
+  padding: 1.31rem 1.5rem 0 1.5rem;
 `;
 const HeaderContainer = styled.div`
   grid-area: header;
@@ -50,6 +50,7 @@ const UserAccountContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 0.875rem;
+  padding: 0 0.75rem;
   font-weight: 600;
   line-height: 1.5rem;
   .Arrow-Down-Icon {
@@ -119,18 +120,22 @@ const HeaderProfileContainer = styled.button`
   outline: none;
   width: 12.5rem;
   height: 4.68rem;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
+  justify-content: space-around;
   display: flex;
   align-items: center;
   cursor: pointer;
-  img {
-    margin-left: 1.25rem;
-  }
 `;
 const DividerProfileItem = styled.div`
   width: 100%;
   height: 0.1rem;
   background-color: #efefef;
+`;
+const HeaderImgContainer = styled.img`
+  width: 3rem;
+  margin-left: 1.25rem;
+  height: 3rem;
+  border-radius: 100%;
 `;
 
 export {
@@ -141,6 +146,7 @@ export {
   GridContainer,
   HeaderContainer,
   HeaderElement,
+  HeaderImgContainer,
   HeaderProfileContainer,
   HeadingContainer,
   InternalWrapper,

@@ -1,5 +1,5 @@
 type listIconType = { className?: string };
-const listIcon = ({ className }: listIconType) => {
+const ListIcon = ({ className }: listIconType) => {
   return (
     <svg
       className={className}
@@ -22,4 +22,4 @@ const listIcon = ({ className }: listIconType) => {
   );
 };
 
-export default listIcon;
+export default ListIcon;

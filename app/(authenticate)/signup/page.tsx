@@ -59,13 +59,15 @@ const SignUp = () => {
         router.push('/otp-code');
       } else {
         toast({
-          description: translatorٍErrorMessage(response.explanation),
+          description: translatorٍErrorMessage(response.status),
+          variant: 'destructive',
         });
         setLoading(false);
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
     }
   };

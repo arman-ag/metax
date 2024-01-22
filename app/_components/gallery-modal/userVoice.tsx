@@ -104,8 +104,8 @@ const UserVoice = () => {
     formData.append('voice_file', file);
     try {
       const res = await UploadVoice(formData);
-      console.log(res);
-      if (res.status === 201) {
+      console.log('resss=>', res);
+      if (res.message === 'the voice created') {
         setLoading(true);
         const response = await getGalleryVoice();
         if (response) {

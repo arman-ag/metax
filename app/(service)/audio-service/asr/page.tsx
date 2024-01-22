@@ -4,6 +4,7 @@ import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import UploadButton from '@/app/_components/uploadButton';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Dialog,
   DialogTrigger,
@@ -38,37 +39,24 @@ const ASR = () => {
     setShowResult(false);
   };
   const submitFile = async () => {
-    // const response = await axios.get(focusItem.voice_file, {
-    //   headers: {
-    //     'Content-Type': 'audio/wav',
-    //   },
-    //   responseType: 'arraybuffer',
-    // });
-
-    // console.log('res', response);
-    // const blobResponse = await res.body.blob();
-    // const newBlob = new Blob([blobResponse]);
-    // console.log('audioBinary', audioBinary);
-    // const blobAudio = await audioBinary.blob();
     const formData = new FormData();
     formData.append('file', voice);
 
-    try {
-      const res = await fetch('http://hirax.com:2003/', {
-        method: 'POST',
-        body: formData,
-        redirect: 'follow',
-      });
-      const response = await res.json();
-      setAsrVoice(response.text);
-      setShowResult(true);
-    } catch (e) {
-      console.log('error', e);
+    const res = await fetch('http://hirax.com:2003/', {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow',
+    });
+    if (res.status !== 200) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(res.status),
+        variant: 'destructive',
       });
       setShowResult(false);
     }
+    const response = await res.json();
+    setAsrVoice(response.text);
+    setShowResult(true);
   };
 
   return (

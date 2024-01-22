@@ -43,6 +43,7 @@ const Login = () => {
       if (res?.error !== null) {
         toast({
           description: ` کاربری با این مشخصات وجود ندارد`,
+          variant: 'destructive',
         });
       } else {
         router.push('/dashboard');

@@ -50,11 +50,13 @@ const ForgetPassword = () => {
       } else {
         toast({
           description: translatorٍErrorMessage(res.status),
+          variant: 'destructive',
         });
       }
     } catch {
       toast({
         description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+        variant: 'destructive',
       });
     }
   };
