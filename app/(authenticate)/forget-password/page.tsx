@@ -49,7 +49,7 @@ const ForgetPassword = () => {
         router.push('/forget-otp-code');
       } else {
         toast({
-          description: translatorٍErrorMessage(res.status),
+          description: translatorٍErrorMessage(400),
           variant: 'destructive',
         });
       }

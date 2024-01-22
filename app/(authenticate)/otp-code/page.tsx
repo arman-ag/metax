@@ -80,7 +80,7 @@ const OtpCode = () => {
           setError(true);
         }
         toast({
-          description: translatorٍErrorMessage(response.status),
+          description: translatorٍErrorMessage(res.status),
           variant: 'destructive',
         });
       }

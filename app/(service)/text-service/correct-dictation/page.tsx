@@ -1,5 +1,6 @@
 'use client';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
   FormControl,
@@ -37,7 +38,7 @@ const CorrectDictation = () => {
       setNormalizer(response.text);
     } catch (e) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(e),
         variant: 'destructive',
       });
       console.log('error------------>', e);

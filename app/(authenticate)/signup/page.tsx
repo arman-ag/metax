@@ -52,14 +52,14 @@ const SignUp = () => {
         body: raw,
       });
       const response = await res.json();
-
+      console.log('ressss=>>>', res.status);
       if (res.ok) {
         setLoading(false);
         await localStorage.setItem('username', data.phone);
         router.push('/otp-code');
       } else {
         toast({
-          description: translatorٍErrorMessage(response.status),
+          description: translatorٍErrorMessage(res.status),
           variant: 'destructive',
         });
         setLoading(false);

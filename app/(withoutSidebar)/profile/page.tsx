@@ -1,7 +1,6 @@
 'use client';
 
 import PencilIcon from '@/app/_assets/icon/pencel';
-// import UserDefaultImage from '@/app/_assets/icon/userDefault';
 import UploadButton from '@/app/_components/uploadButton';
 import { storeUserImage } from '@/app/redux/features/userImage/imageSlice';
 import {

@@ -4,6 +4,7 @@ import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { getServiceStatusList } from '@/app/redux/features/serviceStatus/statusSlice';
 import {
   Dialog,
@@ -54,7 +55,7 @@ const Denoiser = () => {
       dispatch(getServiceStatusList());
     } catch (e) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(e),
         variant: 'destructive',
       });
       console.log('error', e);

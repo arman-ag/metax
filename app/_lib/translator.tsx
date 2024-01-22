@@ -1,4 +1,5 @@
 const translatorٍErrorMessage = (error) => {
+  console.log('errrrrror', error);
   let res = '';
   switch (error) {
     case 'the user not found, please sign up first!':

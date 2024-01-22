@@ -1,6 +1,7 @@
 'use client';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import DownloadFile from '@/app/_components/download';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
   FormControl,
@@ -41,7 +42,7 @@ const TTS = () => {
       setTTS(URL.createObjectURL(blobRes));
     } catch (e) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(e.response.status),
         variant: 'destructive',
       });
       console.log('error------------>', e);

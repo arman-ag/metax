@@ -3,6 +3,7 @@
 import HappyIcon from '@/app/_assets/icon/happy';
 import SadIcon from '@/app/_assets/icon/sad';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
   FormControl,
@@ -41,7 +42,7 @@ const RecognizeInsult = () => {
       setShowResult(false);
     } catch (e) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(e),
         variant: 'destructive',
       });
       console.log('error------------>', e);

@@ -26,7 +26,7 @@ const ShowProfile = ({ setEditProfile, profileInfo }: ShowProfileProps) => {
         <span>{profileInfo.email}</span>
       </ShowProfileContainer>
       <ShowProfileContainer>
-        <span className='title'>استان</span>
+        <span className='title'>نام کاربری تلگرام</span>
 
         <span>{profileInfo.province}</span>
       </ShowProfileContainer>

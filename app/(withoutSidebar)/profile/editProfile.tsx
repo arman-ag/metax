@@ -1,10 +1,7 @@
-import { provinces } from '@/app/_assets/rawData';
 import translatorٍErrorMessage from '@/app/_lib/translator';
 import {
   Button,
-  DropDown,
   Form,
-  FormControl,
   FormField,
   FormItem,
   Input,
@@ -48,7 +45,7 @@ const EditProfile = ({
       first_name: data.name || '',
       last_name: data.family || '',
       email: data.email || '',
-      province: data.province.value || '',
+      province: data.province || '',
     };
     if (!entryImage) {
       userDetails.profile_picture = null;
@@ -120,7 +117,7 @@ const EditProfile = ({
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             defaultValue={{
               value: profileInfo.province,
@@ -148,6 +145,22 @@ const EditProfile = ({
                 </FormItem>
               );
             }}
+          /> */}
+
+          <FormField
+            defaultValue={profileInfo.email}
+            control={form.control}
+            name='province'
+            render={({ field }) => (
+              <FormItem className='items'>
+                <Input
+                  label={'نام کاربری تلگرام'}
+                  type='text'
+                  placeholder='نام کاربری تلگرام خود را وارد کنید'
+                  {...field}
+                />
+              </FormItem>
+            )}
           />
           <div className='button-container'>
             <Button size='md' type='submit'>

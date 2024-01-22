@@ -3,6 +3,7 @@ import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Dialog,
   DialogTrigger,
@@ -48,7 +49,7 @@ const MusicSeparator = () => {
       localStorage.setItem('music', response.celery_task_id);
     } catch (e) {
       toast({
-        description: `${e}:خطا در شبکه`,
+        description: translatorٍErrorMessage(e),
       });
       console.log('error============>', e);
     }
