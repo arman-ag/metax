@@ -119,8 +119,11 @@ const Login = () => {
         </Form>
       </div>
       <div className='arrangementInfo-container'>
-        <p>توسعه یافته توسط شرکت مهندسی نرم افزار هلو</p>
-        <p>www.holoo.com</p>
+        <p>
+          گروه مهندسی نرم افزار هوشمند هلو <b>(HAIP)</b>
+        </p>
+
+        <p>www.holoo.co.ir</p>
       </div>
     </Container>
   );

@@ -20,6 +20,7 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions);
   console.log('session', session);
+
   return (
     <html lang='en'>
       <body dir='rtl' className={myFont.className}>

@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@haip/design-system';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ContextMenuContainer from './contextMenuContainer';
 import {
   FileNameContainer,
@@ -25,6 +25,7 @@ const MusicContainer = ({
   deleteAction,
 }: MusicContainerProps) => {
   const [value, setValue] = useState(item.file_name);
+  const [fileFormat, setFileFormat] = useState();
   const inputRef = useRef();
   const handleContextRename = (event) => {
     diagnosisFocusItem(event, item.id);
@@ -49,6 +50,12 @@ const MusicContainer = ({
 
   //   inputRef.current;
   // }, [value]);
+  useEffect(() => {
+    const { fileName } = item;
+    let formatIndex = fileName.lastIndexOf('.');
+    let output = fileName.slice(0, formatIndex);
+    console.log(output);
+  }, []);
 
   return (
     <div>

@@ -48,7 +48,7 @@ const UserImageContainer = styled.div`
   }
 `;
 const ShowProfileContainer = styled.div`
-  flex: 0 0 35%;
+  flex: 0 0 28%;
   margin: 2.06rem 6.38rem;
   padding: 0 0.25rem;
   border-bottom: 0.125rem solid #aeaeae;
@@ -59,7 +59,7 @@ const ShowProfileContainer = styled.div`
     margin: 0 1rem;
   }
   .title {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 2rem;
     color: black;

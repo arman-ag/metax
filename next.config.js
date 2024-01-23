@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: "standalone",
     typescript: {
 
         ignoreBuildErrors: true,
@@ -11,7 +12,7 @@ const nextConfig = {
     env: {
         baseUrl: "http://172.16.60.151:8001",
         JWT_SECRET: "tTSSUYgnEkm6ioOt3Qe77h / xxcYMxs / NZ6iAtbMy83I=",
-        NEXTAUTH_URL: 'https://localhost:3000/'
+        NEXTAUTH_URL: 'http://172.16.60.162:3000/'
     },
     async redirects() {
         return [
@@ -22,6 +23,7 @@ const nextConfig = {
             },
         ]
     },
+    // output: 'export',
 
 };
 
