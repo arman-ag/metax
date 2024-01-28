@@ -13,7 +13,7 @@ const ArrowDownBigIcon = ({ className }: ArrowDownBigIconProps) => {
           id='Vector 15'
           d='M1 1L5.23178 6.07813C5.63157 6.55789 6.36843 6.55789 6.76822 6.07813L11 1'
           stroke='#191919'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
       </g>
     </svg>

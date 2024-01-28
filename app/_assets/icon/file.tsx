@@ -46,19 +46,19 @@ const FileIcon = ({ className }: FileIconProps) => {
           id='Vector 25'
           d='M6.33203 4.33325L10.332 4.33325'
           stroke='#8C43C9'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
         <path
           id='Vector 26'
           d='M6.33203 7L10.332 7'
           stroke='#8C43C9'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
         <path
           id='Vector 27'
           d='M6.33203 9.66675L10.332 9.66675'
           stroke='#8C43C9'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
       </g>
     </svg>

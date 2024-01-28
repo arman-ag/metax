@@ -3,13 +3,19 @@ import BlackPencilIcon from '@/app/_assets/icon/blackPencil';
 import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
-import { Button, DialogTrigger } from '@haip/design-system';
+import { Button, DialogTrigger, toast } from '@haip/design-system';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import MusicContainer from './musicContainer';
 import { MusicIconContainer } from './rightClickStyle';
-import { UploadVoice, getGalleryVoice, updateVoice } from './service';
+import {
+  UploadVoice,
+  deleteVoiceFile,
+  getGalleryVoice,
+  updateVoice,
+} from './service';
 import {
   ActionContainer,
   DeleteButton,
@@ -30,6 +36,17 @@ const UserVoice = () => {
     delete: false,
   });
   const [focusItem, setFocusItem] = useState({});
+  //get items in when gallery mount
+  useEffect(() => {
+    (async function () {
+      const response = await getGalleryVoice();
+      if (response) {
+        setLoading(false);
+        setFileList([...response]);
+      }
+    })();
+  }, []);
+
   //blur items action
   const blurItem = () => {
     const selectAllFile = fileList.map((item) => {
@@ -62,30 +79,53 @@ const UserVoice = () => {
 
   //rename Action
   const renameAction = async (event, id = null, value = '') => {
+    console.log('rename=====>');
     event.stopPropagation();
     SetRename((prevItem) => {
       return !prevItem;
     });
     if (id) {
       let focusIndex = fileList.findIndex((item) => item.id === id);
-      updateVoice(id, value);
-      setLoading(true);
-      const voiceFiles = await getGalleryVoice();
-      if (voiceFiles) {
-        setFileList([...voiceFiles]);
+      const formData = new FormData();
+      formData.append('file_name', value);
+      const res = await updateVoice(id, formData);
+      if (res.status === 200) {
+        setLoading(true);
+        const voiceFiles = await getGalleryVoice();
+        voiceFiles && setFileList([...voiceFiles]);
         setLoading(false);
+      } else {
+        toast({
+          description: translatorٍErrorMessage(res?.status),
+          variant: 'destructive',
+        });
       }
-      // fileList[focusIndex] = { ...fileList[focusIndex], file_name: value };
     }
     setEnableActionBar({ rename: false, delete: false });
   };
   //delete Action
   const deleteAction = async (event) => {
     event.stopPropagation();
-    const remainingFile = fileList.filter((item) => {
-      return item?.focus !== true;
+    const deleteItemRaw = fileList.map((item) => {
+      if (item.focus === true) {
+        return item.id;
+      }
     });
-    setFileList([...remainingFile]);
+
+    const deleteItem = deleteItemRaw.filter((item) => item !== undefined);
+    const res = await deleteVoiceFile(deleteItem.toString());
+    setLoading(true);
+    if (res.status === 200) {
+      const voiceFiles = await getGalleryVoice();
+      voiceFiles && setFileList([...voiceFiles]);
+      setLoading(false);
+    } else {
+      toast({
+        description: translatorٍErrorMessage(res?.status),
+        variant: 'destructive',
+      });
+    }
+
     setEnableActionBar({ rename: false, delete: false });
   };
   //select all action
@@ -102,35 +142,25 @@ const UserVoice = () => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('voice_file', file);
-    try {
-      const res = await UploadVoice(formData);
-      console.log('resss=>', res);
-      if (res.message === 'the voice created') {
-        setLoading(true);
-        const response = await getGalleryVoice();
-        if (response) {
-          setLoading(false);
-          setFileList([...response]);
-        } else {
-          console.log('error=>', e);
-        }
-      }
-    } catch (e) {
-      console.log('error=>', e);
+    const res = await UploadVoice(formData);
+    setLoading(true);
+    console.log('res======>', res);
+    if (res.message === 'the voice created') {
+      const response = await getGalleryVoice();
+      response && setFileList([...response]);
+      setLoading(false);
+    } else {
+      toast({
+        description: translatorٍErrorMessage(res?.status),
+        variant: 'destructive',
+      });
     }
   };
-  useEffect(() => {
-    (async function () {
-      const response = await getGalleryVoice();
-      if (response) {
-        setLoading(false);
-        setFileList([...response]);
-      }
-    })();
-  }, []);
+
   const actionChoseButton = () => {
     dispatch(selectedItem(focusItem));
   };
+
   return loading ? (
     <div>loading....</div>
   ) : (
@@ -160,7 +190,7 @@ const UserVoice = () => {
           {
             <GalleryUploadButton
               send={(event) => sendAction(event)}
-              acceptType='.wav '
+              acceptType='.wav,.mp3,.ogg,.flac '
             >
               <CloudIcon />
               آپلود فایل

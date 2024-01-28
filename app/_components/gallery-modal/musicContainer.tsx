@@ -24,8 +24,9 @@ const MusicContainer = ({
   renameAction,
   deleteAction,
 }: MusicContainerProps) => {
-  const [value, setValue] = useState(item.file_name);
+  const [value, setValue] = useState();
   const [fileFormat, setFileFormat] = useState();
+
   const inputRef = useRef();
   const handleContextRename = (event) => {
     diagnosisFocusItem(event, item.id);
@@ -39,22 +40,18 @@ const MusicContainer = ({
   };
   const handleSubmitTextArea = (e) => {
     e.preventDefault();
-    renameAction(e, item.id, value);
+    const { id } = item;
+    renameAction(e, id, value + fileFormat);
+    console.log({ e, id, value });
   };
-  // useEffect(() => {
-  //   const indexOfDot = value.indexOf('.');
-  //   if (indexOfDot !== -1) {
-  //     inputRef.current.selectionStart = indexOfDot;
-  //     inputRef.current.selectionEnd = inputRef.current.value.length;
-  //   }
-
-  //   inputRef.current;
-  // }, [value]);
+  //remove file format when music item mount
   useEffect(() => {
-    const { fileName } = item;
-    let formatIndex = fileName.lastIndexOf('.');
-    let output = fileName.slice(0, formatIndex);
-    console.log(output);
+    const { file_name } = item;
+    let formatIndex = file_name.lastIndexOf('.');
+    let output = file_name.slice(0, formatIndex);
+    let format = file_name.slice(formatIndex, file_name.length);
+    setFileFormat(format);
+    setValue(output);
   }, []);
 
   return (
@@ -72,21 +69,27 @@ const MusicContainer = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <FileNameContainer>{item.file_name}</FileNameContainer>
+                  <FileNameContainer>{value}</FileNameContainer>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <span>{item.file_name}</span>
+                  <span>{value}</span>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ) : (
-            <FileNameDivision
-              ref={inputRef}
-              autoFocus
-              onBlur={(event) => handleSubmitTextArea(event)}
-              onChange={(event) => handleTextAreaValue(event)}
-              value={value}
-            />
+            <form
+              onSubmit={(event) => {
+                handleSubmitTextArea(event);
+              }}
+            >
+              <FileNameDivision
+                ref={inputRef}
+                autoFocus
+                onBlur={(event) => handleSubmitTextArea(event)}
+                onChange={(event) => handleTextAreaValue(event)}
+                value={value}
+              />
+            </form>
           )}
         </MusicContainerStyle>
       </ContextMenuContainer>

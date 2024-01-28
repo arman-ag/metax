@@ -1,5 +1,11 @@
 'use client';
-import { Form, FormControl, FormField, FormItem } from '@haip/design-system';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  Toaster,
+} from '@haip/design-system';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,6 +85,7 @@ export default function DashboardLayout({
   console.log('serviceSliceReducer', serviceSliceReducer);
   return (
     <Layout>
+      <Toaster dir={'rtl'} />
       <MainContainer>
         <PaymentBarContainer>
           <PaymentBar />

@@ -92,11 +92,14 @@ const ContainerSearch = styled.div`
   }
 `;
 const FileNameContainer = styled.span`
-  display: inline-block;
+  cursor: default;
   direction: ltr;
   width: 3.1rem;
-  white-space: nowrap;
   overflow: hidden !important;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   text-overflow: ellipsis;
 `;
 const SubmitGalleryButton = styled.div`

@@ -10,12 +10,10 @@ const UploadVoice = async (formData) => {
   );
   return data;
 };
-const updateVoice = async (id: number, newFileName: string) => {
+const updateVoice = async (id: number, formData) => {
   const res = await axios.put(
     `http://172.16.60.151:8003/gallery/voice/${id}/`,
-    {
-      file_name: newFileName,
-    }
+    formData
   );
   return res;
 };

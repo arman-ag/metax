@@ -19,7 +19,7 @@ const PencelIcon = ({ className }: PencelIcon) => {
           id='Vector 36'
           d='M8.5 3.5L10.5 5.5'
           stroke='#F4F4F4'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
       </g>
     </svg>

@@ -20,8 +20,8 @@ const MusicIcon = () => {
         />
         <path
           id='path158'
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M0.917969 0.838697H39.0791V13.7405H0.917969V0.838697Z'
           fill='#0D5E7F'
         />

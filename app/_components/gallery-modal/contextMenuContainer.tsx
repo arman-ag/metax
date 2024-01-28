@@ -8,14 +8,18 @@ const ContextMenuContainer = ({
   handleDeleteAction,
 }: ContextMenuContainerProps) => {
   return (
-    <ContextMenu.Root modal={true}>
+    <ContextMenu.Root modal={false}>
       <ContextMenu.Trigger>{children}</ContextMenu.Trigger>
       <ContextMenuContent>
         <ContextMenuItem asChild>
-          <div onClick={handleContextRename}>ویرایش فایل</div>
+          <div style={{ cursor: 'pointer' }} onClick={handleContextRename}>
+            ویرایش فایل
+          </div>
         </ContextMenuItem>
         <ContextMenuItem asChild>
-          <div onClick={handleDeleteAction}>حذف فایل</div>
+          <div style={{ cursor: 'pointer' }} onClick={handleDeleteAction}>
+            حذف فایل
+          </div>
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu.Root>

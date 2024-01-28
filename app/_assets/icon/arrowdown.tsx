@@ -14,8 +14,8 @@ const ArrowDownIcon = ({ className }: ArrowDownIconProps) => {
           id='Vector 15'
           d='M7 2.3335L5.11494 4.42801C4.51908 5.09008 3.48092 5.09008 2.88506 4.42801L1 2.3335'
           stroke='#191919'
-          stroke-width='1.5'
-          stroke-linecap='round'
+          strokeWidth='1.5'
+          strokeLinecap='round'
         />
       </g>
     </svg>

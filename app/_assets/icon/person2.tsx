@@ -22,7 +22,7 @@ const Person2Icon = ({ className }: person2Type) => {
           id='Ellipse 17'
           d='M1 13.4999C1.80235 10.2959 4.63218 7.92847 8 7.92847C11.3678 7.92847 14.1976 10.2959 15 13.4999'
           stroke='#191919'
-          stroke-linecap='round'
+          strokeLinecap='round'
         />
       </g>
     </svg>

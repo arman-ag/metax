@@ -14,13 +14,13 @@ const DeleteIcon = () => {
         height='14'
         rx='1.5'
         stroke='#191919'
-        stroke-width='1.5'
+        strokeWidth='1.5'
       />
       <path
         d='M6 3.5H18'
         stroke='#191919'
-        stroke-width='1.5'
-        stroke-linecap='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
       />
     </svg>
   );
