@@ -121,12 +121,12 @@ const AccordionService = () => {
               <Accordion.Item className='AccordionItem' value='item-4'>
                 <AccordionTrigger>سرویس تصویر</AccordionTrigger>
                 <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service'>
+                  <Link href='/image-service/plaque-diagnose'>
                     <ChildItem
                       path={paths.search('image-service') > 0}
                       className='content'
                     >
-                      تست تصویر
+                      تشخیص پلاک
                     </ChildItem>
                   </Link>
                 </Accordion.Content>
