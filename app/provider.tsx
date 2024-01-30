@@ -8,13 +8,11 @@ import theme from './_styles/theme';
 const AllProviders = (props: React.PropsWithChildren) => {
   return (
     <StyledComponentsRegistry>
-      {/* <Providers> */}
       <ThemeProvider theme={theme}>
         <SessionProvider session={props.session}>
           {props.children}
         </SessionProvider>
       </ThemeProvider>
-      {/* </Providers> */}
     </StyledComponentsRegistry>
   );
 };
