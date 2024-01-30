@@ -27,7 +27,9 @@ const Gallery = () => {
           <TabsContent value='user-voice'>
             <UserVoice />
           </TabsContent>
-          <TabsContent value='user-image'></TabsContent>
+          <TabsContent value='user-image'>
+            <UserImage />
+          </TabsContent>
           <TabsContent value='user-film'></TabsContent>
         </Tabs>
       </div>

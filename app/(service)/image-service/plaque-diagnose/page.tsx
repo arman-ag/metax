@@ -83,13 +83,10 @@ const PlaqueDiagnose = () => {
             <H2>بارگذاری فایل</H2>
             <Dialog>
               <DialogTrigger asChild>
-                <>
-                  cas
-                  <FluidGalleryButton size={'sm'} variant={'outline'}>
-                    <FileIcon />
-                    <span>فایل ها</span>
-                  </FluidGalleryButton>
-                </>
+                <FluidGalleryButton size={'sm'} variant={'outline'}>
+                  <FileIcon />
+                  <span>فایل ها</span>
+                </FluidGalleryButton>
               </DialogTrigger>
 
               <DialogContentContainer dir={'rtl'}>
