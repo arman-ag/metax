@@ -8,13 +8,13 @@ import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedS
 import { Button, DialogTrigger, toast } from '@haip/design-system';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import MusicContainer from './musicContainer';
+import ImageContainer from './imageContainer';
 import { MusicIconContainer } from './rightClickStyle';
 import {
-  UploadVoice,
-  deleteVoiceFile,
-  getGalleryVoice,
-  updateVoice,
+  UploadImage,
+  deleteImageFile,
+  getGalleryImage,
+  updateImage,
 } from './service';
 import {
   ActionContainer,
@@ -39,7 +39,7 @@ const UserImage = () => {
   //get items in when gallery mount
   useEffect(() => {
     (async function () {
-      const response = await getGalleryVoice();
+      const response = await getGalleryImage();
       if (response) {
         setLoading(false);
         setFileList([...response]);
@@ -79,7 +79,6 @@ const UserImage = () => {
 
   //rename Action
   const renameAction = async (event, id = null, value = '') => {
-    console.log('rename=====>');
     event.stopPropagation();
     SetRename((prevItem) => {
       return !prevItem;
@@ -88,10 +87,10 @@ const UserImage = () => {
       let focusIndex = fileList.findIndex((item) => item.id === id);
       const formData = new FormData();
       formData.append('file_name', value);
-      const res = await updateVoice(id, formData);
+      const res = await updateImage(id, formData);
       if (res.status === 200) {
         setLoading(true);
-        const voiceFiles = await getGalleryVoice();
+        const voiceFiles = await getGalleryImage();
         voiceFiles && setFileList([...voiceFiles]);
         setLoading(false);
       } else {
@@ -113,10 +112,11 @@ const UserImage = () => {
     });
 
     const deleteItem = deleteItemRaw.filter((item) => item !== undefined);
-    const res = await deleteVoiceFile(deleteItem.toString());
+    const res = await deleteImageFile(deleteItem.toString());
     setLoading(true);
-    if (res.status === 200) {
-      const voiceFiles = await getGalleryVoice();
+    console.log('res delete', res);
+    if (res.status === 204) {
+      const voiceFiles = await getGalleryImage();
       voiceFiles && setFileList([...voiceFiles]);
       setLoading(false);
     } else {
@@ -137,16 +137,16 @@ const UserImage = () => {
     setEnableActionBar({ rename: false, delete: true });
     setFileList([...selectAllFile]);
   };
-  //upload voice file
+  //upload image file
   const sendAction = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append('voice_file', file);
-    const res = await UploadVoice(formData);
+    formData.append('image_file', file);
+    const res = await UploadImage(formData);
     setLoading(true);
     console.log('res======>', res);
-    if (res.message === 'the voice created') {
-      const response = await getGalleryVoice();
+    if (res.message === 'the image created') {
+      const response = await getGalleryImage();
       response && setFileList([...response]);
       setLoading(false);
     } else {
@@ -200,7 +200,7 @@ const UserImage = () => {
         <div>
           <MusicIconContainer>
             {fileList?.map((item) => (
-              <MusicContainer
+              <ImageContainer
                 deleteAction={deleteAction}
                 renameAction={renameAction}
                 diagnosisFocusItem={diagnosisFocusItem}

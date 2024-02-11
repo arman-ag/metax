@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import UploadButton from '../uploadButton';
 
 const MusicContainerStyle = styled.div`
-  max-width: 3.8rem;
+  justify-content: center;
   margin-top: 1rem;
   margin-left: 1.5rem;
-  min-height: 5.68rem;
   padding: 0.37rem 0.31rem;
   display: flex;
   flex-direction: column;
@@ -110,6 +109,10 @@ const SubmitGalleryButton = styled.div`
   height: 6.62rem;
   z-index: 100;
 `;
+const GalleryImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+`;
 export {
   ActionContainer,
   ContainerSearch,
@@ -117,6 +120,7 @@ export {
   Divider,
   FileNameContainer,
   FileNameDivision,
+  GalleryImage,
   GalleryTabsContainer,
   GalleryUploadButton,
   H1,

@@ -3,6 +3,7 @@ import { ContainerSearch, H1 } from '@/app/_components/gallery-modal/style';
 import UserVoice from '@/app/_components/gallery-modal/userVoice';
 import { Search } from '@/app/_components/search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@haip/design-system';
+import UserImage from './userImage';
 const Gallery = () => {
   return (
     <div>

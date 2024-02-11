@@ -1,4 +1,4 @@
-import translatorٍErrorMessage from '@/app/_lib/translator';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Button,
   Form,
