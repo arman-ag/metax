@@ -83,8 +83,8 @@ const FlexAudioPlayerContainer = styled.div`
 `;
 const FluidGalleryButton = styled(Button)`
   width: 5.65rem;
-  // position: absolute;
-  // right: -6.5rem;
+  position: absolute;
+  right: -6.5rem;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;

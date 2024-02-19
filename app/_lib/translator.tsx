@@ -52,19 +52,43 @@ const breadCrumbTranslator = (text: string) => {
       result = 'سرویس دینویزر';
       break;
     case 'music-separator':
-      result = ' سرویس جدا سازی موسیقی و خواننده';
+      result = '  جدا سازی موسیقی و خواننده';
       break;
     case 'text-service':
       result = 'سرویس متن';
       break;
     case 'correct-dictation':
-      result = 'سرویس غلط املایی';
+      result = ' غلط املایی';
       break;
     case 'recognize-insult':
-      result = 'سرویس تشخیص توهین';
+      result = ' تشخیص توهین';
       break;
     case 'tts':
       result = 'سرویس tts';
+      break;
+    case 'age-detection':
+      result = 'تشخیص سن';
+      break;
+    case 'body-detection':
+      result = 'تشخیص بدن';
+      break;
+    case 'card-diagnose':
+      result = 'تشخیص کارت بانکی';
+      break;
+    case 'emotion-diagnose':
+      result = 'تشخیص احساسات';
+      break;
+    case 'face-detection':
+      result = 'تشخیص صورت';
+      break;
+    case 'plaque-detection':
+      result = 'تشخیص پلاک';
+      break;
+    case 'image-service':
+      result = 'سرویس تصویر';
+      break;
+    case 'sex-detection':
+      result = 'تشخیص جنسیت';
       break;
   }
   return result;

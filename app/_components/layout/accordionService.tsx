@@ -123,10 +123,70 @@ const AccordionService = () => {
                 <Accordion.Content className='AccordionContent'>
                   <Link href='/image-service/plaque-diagnose'>
                     <ChildItem
-                      path={paths.search('image-service') > 0}
+                      path={paths.search('plaque-diagnose') > 0}
                       className='content'
                     >
                       تشخیص پلاک
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/face-detection'>
+                    <ChildItem
+                      path={paths.search('face-detection') > 0}
+                      className='content'
+                    >
+                      تشخیص چهره
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/body-detection'>
+                    <ChildItem
+                      path={paths.search('body-detection') > 0}
+                      className='content'
+                    >
+                      تشخیص بدن
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/card-diagnose'>
+                    <ChildItem
+                      path={paths.search('card-diagnos') > 0}
+                      className='content'
+                    >
+                      تشخیص کارت
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/sex-detection'>
+                    <ChildItem
+                      path={paths.search('sex-detection') > 0}
+                      className='content'
+                    >
+                      تشخیص جنسیت
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/emotion-diagnose'>
+                    <ChildItem
+                      path={paths.search('emotion-diagnose') > 0}
+                      className='content'
+                    >
+                      تشخیص احساسات
+                    </ChildItem>
+                  </Link>
+                </Accordion.Content>
+                <Accordion.Content className='AccordionContent'>
+                  <Link href='/image-service/age-detection'>
+                    <ChildItem
+                      path={paths.search('age-detection') > 0}
+                      className='content'
+                    >
+                      تشخیص سن
                     </ChildItem>
                   </Link>
                 </Accordion.Content>

@@ -23,9 +23,9 @@ import {
   FlexImageContainer,
   FluidImageGalleryButton,
   ImageContainerUploader,
-} from './style';
+} from '../plaque-diagnose/style';
 
-const PlaqueDiagnose = () => {
+const FaceDetection = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [asrVoice, setAsrVoice] = useState('تست ویف تست ویف خسوه');
@@ -59,7 +59,7 @@ const PlaqueDiagnose = () => {
   };
   return (
     <div>
-      <H1>تشخیص پلاک</H1>
+      <H1>تبدیل گفتار به نوشتار</H1>
       <NextBreadcrumb />
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
@@ -113,4 +113,4 @@ const PlaqueDiagnose = () => {
   );
 };
 
-export default PlaqueDiagnose;
+export default FaceDetection;

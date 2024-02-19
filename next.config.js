@@ -10,9 +10,9 @@ const nextConfig = {
 
     },
     env: {
-        baseUrl: "http://172.16.60.151:8002",
+        baseUrl: "http://94.182.199.137:8002",
         JWT_SECRET: "tTSSUYgnEkm6ioOt3Qe77h / xxcYMxs / NZ6iAtbMy83I=",
-        NEXTAUTH_URL: 'http://172.16.60.162:3000/'
+        NEXTAUTH_URL: 'http://94.182.199.137:3000/'
     },
     async redirects() {
         return [

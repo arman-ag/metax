@@ -1,7 +1,6 @@
 'use client';
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
-import imageAi from '@/app/_assets/image/imageAi.png';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
@@ -16,16 +15,19 @@ import {
   Toaster,
   useToast,
 } from '@haip/design-system';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { Divider, H1, H2 } from '../../audio-service/denoiser/style';
 import {
   FlexImageContainer,
   FluidImageGalleryButton,
   ImageContainerUploader,
-} from './style';
+} from '../plaque-diagnose/style';
+const Canvas = dynamic(() => import('@/canvas'), {
+  ssr: false,
+});
 
-const PlaqueDiagnose = () => {
+const AgeDetection = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [asrVoice, setAsrVoice] = useState('تست ویف تست ویف خسوه');
@@ -57,9 +59,26 @@ const PlaqueDiagnose = () => {
     setAsrVoice(response.text);
     setShowResult(true);
   };
+  // const canvasRef = useRef(null);
+  // let context = null;
+
+  // useEffect(() => {
+  //   if (canvasRef.current) {
+  //     context = canvasRef.current.getContext('2d');
+
+  //     // Load your image (e.g., using Next.js Image component)
+  //     const image = new Image();
+  //     image.src = './download (3).jpg';
+
+  //     // Wait for the image to load
+  //     image.onload = () => {
+  //       context.drawImage(image, 0, 0);
+  //     };
+  //   }
+  // }, []);
   return (
     <div>
-      <H1>تشخیص پلاک</H1>
+      <H1>تبدیل گفتار به نوشتار</H1>
       <NextBreadcrumb />
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
@@ -96,14 +115,15 @@ const PlaqueDiagnose = () => {
                 </DialogContentContainer>
               </Dialog>
               <FlexImageContainer>
-                <Image src={imageAi} width={346} height={150} />
+                {/* <Image src={imageAi} width={346} height={150} /> */}
                 <Button>پردازش تصویر</Button>
               </FlexImageContainer>
             </ImageContainerUploader>
             <Divider />
             <H2>نتیجه نهایی</H2>
             <FlexImageContainer>
-              <Image src={imageAi} width={346} height={150} />
+              {/* <Image src={imageAi} width={346} height={150} /> */}
+              <Canvas />
             </FlexImageContainer>
           </div>
         </TabsContent>
@@ -113,4 +133,4 @@ const PlaqueDiagnose = () => {
   );
 };
 
-export default PlaqueDiagnose;
+export default AgeDetection;
