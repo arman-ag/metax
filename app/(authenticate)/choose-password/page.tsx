@@ -102,9 +102,9 @@ const ChoosePassword = () => {
                     <Input
                       inputSize='lg'
                       type='password'
-                      placeholder='* کلمه عبور خود را وارد کنید'
+                      placeholder=' کلمه عبور خود را وارد کنید'
                       {...field}
-                      label='کلمه عبور'
+                      label='کلمه عبور *'
                     />
                   </FormItem>
                 )}
@@ -119,9 +119,9 @@ const ChoosePassword = () => {
                     <Input
                       inputSize='lg'
                       type='password'
-                      placeholder='* کلمه عبور خود را تکرار کنید'
+                      placeholder='کلمه عبور خود را تکرار کنید'
                       {...field}
-                      label='تکرار کلمه عبور'
+                      label='تکرار کلمه عبور *'
                     />
                   </FormItem>
                 )}

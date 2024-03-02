@@ -85,9 +85,9 @@ const ForgetPassword = () => {
                   <FormItem>
                     <Input
                       inputSize='lg'
-                      placeholder='* شماره همراه خود را وارد کنید'
+                      placeholder=' شماره همراه خود را وارد کنید'
                       {...field}
-                      label='شماره همراه'
+                      label='شماره همراه *'
                     />
                   </FormItem>
                 )}

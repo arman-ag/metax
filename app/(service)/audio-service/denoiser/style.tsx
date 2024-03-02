@@ -10,7 +10,7 @@ const DenoiserContainer = styled.div`
 `;
 const H2 = styled.h2`
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 1rem;
   align-self: flex-start;
   color: #191919;
@@ -20,7 +20,7 @@ const H2 = styled.h2`
 const H1 = styled.h1`
   font-size: 1rem;
   font-weight: 600;
-  margin: 0.75rem 1.75rem;
+  margin: 0.75rem 2.3rem;
 `;
 const AudioPlayer = styled.audio`
   width: 25.125rem;

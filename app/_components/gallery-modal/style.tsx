@@ -69,7 +69,7 @@ const FileNameDivision = styled.input`
   }
 `;
 const GalleryUploadButton = styled(UploadButton)`
-  padding: 0.5rem 2rem;
+  width: 12.43rem;
 `;
 const GalleryTabsContainer = styled.div`
   padding: 1.75rem 2.35rem 6.635rem 1.63rem;

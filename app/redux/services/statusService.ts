@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+const taskManagerUrl = process.env.taskmanagerUrl;
 const getStatusResult = async () => {
   const { data: response } = await axios.get(
-    'http://172.16.60.151:8003/tasks/task-manager/'
+    `${taskManagerUrl}/tasks/task-manager/`
   );
   return response;
 };

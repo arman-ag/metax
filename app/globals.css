@@ -15,6 +15,7 @@
   --primary60: #ba8edf;
   --primary50: #c6a1e4;
   --primary40: #d1b4e9;
+  --primary30: #ddc7ef;
   --primary20: #e8d9f4;
   --primary10: #f3ecfa;
 }
@@ -26,8 +27,6 @@ label.label input[type='file'] {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-
-  /* outline: 1px solid #f00 !important; */
 }
 html,
 body {
@@ -49,6 +48,8 @@ body {
   border-radius: 0.625rem;
   border: 0.5rem solid #bab6be;
 }
-/* html {
-  font-size: 1.1rem;
-} */
+@media only screen and (min-width: 1380px) {
+  html {
+    font-size: 1.1rem;
+  }
+}

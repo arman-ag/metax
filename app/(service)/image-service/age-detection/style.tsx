@@ -17,7 +17,7 @@ const ImageContainerUploader = styled.div`
 const FluidImageGalleryButton = styled(Button)`
   width: 5.65rem;
   position: absolute;
-  right: 22.5rem;
+  right: 10.5rem;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -26,4 +26,15 @@ const FluidImageGalleryButton = styled(Button)`
     margin: 0.25rem;
   }
 `;
-export { FlexImageContainer, FluidImageGalleryButton, ImageContainerUploader };
+const ChoseImageGalleryFileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.2rem 0 4.18rem 0;
+`;
+export {
+  ChoseImageGalleryFileContainer,
+  FlexImageContainer,
+  FluidImageGalleryButton,
+  ImageContainerUploader,
+};

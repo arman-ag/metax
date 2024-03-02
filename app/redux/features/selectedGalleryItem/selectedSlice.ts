@@ -1,12 +1,15 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
-const initialState = { id: 0 };
+const initialState = {};
 export const selectedItemGallery = createSlice({
   name: 'selectedItemGallery',
   initialState,
   reducers: {
     selectedItem: (state, action) => {
-      return action.payload;
+      return {
+        ...state,
+        [action.payload.service]: action.payload.chooseItem,
+      };
     },
   },
 });

@@ -3,20 +3,14 @@ import BlackPencilIcon from '@/app/_assets/icon/blackPencil';
 import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
-import { translatorٍErrorMessage } from '@/app/_lib/translator';
-import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
-import { Button, DialogTrigger, toast } from '@haip/design-system';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import LoadingContainer from '../loadingContainer';
-import MusicContainer from './musicContainer';
-import { MusicIconContainer } from './rightClickStyle';
+import MusicContainer from '@/app/_components/gallery-modal/musicContainer';
+import { MusicIconContainer } from '@/app/_components/gallery-modal/rightClickStyle';
 import {
   UploadVoice,
   deleteVoiceFile,
   getGalleryVoice,
   updateVoice,
-} from './service';
+} from '@/app/_components/gallery-modal/service';
 import {
   ActionContainer,
   DeleteButton,
@@ -24,8 +18,13 @@ import {
   GalleryTabsContainer,
   GalleryUploadButton,
   RenameButton,
-  SubmitGalleryButton,
-} from './style';
+} from '@/app/_components/gallery-modal/style';
+import LoadingContainer from '@/app/_components/loadingContainer';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
+import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
+import { toast } from '@haip/design-system';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const UserVoice = () => {
   const dispatch = useDispatch();
@@ -144,7 +143,6 @@ const UserVoice = () => {
     formData.append('voice_file', file);
     const res = await UploadVoice(formData);
     setLoading(true);
-    console.log('res======>', res);
     if (res.message === 'the voice created') {
       const response = await getGalleryVoice();
       response && setFileList([...response]);
@@ -211,13 +209,6 @@ const UserVoice = () => {
             ))}
           </MusicIconContainer>
         </div>
-        <SubmitGalleryButton>
-          <DialogTrigger asChild>
-            <Button onClick={actionChoseButton} type='button'>
-              تایید
-            </Button>
-          </DialogTrigger>
-        </SubmitGalleryButton>
       </GalleryTabsContainer>
     </div>
   );

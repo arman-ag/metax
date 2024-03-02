@@ -4,7 +4,7 @@ import React from 'react';
 
 import { usePathname } from 'next/navigation';
 import { breadCrumbTranslator } from '../_lib/translator';
-import { BreadCrumbContainer } from './style';
+import { BreadCrumbContainer, BreadcrumbItem } from './style';
 
 const NextBreadcrumb = () => {
   const paths = usePathname();
@@ -16,7 +16,14 @@ const NextBreadcrumb = () => {
       {pathNames.map((link, index) => {
         return (
           <React.Fragment key={index}>
-            <span>&nbsp; / &nbsp; {breadCrumbTranslator(link)}</span>
+            <span>
+              &nbsp; / &nbsp;
+              <BreadcrumbItem
+                lastName={pathNames[pathNames.length - 1] === link}
+              >
+                {breadCrumbTranslator(link)}
+              </BreadcrumbItem>
+            </span>
           </React.Fragment>
         );
       })}

@@ -53,7 +53,6 @@ const ImageContainer = ({
     setFileFormat(format);
     setValue(output);
   }, []);
-  console.log('itemmmm===>', item);
   return (
     <div>
       <ContextMenuContainer

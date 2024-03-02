@@ -1,6 +1,7 @@
 'use client';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import DownloadFile from '@/app/_components/download';
+import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
@@ -17,7 +18,6 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  AudioPlayer,
   AudioPlayerContainer,
   Divider,
   FlexAudioPlayerContainer,
@@ -107,10 +107,11 @@ const TTS = () => {
             <FlexAudioPlayerContainer>
               <p>متن خوانده شده</p>
               <AudioPlayerContainer>
-                <AudioPlayer src={tts} controls />
+                <Waveform audio={tts} />
                 <DownloadFile size='sm' href={tts} />
               </AudioPlayerContainer>
             </FlexAudioPlayerContainer>
+
             <div />
             <div />
           </TTSContainer>

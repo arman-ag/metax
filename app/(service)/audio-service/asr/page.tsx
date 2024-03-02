@@ -4,6 +4,7 @@ import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import UploadButton from '@/app/_components/uploadButton';
+import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Dialog,
@@ -18,7 +19,7 @@ import {
 import { useState } from 'react';
 import {
   AudioContainer,
-  AudioPlayer,
+  AudioPlayerContainer,
   AudioProcessingButton,
   Divider,
   FlexContainer,
@@ -92,7 +93,8 @@ const ASR = () => {
                     <FileIcon />
                     <span
                       style={{
-                        color: 'black',
+                        color: '#8C43C9',
+
                         margin: '1.2rem .5rem',
                         fontSize: '.9rem',
                       }}
@@ -108,8 +110,10 @@ const ASR = () => {
               </Dialog>
 
               <FlexContainer>
-                <AudioPlayer src={voiceUrl} controls />
-                <AudioProcessingButton onClick={() => submitFile()} size='sm'>
+                <AudioPlayerContainer>
+                  <Waveform audio={voiceUrl} />
+                </AudioPlayerContainer>
+                <AudioProcessingButton onClick={() => submitFile()}>
                   پردازش صوت
                 </AudioProcessingButton>
               </FlexContainer>

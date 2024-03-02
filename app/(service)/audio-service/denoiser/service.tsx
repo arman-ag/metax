@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const callDenoiseService = async (path) => {
-  console.log(path);
   const res = await axios.post(
     'http://172.16.60.151:8003/denoise/high-denoise/',
     path

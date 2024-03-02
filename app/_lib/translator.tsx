@@ -87,7 +87,7 @@ const breadCrumbTranslator = (text: string) => {
     case 'image-service':
       result = 'سرویس تصویر';
       break;
-    case 'sex-detection':
+    case 'gender-detection':
       result = 'تشخیص جنسیت';
       break;
   }

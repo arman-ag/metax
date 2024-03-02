@@ -41,7 +41,7 @@ const DropDownStatusMenuFilter = styled(DropDown)`
   width: 9rem;
 `;
 const HeaderStatusMenu = styled.div`
-  padding: 1.13rem 1.75rem;
+  padding: 1.13rem 0.75rem;
   h1 {
     font-size: 0.875rem;
     font-style: normal;
@@ -97,9 +97,26 @@ const PeymentCallApiRemainig = styled.div`
     }
   }
 `;
+const GalleryFileContainer = styled.div`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  border: solid 0.1rem #a0a4a8;
+  background-color: ##fbfbfb;
+  color: #a0a4a8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  span {
+    margin-top: 1.13rem;
+  }
+`;
 export {
   DayProcessContainer,
   DropDownStatusMenuFilter,
+  GalleryFileContainer,
   HeaderStatusMenu,
   MainContainer,
   PaymentBarContainer,

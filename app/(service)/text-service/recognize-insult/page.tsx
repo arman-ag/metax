@@ -76,7 +76,7 @@ const RecognizeInsult = () => {
         <Divider />
         <TabsContent value='process'>
           <RecognizeInsultContainer>
-            <H2 className=' font-semibold text-[1.2rem]'>گذاشتن متن</H2>
+            <H2 className=' font-semibold text-[1.2rem]'>وارد کردن متن</H2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FlexBox>

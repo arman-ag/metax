@@ -22,8 +22,8 @@ const Menu = () => {
         </MenuItem>
       </Link>
       <AccordionService />
-      <Link href='#'>
-        <MenuItem>
+      <Link href='/gallery'>
+        <MenuItem path={paths.search('gallery') > 0}>
           <ListIcon className=' icon' />
           <div>فایل ها</div>
         </MenuItem>

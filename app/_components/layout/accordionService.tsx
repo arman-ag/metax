@@ -161,9 +161,9 @@ const AccordionService = () => {
                   </Link>
                 </Accordion.Content>
                 <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/sex-detection'>
+                  <Link href='/image-service/gender-detection'>
                     <ChildItem
-                      path={paths.search('sex-detection') > 0}
+                      path={paths.search('gender-detection') > 0}
                       className='content'
                     >
                       تشخیص جنسیت

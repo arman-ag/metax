@@ -36,11 +36,11 @@ export default function DashboardLayout({
     console.log(data);
   };
   const options = [
+    { label: 'همه', value: '6عنوان' },
     { label: 'موفق', value: 1 },
     { label: 'ناموق', value: '4عنوان' },
     { label: 'در حال پردازش', value: '5عنوان' },
     { label: 'لغو شده', value: '6عنوان' },
-    { label: 'همه', value: '6عنوان' },
   ];
   const { serviceSliceReducer } = useSelector((state) => state);
 
@@ -59,11 +59,10 @@ export default function DashboardLayout({
     } else {
       clearInterval(intervalId);
     }
-    console.log('isPendedService++++', serviceSliceReducer?.data);
     return () => clearInterval(intervalId);
   }, [serviceSliceReducer]);
 
-  //firstreques
+  //first request
   useEffect(() => {
     dispatch(getServiceStatusList());
   }, []);
@@ -82,7 +81,6 @@ export default function DashboardLayout({
       true
     );
   }, []);
-  console.log('serviceSliceReducer', serviceSliceReducer);
   return (
     <Layout>
       <Toaster dir={'rtl'} />
@@ -147,7 +145,6 @@ export default function DashboardLayout({
             </>
           )}
         </StatusContainer>
-
         <ViewService>{children}</ViewService>
       </MainContainer>
     </Layout>

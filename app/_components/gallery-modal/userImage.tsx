@@ -6,8 +6,10 @@ import SelectAllIcon from '@/app/_assets/icon/selecAll';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
 import { Button, DialogTrigger, toast } from '@haip/design-system';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import LoadingContainer from '../loadingContainer';
 import ImageContainer from './imageContainer';
 import { MusicIconContainer } from './rightClickStyle';
 import {
@@ -35,6 +37,8 @@ const UserImage = () => {
     rename: false,
     delete: false,
   });
+  const pathname = usePathname();
+
   const [focusItem, setFocusItem] = useState({});
   //get items in when gallery mount
   useEffect(() => {
@@ -114,7 +118,6 @@ const UserImage = () => {
     const deleteItem = deleteItemRaw.filter((item) => item !== undefined);
     const res = await deleteImageFile(deleteItem.toString());
     setLoading(true);
-    console.log('res delete', res);
     if (res.status === 204) {
       const voiceFiles = await getGalleryImage();
       voiceFiles && setFileList([...voiceFiles]);
@@ -158,11 +161,14 @@ const UserImage = () => {
   };
 
   const actionChoseButton = () => {
-    dispatch(selectedItem(focusItem));
+    pathname.split('/')[2];
+    dispatch(
+      selectedItem({ chooseItem: focusItem, service: pathname.split('/')[2] })
+    );
   };
 
   return loading ? (
-    <div>loading....</div>
+    <LoadingContainer />
   ) : (
     <div>
       <GalleryTabsContainer onClick={blurItem}>
@@ -193,7 +199,7 @@ const UserImage = () => {
               acceptType='.jpg,.jpeg,.png'
             >
               <CloudIcon />
-              آپلود فایل
+              <span style={{ marginRight: '1rem' }}>آپلود فایل</span>{' '}
             </GalleryUploadButton>
           }
         </ActionContainer>

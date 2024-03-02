@@ -3,20 +3,13 @@ import BlackPencilIcon from '@/app/_assets/icon/blackPencil';
 import CloudIcon from '@/app/_assets/icon/cloud';
 import DeleteIcon from '@/app/_assets/icon/deletIcon';
 import SelectAllIcon from '@/app/_assets/icon/selecAll';
-import { translatorٍErrorMessage } from '@/app/_lib/translator';
-import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
-import { Button, DialogTrigger, toast } from '@haip/design-system';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import LoadingContainer from '../loadingContainer';
-import MusicContainer from './musicContainer';
-import { MusicIconContainer } from './rightClickStyle';
+import ImageContainer from '@/app/_components/gallery-modal/imageContainer';
+import { MusicIconContainer } from '@/app/_components/gallery-modal/rightClickStyle';
 import {
-  UploadVoice,
-  deleteVoiceFile,
-  getGalleryVoice,
-  updateVoice,
-} from './service';
+  UploadImage,
+  deleteImageFile,
+  getGalleryImage,
+} from '@/app/_components/gallery-modal/service';
 import {
   ActionContainer,
   DeleteButton,
@@ -24,10 +17,16 @@ import {
   GalleryTabsContainer,
   GalleryUploadButton,
   RenameButton,
-  SubmitGalleryButton,
-} from './style';
+} from '@/app/_components/gallery-modal/style';
+import LoadingContainer from '@/app/_components/loadingContainer';
+import { translatorٍErrorMessage } from '@/app/_lib/translator';
+import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
+import { toast } from '@haip/design-system';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-const UserVoice = () => {
+const UserImage = () => {
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,11 +35,13 @@ const UserVoice = () => {
     rename: false,
     delete: false,
   });
+  const pathname = usePathname();
+
   const [focusItem, setFocusItem] = useState({});
   //get items in when gallery mount
   useEffect(() => {
     (async function () {
-      const response = await getGalleryVoice();
+      const response = await getGalleryImage();
       if (response) {
         setLoading(false);
         setFileList([...response]);
@@ -88,10 +89,10 @@ const UserVoice = () => {
       let focusIndex = fileList.findIndex((item) => item.id === id);
       const formData = new FormData();
       formData.append('file_name', value);
-      const res = await updateVoice(id, formData);
+      const res = await updateImage(id, formData);
       if (res.status === 200) {
         setLoading(true);
-        const voiceFiles = await getGalleryVoice();
+        const voiceFiles = await getGalleryImage();
         voiceFiles && setFileList([...voiceFiles]);
         setLoading(false);
       } else {
@@ -113,10 +114,10 @@ const UserVoice = () => {
     });
 
     const deleteItem = deleteItemRaw.filter((item) => item !== undefined);
-    const res = await deleteVoiceFile(deleteItem.toString());
+    const res = await deleteImageFile(deleteItem.toString());
     setLoading(true);
-    if (res.status === 200) {
-      const voiceFiles = await getGalleryVoice();
+    if (res.status === 204) {
+      const voiceFiles = await getGalleryImage();
       voiceFiles && setFileList([...voiceFiles]);
       setLoading(false);
     } else {
@@ -137,16 +138,16 @@ const UserVoice = () => {
     setEnableActionBar({ rename: false, delete: true });
     setFileList([...selectAllFile]);
   };
-  //upload voice file
+  //upload image file
   const sendAction = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    formData.append('voice_file', file);
-    const res = await UploadVoice(formData);
+    formData.append('image_file', file);
+    const res = await UploadImage(formData);
     setLoading(true);
     console.log('res======>', res);
-    if (res.message === 'the voice created') {
-      const response = await getGalleryVoice();
+    if (res.message === 'the image created') {
+      const response = await getGalleryImage();
       response && setFileList([...response]);
       setLoading(false);
     } else {
@@ -158,7 +159,10 @@ const UserVoice = () => {
   };
 
   const actionChoseButton = () => {
-    dispatch(selectedItem(focusItem));
+    pathname.split('/')[2];
+    dispatch(
+      selectedItem({ chooseItem: focusItem, service: pathname.split('/')[2] })
+    );
   };
 
   return loading ? (
@@ -190,7 +194,7 @@ const UserVoice = () => {
           {
             <GalleryUploadButton
               send={(event) => sendAction(event)}
-              acceptType='.wav,.mp3,.ogg,.flac '
+              acceptType='.jpg,.jpeg,.png'
             >
               <CloudIcon />
               <span style={{ marginRight: '1rem' }}>آپلود فایل</span>
@@ -200,7 +204,7 @@ const UserVoice = () => {
         <div>
           <MusicIconContainer>
             {fileList?.map((item) => (
-              <MusicContainer
+              <ImageContainer
                 deleteAction={deleteAction}
                 renameAction={renameAction}
                 diagnosisFocusItem={diagnosisFocusItem}
@@ -211,16 +215,9 @@ const UserVoice = () => {
             ))}
           </MusicIconContainer>
         </div>
-        <SubmitGalleryButton>
-          <DialogTrigger asChild>
-            <Button onClick={actionChoseButton} type='button'>
-              تایید
-            </Button>
-          </DialogTrigger>
-        </SubmitGalleryButton>
       </GalleryTabsContainer>
     </div>
   );
 };
 
-export default UserVoice;
+export default UserImage;

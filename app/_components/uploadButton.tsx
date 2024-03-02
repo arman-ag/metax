@@ -18,7 +18,7 @@ const UploadButton = ({ send, children, className, acceptType }: props) => {
           send(e);
         }}
       />
-      <div className=' child-container'>{children}</div>
+      {children}
     </UploadButtonContainer>
   );
 };
