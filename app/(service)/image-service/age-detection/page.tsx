@@ -37,7 +37,10 @@ const Canvas = dynamic(() => import('./canvas'), {
 const AgeDetection = () => {
   const { toast } = useToast();
   const [detectionResult, setDetectionResult] = useState();
-  const [enterImage, setEnterImage] = useState(false);
+  const [readyToShow, setReadyToShow] = useState({
+    entryData: false,
+    response: false,
+  });
   const { selectedItemGallery } = useSelector((state) => state);
 
   const submitFile = async () => {
@@ -54,13 +57,13 @@ const AgeDetection = () => {
         description: translatorٍErrorMessage(res.status),
         variant: 'destructive',
       });
-      setShowResult(false);
     }
     const response = res.data;
     setDetectionResult(response);
   };
   useEffect(() => {
-    selectedItemGallery['age-detection'] && setEnterImage(true);
+    selectedItemGallery['age-detection'] &&
+      setReadyToShow({ response: false, entryData: true });
   }, [selectedItemGallery]);
   return (
     <div>
@@ -88,7 +91,7 @@ const AgeDetection = () => {
         <TabsContent value='process'>
           <div>
             <H2>بارگذاری فایل</H2>
-            {enterImage ? (
+            {readyToShow.entryData ? (
               <ImageContainerUploader>
                 <Dialog>
                   <DialogTrigger asChild>
@@ -98,7 +101,7 @@ const AgeDetection = () => {
                     </FluidImageGalleryButton>
                   </DialogTrigger>
                   <DialogContentContainer dir={'rtl'}>
-                    <Gallery />
+                    <Gallery defaultTab={'user-image'} />
                   </DialogContentContainer>
                 </Dialog>
                 <FlexImageContainer>
@@ -116,7 +119,7 @@ const AgeDetection = () => {
                   </ChoseImageGalleryFileContainer>
                 </DialogTrigger>
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery />
+                  <Gallery defaultTab={'user-image'} />
                 </DialogContentContainer>
               </Dialog>
             )}
@@ -124,7 +127,7 @@ const AgeDetection = () => {
             <Divider />
             <H2>نتیجه نهایی</H2>
             <FlexImageContainer>
-              {detectionResult ? (
+              {readyToShow.response ? (
                 <Canvas
                   detectionResult={detectionResult}
                   imageUrl={selectedItemGallery['age-detection'].image_file}

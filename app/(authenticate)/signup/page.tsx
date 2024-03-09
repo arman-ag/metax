@@ -43,7 +43,7 @@ const SignUp = () => {
       email: data.email ? data.email : null,
     });
     try {
-      const res = await fetch(`${baseUrl}/accounts/check-user-exist/`, {
+      const res = await fetch(`${baseUrl}/metax/auth/v1/check-user-exist/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

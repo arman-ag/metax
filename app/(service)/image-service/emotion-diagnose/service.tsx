@@ -1,10 +1,9 @@
 import axios from 'axios';
 const imageService = process.env.imageService;
 
-const getAgeDetection = async (formData) => {
+const getEmotionDetection = async (formData) => {
   const res = await axios.post(
-    `${imageService}/metax/image/recognition/v1/
-age-detection/`,
+    `${imageService}/metax/image/recognition/v1/emotion-detection/`,
     formData,
     {
       headers: {
@@ -15,4 +14,4 @@ age-detection/`,
   return res;
 };
 
-export { getAgeDetection };
+export { getEmotionDetection };

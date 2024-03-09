@@ -105,7 +105,7 @@ const ASR = () => {
                 </DialogTrigger>
 
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery setFocusItem={setFocusItem} />
+                  <Gallery defaultTab={'user-voice'} />
                 </DialogContentContainer>
               </Dialog>
 

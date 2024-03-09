@@ -4,7 +4,7 @@ import UserVoice from '@/app/_components/gallery-modal/userVoice';
 import { Search } from '@/app/_components/search';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@haip/design-system';
 import UserImage from './userImage';
-const Gallery = () => {
+const Gallery = ({ defaultTab }) => {
   return (
     <div>
       <H1>گالری</H1>
@@ -12,7 +12,7 @@ const Gallery = () => {
         <Search />
       </ContainerSearch>
       <div style={{ height: '43.1875rem' }}>
-        <Tabs dir='rtl' defaultValue='user-voice'>
+        <Tabs dir='rtl' defaultValue={defaultTab}>
           <TabsList>
             <TabsTrigger halfBorder={false} value='user-voice'>
               صدا ها

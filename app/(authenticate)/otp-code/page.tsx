@@ -9,6 +9,7 @@ import {
   Toaster,
   useToast,
 } from '@haip/design-system';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -31,8 +32,9 @@ const OtpCode = () => {
     const raw = await JSON.stringify({
       phone_number: phoneNumber,
     });
+
     try {
-      const res = await fetch(`${baseUrl}/accounts/send-sms-code/`, {
+      const res = await fetch(`${baseUrl}/metax/auth/v1/otp-validation/`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -57,40 +59,57 @@ const OtpCode = () => {
     }
   };
   const sendData = async (otpCode: string) => {
-    const jsonOtpCode = JSON.stringify({
-      phone_number: phoneNumber,
-      sms_code: parseInt(otpCode),
-      repeat_sms_code: null,
-    });
+    // const jsonOtpCode = JSON.stringify({
+    //   phone_number: phoneNumber,
+    //   sms_code: parseInt(otpCode),
+    // });
+
     try {
-      const res = await fetch(`${baseUrl}/accounts/otp-validation/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonOtpCode,
+      const res = await signIn('otp-verfication', {
+        phone_number: phoneNumber,
+        sms_code: parseInt(otpCode),
+        redirect: false,
       });
-      const response = await res.json();
-      console.log(response);
-      if (res.ok) {
-        localStorage.setItem('OTPAuth', response.access);
-        router.push('/choose-password');
-      } else {
-        if (res.status === 422) {
-          setError(true);
-        }
+      console.log('res', res);
+      if (res?.error !== null) {
         toast({
-          description: translatorٍErrorMessage(res.status),
+          description: ` کاربری با این مشخصات وجود ندارد`,
           variant: 'destructive',
         });
+      } else {
+        router.push('/choose-password');
       }
-      router.push('/choose-password');
-    } catch {
-      toast({
-        description: translatorٍErrorMessage('TypeError: Failed to fetch'),
-        variant: 'destructive',
-      });
-    }
+    } catch (e) {}
+
+    // try {
+    //   const res = await fetch(`${baseUrl}/accounts/otp-validation/`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: jsonOtpCode,
+    //   });
+    //   const response = await res.json();
+    //   console.log(response);
+    //   if (res.ok) {
+    //     localStorage.setItem('OTPAuth', response.access);
+    //     router.push('/choose-password');
+    //   } else {
+    //     if (res.status === 422) {
+    //       setError(true);
+    //     }
+    //     toast({
+    //       description: translatorٍErrorMessage(res.status),
+    //       variant: 'destructive',
+    //     });
+    //   }
+    //   router.push('/choose-password');
+    // } catch {
+    //   toast({
+    //     description: translatorٍErrorMessage('TypeError: Failed to fetch'),
+    //     variant: 'destructive',
+    //   });
+    // }
   };
   useEffect(() => {
     const counter = setInterval(countdown, 1000);

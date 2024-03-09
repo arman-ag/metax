@@ -1,8 +1,8 @@
 import axios from 'axios';
-const taskManagerUrl = process.env.taskmanagerUrl;
+const taskManagerUrl = process.env.taskMangerUrl;
 const getStatusResult = async () => {
   const { data: response } = await axios.get(
-    `${taskManagerUrl}/tasks/task-manager/`
+    `${taskManagerUrl}/metax/voice/assistant/v1/tasks/task-manager/`
   );
   return response;
 };

@@ -3,7 +3,10 @@
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import { ChoseAudioGalleryFile } from '@/app/_components/choseGalleryFile';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import ResultNotReady from '@/app/_components/resultNotReady';
+import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { getServiceStatusList } from '@/app/redux/features/serviceStatus/statusSlice';
 import {
@@ -18,14 +21,10 @@ import {
 } from '@haip/design-system';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  callDenoiseService,
-  getDownloadFileLink,
-  getHighDenoiseResult,
-} from './service';
+import { ChoseImageGalleryFileContainer } from '../../image-service/age-detection/style';
+import { callDenoiseService } from './service';
 import {
   AudioContainer,
-  AudioPlayer,
   AudioPlayerContainer,
   AudioProcessingButton,
   DenoiserContainer,
@@ -40,15 +39,18 @@ import {
 const Denoiser = () => {
   const dispatch = useDispatch();
   const { toast } = useToast();
-
   const [denoiseFileAddressUrl, setDenoiseFileAddressUrl] = useState('');
   const { selectedItemGallery } = useSelector((state) => state);
   const { serviceSliceReducer } = useSelector((state) => state);
+  const [readyToShow, setReadyToShow] = useState({
+    entryData: false,
+    response: false,
+  });
 
   //send highDenoise result
   const submitFile = async () => {
     const formData = new FormData();
-    formData.append('voice_path', selectedItemGallery.voice_file);
+    formData.append('voice_path', selectedItemGallery['denoiser']?.voice_file);
     try {
       const response = await callDenoiseService(formData);
       localStorage.setItem('denoiser', response.celery_task_id);
@@ -62,15 +64,11 @@ const Denoiser = () => {
     }
   };
 
-  //get highDenoise result
+  // get highDenoise result
   useEffect(() => {
     const celeryTaskId = localStorage.getItem('denoiser');
     //check  result status to success
     const result = serviceSliceReducer?.data?.some((item) => {
-      console.log(
-        'denoiseFileAddressUrl===========>',
-        item.celery_task_id === celeryTaskId && item.status === 'success'
-      );
       return item.celery_task_id === celeryTaskId && item.status === 'success';
     });
     //get audio link
@@ -84,9 +82,17 @@ const Denoiser = () => {
         addressFormData.append('result_link', addressFile);
         const resultAudio = await getDownloadFileLink(addressFormData);
         setDenoiseFileAddressUrl(URL.createObjectURL(resultAudio));
+        setReadyToShow({
+          entryData: true,
+          response: true,
+        });
       }
     })();
   }, [serviceSliceReducer]);
+  useEffect(() => {
+    selectedItemGallery['denoiser'] &&
+      setReadyToShow({ response: false, entryData: true });
+  }, [selectedItemGallery]);
   return (
     <div>
       <H1>دینویزر</H1>
@@ -114,34 +120,59 @@ const Denoiser = () => {
         <TabsContent value='process'>
           <DenoiserContainer>
             <H2>بارگذاری فایل</H2>
-            <AudioContainer>
+            {readyToShow.entryData ? (
+              <AudioContainer>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <FluidGalleryButton size={'sm'} variant={'outline'}>
+                      <FileIcon />
+                      <span>فایل ها</span>
+                    </FluidGalleryButton>
+                  </DialogTrigger>
+
+                  <DialogContentContainer dir={'rtl'}>
+                    <Gallery defaultTab={'user-voice'} />
+                  </DialogContentContainer>
+                </Dialog>
+                <FlexContainer>
+                  <Waveform
+                    audio={selectedItemGallery['denoiser']?.voice_file}
+                  />
+                  <AudioProcessingButton onClick={submitFile} size='sm'>
+                    پردازش صوت
+                  </AudioProcessingButton>
+                </FlexContainer>
+              </AudioContainer>
+            ) : (
               <Dialog>
                 <DialogTrigger asChild>
-                  <FluidGalleryButton size={'sm'} variant={'outline'}>
-                    <FileIcon />
-                    <span>فایل ها</span>
-                  </FluidGalleryButton>
+                  <ChoseImageGalleryFileContainer>
+                    <ChoseAudioGalleryFile />
+                  </ChoseImageGalleryFileContainer>
                 </DialogTrigger>
-
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery />
+                  <Gallery defaultTab={'user-voice'} />
                 </DialogContentContainer>
               </Dialog>
-              <FlexContainer>
-                <AudioPlayer src={selectedItemGallery?.voice_file} controls />
-                <AudioProcessingButton onClick={submitFile} size='sm'>
-                  پردازش صوت
-                </AudioProcessingButton>
-              </FlexContainer>
-            </AudioContainer>
+            )}
+
             <Divider />
             <H2>نتیجه نهایی</H2>
             <FlexAudioPlayerContainer>
-              <p>صدای بدون نویز</p>
-              <AudioPlayerContainer>
-                <AudioPlayer src={denoiseFileAddressUrl} controls />
-                <FluidDownloadButton size='sm' href={denoiseFileAddressUrl} />
-              </AudioPlayerContainer>
+              {readyToShow.response ? (
+                <div>
+                  <p>صدای بدون نویز</p>
+                  <AudioPlayerContainer>
+                    <Waveform audio={denoiseFileAddressUrl} />
+                    <FluidDownloadButton
+                      size='sm'
+                      href={denoiseFileAddressUrl}
+                    />
+                  </AudioPlayerContainer>
+                </div>
+              ) : (
+                <ResultNotReady />
+              )}
             </FlexAudioPlayerContainer>
           </DenoiserContainer>
         </TabsContent>

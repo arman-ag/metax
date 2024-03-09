@@ -81,6 +81,7 @@ export default function DashboardLayout({
       true
     );
   }, []);
+  console.log(serviceSliceReducer);
   return (
     <Layout>
       <Toaster dir={'rtl'} />
@@ -105,7 +106,7 @@ export default function DashboardLayout({
                   >
                     <FormField
                       control={form.control}
-                      name='sex'
+                      name='type'
                       render={({ field }) => {
                         return (
                           <FormItem className='basis-[20rem]'>

@@ -10,7 +10,7 @@ const MainContainer = styled.div`
   grid-template-columns: auto auto auto 21rem;
   row-gap: 0.69rem;
   column-gap: 1.5rem;
-  height: 90.7vh;
+  height: 90vh;
 `;
 const StatusContainer = styled.div`
   grid-area: serviceStatus;

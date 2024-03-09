@@ -3,8 +3,7 @@ const imageService = process.env.imageService;
 
 const getAgeDetection = async (formData) => {
   const res = await axios.post(
-    `${imageService}/metax/image/recognition/v1/
-age-detection/`,
+    `${imageService}/metax/image/recognition/v1/age-detection/`,
     formData,
     {
       headers: {

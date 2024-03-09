@@ -31,16 +31,17 @@ const Login = () => {
   const form = useForm({
     resolver: yupResolver(schema),
   });
-
   const onSubmit = async (data) => {
+    console.log(data);
     try {
-      const res = await signIn('credentials', {
+      const res = await signIn('login', {
         phone_number: data.phone,
         password: data.password,
         redirect: false,
       });
       console.log('res', res);
-      if (res?.error !== null) {
+
+      if (res) {
         toast({
           description: ` کاربری با این مشخصات وجود ندارد`,
           variant: 'destructive',

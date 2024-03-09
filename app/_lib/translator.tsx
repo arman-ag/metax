@@ -79,16 +79,19 @@ const breadCrumbTranslator = (text: string) => {
       result = 'تشخیص احساسات';
       break;
     case 'face-detection':
-      result = 'تشخیص صورت';
-      break;
-    case 'plaque-detection':
-      result = 'تشخیص پلاک';
+      result = 'تشخیص چهره';
       break;
     case 'image-service':
       result = 'سرویس تصویر';
       break;
     case 'gender-detection':
       result = 'تشخیص جنسیت';
+      break;
+    case 'text-to-image':
+      result = 'تبدیل متن به تصویر';
+      break;
+    case 'plaque-diagnose':
+      result = 'نشخیص پلاک';
       break;
   }
   return result;
@@ -97,10 +100,10 @@ const breadCrumbTranslator = (text: string) => {
 const translateService = (text: string) => {
   let result = {};
   switch (text) {
-    case 'high denoise':
+    case 'denoiser':
       result = { serviceName: 'دینویزر', address: '/audio-service/denoiser' };
       break;
-    case 'low denoise':
+    case 'music denoise':
       result = {
         serviceName: 'جداسازی موسیقی و خواننده',
         address: '/audio-service/music-separator',

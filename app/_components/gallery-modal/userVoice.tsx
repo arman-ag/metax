@@ -6,6 +6,7 @@ import SelectAllIcon from '@/app/_assets/icon/selecAll';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import { selectedItem } from '@/app/redux/features/selectedGalleryItem/selectedSlice';
 import { Button, DialogTrigger, toast } from '@haip/design-system';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import LoadingContainer from '../loadingContainer';
@@ -28,6 +29,7 @@ import {
 } from './style';
 
 const UserVoice = () => {
+  const pathname = usePathname();
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -158,7 +160,10 @@ const UserVoice = () => {
   };
 
   const actionChoseButton = () => {
-    dispatch(selectedItem(focusItem));
+    pathname.split('/')[2];
+    dispatch(
+      selectedItem({ chooseItem: focusItem, service: pathname.split('/')[2] })
+    );
   };
 
   return loading ? (

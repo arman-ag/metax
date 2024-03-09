@@ -17,7 +17,7 @@ const ImageContainerUploader = styled.div`
 const FluidImageGalleryButton = styled(Button)`
   width: 5.65rem;
   position: absolute;
-  right: 22.5rem;
+  right: 20.5%;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;

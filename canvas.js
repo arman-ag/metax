@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Image, Layer, Rect, Stage } from 'react-konva';
 import useImage from 'use-image';
 function Canvas({ imageUrl, detectionResult }) {
-    console.log(detectionResult)
+    console.log("tesssssssssssssst", detectionResult)
     const canvasContainer = useRef(null)
     const [stageSize, setStageSize] = useState({})
     const ResultImage = () => {
@@ -28,7 +28,7 @@ function Canvas({ imageUrl, detectionResult }) {
 
         }())
     }, [])
-    console.log(stageSize)
+    console.log("tesssssssssssssst", stageSize)
     return (
         <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: "black", }} ref={canvasContainer}>
             <Stage width={700} height={400} scale={

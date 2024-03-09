@@ -2,7 +2,10 @@
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import { ChoseAudioGalleryFile } from '@/app/_components/choseGalleryFile';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import ResultNotReady from '@/app/_components/resultNotReady';
+import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Dialog,
@@ -16,10 +19,10 @@ import {
 } from '@haip/design-system';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ChoseImageGalleryFileContainer } from '../../image-service/age-detection/style';
 import { getDownloadFileLink } from '../denoiser/service';
 import {
   AudioContainer,
-  AudioPlayer,
   AudioPlayerContainer,
   AudioProcessingButton,
   Divider,
@@ -33,6 +36,10 @@ import {
 import { callLowDenoiseService, getLowDenoiseResult } from './service';
 import { MusicSeparatorContainer } from './style';
 const MusicSeparator = () => {
+  const [readyToShow, setReadyToShow] = useState({
+    entryData: false,
+    response: false,
+  });
   const { toast } = useToast();
   const [voice, setVoice] = useState();
   const [blobVocalFileUrl, setBlobVocalFileUrl] = useState('/metVocalRes.wav');
@@ -44,7 +51,10 @@ const MusicSeparator = () => {
   const submitFile = async () => {
     try {
       const formData = new FormData();
-      formData.append('voice_path', selectedItemGallery.voice_file);
+      formData.append(
+        'voice_path',
+        selectedItemGallery['music-separator']?.voice_file
+      );
       const response = await callLowDenoiseService(formData);
       localStorage.setItem('music', response.celery_task_id);
     } catch (e) {
@@ -72,6 +82,10 @@ const MusicSeparator = () => {
         addressFormData.append('result_link', addressFile);
         const resultAudio = await getDownloadFileLink(addressFormData);
         console.log(resultAudio);
+        setReadyToShow({
+          entryData: true,
+          response: true,
+        });
         // setDenoiseFileAddressUrl(URL.createObjectURL(resultAudio));
       }
     })();
@@ -143,7 +157,10 @@ const MusicSeparator = () => {
       true
     );
   }, []);
-
+  useEffect(() => {
+    selectedItemGallery['music-separator'] &&
+      setReadyToShow({ response: false, entryData: true });
+  }, [selectedItemGallery]);
   return (
     <div>
       <Toaster dir={'rtl'} />
@@ -172,51 +189,67 @@ const MusicSeparator = () => {
         <TabsContent value='process'>
           <MusicSeparatorContainer>
             <H2>بارگذاری فایل</H2>
-            <AudioContainer>
+            {readyToShow.entryData ? (
+              <AudioContainer>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <FluidGalleryButton size={'sm'} variant={'outline'}>
+                      <FileIcon />
+                      <span>فایل ها</span>
+                    </FluidGalleryButton>
+                  </DialogTrigger>
+
+                  <DialogContentContainer dir={'rtl'}>
+                    <Gallery defaultTab={'user-voice'} />
+                  </DialogContentContainer>
+                </Dialog>
+                <FlexContainer>
+                  <Waveform
+                    audio={selectedItemGallery['music-separator']?.voice_file}
+                  />
+                  <AudioProcessingButton onClick={submitFile} size='sm'>
+                    پردازش صوت
+                  </AudioProcessingButton>
+                </FlexContainer>
+              </AudioContainer>
+            ) : (
               <Dialog>
                 <DialogTrigger asChild>
-                  <FluidGalleryButton
-                    onClick={fluidGalleryButtonAction}
-                    size={'sm'}
-                    variant={'outline'}
-                  >
-                    <FileIcon />
-                    <span>فایل ها</span>
-                  </FluidGalleryButton>
+                  <ChoseImageGalleryFileContainer>
+                    <ChoseAudioGalleryFile />
+                  </ChoseImageGalleryFileContainer>
                 </DialogTrigger>
-
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery />
+                  <Gallery defaultTab={'user-voice'} />
                 </DialogContentContainer>
               </Dialog>
-              <FlexContainer>
-                <AudioPlayer src={selectedItemGallery?.voice_file} controls />
-
-                <AudioProcessingButton onClick={submitFile} size='sm'>
-                  پردازش صوت
-                </AudioProcessingButton>
-              </FlexContainer>
-            </AudioContainer>
+            )}
             <Divider />
 
             <div />
             <H2>نتیجه نهایی</H2>
-            <FlexAudioPlayerContainer>
-              <p>صدای خواننده</p>
-              <AudioPlayerContainer>
-                <AudioPlayer src={blobVocalFileUrl} controls />
+            {readyToShow.response ? (
+              <div>
+                <FlexAudioPlayerContainer>
+                  <p>صدای خواننده</p>
+                  <AudioPlayerContainer>
+                    <Waveform src={blobVocalFileUrl} controls />
 
-                <FluidDownloadButton size='sm' href={blobVocalFileUrl} />
-              </AudioPlayerContainer>
-            </FlexAudioPlayerContainer>
-            <FlexAudioPlayerContainer>
-              <p>صدای موسیقی</p>
-              <AudioPlayerContainer>
-                <AudioPlayer src={blobMusicFileUrl} controls />
+                    <FluidDownloadButton size='sm' href={blobVocalFileUrl} />
+                  </AudioPlayerContainer>
+                </FlexAudioPlayerContainer>
+                <FlexAudioPlayerContainer>
+                  <p>صدای موسیقی</p>
+                  <AudioPlayerContainer>
+                    <Waveform src={blobMusicFileUrl} controls />
 
-                <FluidDownloadButton size='sm' href={blobMusicFileUrl} />
-              </AudioPlayerContainer>
-            </FlexAudioPlayerContainer>
+                    <FluidDownloadButton size='sm' href={blobMusicFileUrl} />
+                  </AudioPlayerContainer>
+                </FlexAudioPlayerContainer>
+              </div>
+            ) : (
+              <ResultNotReady />
+            )}
           </MusicSeparatorContainer>
         </TabsContent>
       </Tabs>

@@ -2,34 +2,34 @@ import type { AuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 const baseUrl = process.env.baseUrl;
+const myHeaders = new Headers();
+myHeaders.append('Content-Type', 'application/json');
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'login',
+      type: 'credentials',
       credentials: {
-        username: { label: 'username', type: 'text' },
+        phone_number: { label: 'phone_number', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        const json = JSON.stringify({
-          forget_password: null,
+        const json = await JSON.stringify({
           username: credentials?.phone_number,
           password: credentials?.password,
         });
-        const res = await fetch(`${baseUrl}/accounts/api/token/`, {
+        const res = await fetch(`${baseUrl}/metax/auth/v1/api/token/`, {
           method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
+          headers: myHeaders,
           body: json,
+          redirect: 'follow',
         });
         const user = await res.json();
         if (res.statusText === 'OK') {
           console.log('nextauth daki user: ', user);
           return user;
         }
-        throw new Error(JSON.stringify({ errors: user.errors, status: false }));
         return null;
       },
     }),
@@ -50,16 +50,14 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
-
-  secret: process.env.JWT_SECRET,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
-    signIn: '/signin',
-    signOut: '/signin',
-    error: '/404',
+    signIn: '/login',
+    signOut: '/login',
+    error: '/login',
     newUser: '/login',
   },
 };

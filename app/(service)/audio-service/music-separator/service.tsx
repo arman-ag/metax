@@ -3,7 +3,7 @@ import axios from 'axios';
 const callLowDenoiseService = async (path) => {
   console.log(path);
   const res = await axios.post(
-    'http://172.16.60.151:8003/denoise/low-denoise/',
+    'http://172.16.60.111:8004/metax/voice/assistant/v1/denoise/low-denoise/',
     path
   );
   return res.data;

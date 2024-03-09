@@ -24,8 +24,8 @@ const StatusMenuItem = ({ item }) => {
           </span>
         </div>
         <StatusResult status={translateServiceStatus(item.status)}>
-          <span>{translateServiceStatus(item.status).status}</span>
-          <Link href={translateService(item.service_name).address}>
+          <span>{translateServiceStatus(item?.status)?.status}</span>
+          <Link href={translateService(item?.service_name)?.address}>
             <Button size='sm' variant='outline'>
               باز کردن
             </Button>

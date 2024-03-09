@@ -1,9 +1,10 @@
 'use client';
 import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
-import imageAi from '@/app/_assets/image/imageAi.png';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import { ChoseImageGalleryFile } from '@/app/_components/choseGalleryFile';
 import Gallery from '@/app/_components/gallery-modal/gallery';
+import ResultNotReady from '@/app/_components/resultNotReady';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Button,
@@ -16,50 +17,56 @@ import {
   Toaster,
   useToast,
 } from '@haip/design-system';
-import Image from 'next/image';
-import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Divider, H1, H2 } from '../../audio-service/denoiser/style';
+import { ChoseImageGalleryFileContainer } from '../age-detection/style';
 import {
   FlexImageContainer,
   FluidImageGalleryButton,
   ImageContainerUploader,
 } from '../plaque-diagnose/style';
-
+import { getFaceDetection } from './service';
+const Canvas = dynamic(() => import('./canvas'), {
+  ssr: false,
+});
 const FaceDetection = () => {
   const { toast } = useToast();
-  const [voice, setVoice] = useState();
-  const [asrVoice, setAsrVoice] = useState('تست ویف تست ویف خسوه');
-  const [voiceUrl, setVoiceUrl] = useState('/defaultVoice.wav');
-  const [showResult, setShowResult] = useState(true);
-  const [focusItem, setFocusItem] = useState({});
-  const browseFile = (e) => {
-    setVoice(e.target.files[0]);
-    setVoiceUrl(URL.createObjectURL(e.target.files[0]));
-    setShowResult(false);
-  };
+  const [detectionResult, setDetectionResult] = useState();
+  const [readyToShow, setReadyToShow] = useState({
+    entryData: false,
+    response: false,
+  });
+  const { selectedItemGallery } = useSelector((state) => state);
+
   const submitFile = async () => {
     const formData = new FormData();
-    formData.append('file', voice);
+    formData.append(
+      'image_path',
+      selectedItemGallery['face-detection']?.image_file
+    );
 
-    const res = await fetch('http://hirax.com:2003/', {
-      method: 'POST',
-      body: formData,
-      redirect: 'follow',
-    });
+    const res = await getFaceDetection(formData);
+    console.log('ress====', res);
     if (res.status !== 200) {
       toast({
         description: translatorٍErrorMessage(res.status),
         variant: 'destructive',
       });
-      setShowResult(false);
     }
-    const response = await res.json();
-    setAsrVoice(response.text);
-    setShowResult(true);
+    const response = res.data;
+    setDetectionResult(response);
+    setReadyToShow({ response: true, entryData: true });
   };
+  useEffect(() => {
+    selectedItemGallery['face-detection'] &&
+      setReadyToShow({ response: false, entryData: true });
+  }, [selectedItemGallery]);
+
   return (
     <div>
-      <H1>تبدیل گفتار به نوشتار</H1>
+      <H1>تشخیص چهره</H1>
       <NextBreadcrumb />
       <Tabs dir='rtl' defaultValue='process'>
         <TabsList>
@@ -83,27 +90,50 @@ const FaceDetection = () => {
         <TabsContent value='process'>
           <div>
             <H2>بارگذاری فایل</H2>
-            <ImageContainerUploader>
+            {readyToShow.entryData ? (
+              <ImageContainerUploader>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <FluidImageGalleryButton size={'sm'} variant={'outline'}>
+                      <FileIcon />
+                      <span>فایل ها</span>
+                    </FluidImageGalleryButton>
+                  </DialogTrigger>
+                  <DialogContentContainer dir={'rtl'}>
+                    <Gallery defaultTab={'user-image'} />
+                  </DialogContentContainer>
+                </Dialog>
+                <FlexImageContainer>
+                  <Canvas
+                    imageUrl={selectedItemGallery['face-detection']?.image_file}
+                  />
+                  <Button onClick={() => submitFile()}>پردازش تصویر</Button>
+                </FlexImageContainer>
+              </ImageContainerUploader>
+            ) : (
               <Dialog>
                 <DialogTrigger asChild>
-                  <FluidImageGalleryButton size={'sm'} variant={'outline'}>
-                    <FileIcon />
-                    <span>فایل ها</span>
-                  </FluidImageGalleryButton>
+                  <ChoseImageGalleryFileContainer>
+                    <ChoseImageGalleryFile />
+                  </ChoseImageGalleryFileContainer>
                 </DialogTrigger>
                 <DialogContentContainer dir={'rtl'}>
-                  <Gallery />
+                  <Gallery defaultTab={'user-image'} />
                 </DialogContentContainer>
               </Dialog>
-              <FlexImageContainer>
-                <Image src={imageAi} width={346} height={150} />
-                <Button>پردازش تصویر</Button>
-              </FlexImageContainer>
-            </ImageContainerUploader>
+            )}
+
             <Divider />
             <H2>نتیجه نهایی</H2>
             <FlexImageContainer>
-              <Image src={imageAi} width={346} height={150} />
+              {readyToShow.response ? (
+                <Canvas
+                  detectionResult={detectionResult}
+                  imageUrl={selectedItemGallery['face-detection']?.image_file}
+                />
+              ) : (
+                <ResultNotReady />
+              )}
             </FlexImageContainer>
           </div>
         </TabsContent>

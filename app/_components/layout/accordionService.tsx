@@ -63,7 +63,7 @@ const AccordionService = () => {
                     </ChildItem>
                   </Link>
                 </AccordionContent>
-                {/* <AccordionContent>
+                <AccordionContent>
                   <Link href='/audio-service/music-separator'>
                     <ChildItem
                       path={paths.search('music-separator') > 0}
@@ -72,7 +72,7 @@ const AccordionService = () => {
                       جدا سازی موسیقی و خواننده
                     </ChildItem>
                   </Link>
-                </AccordionContent> */}
+                </AccordionContent>
                 <AccordionContent>
                   <Link href='/audio-service/asr'>
                     <ChildItem
@@ -97,6 +97,16 @@ const AccordionService = () => {
                     </ChildItem>
                   </Link>
                 </Accordion.Content>
+                <AccordionContent>
+                  <Link href='/text-service/text-to-image'>
+                    <ChildItem
+                      path={paths.search('text-to-image') > 0}
+                      className='content'
+                    >
+                      تبدیل متن به عکس
+                    </ChildItem>
+                  </Link>
+                </AccordionContent>
                 <Accordion.Content className='AccordionContent'>
                   <Link href='/text-service/correct-dictation'>
                     <ChildItem

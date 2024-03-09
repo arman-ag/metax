@@ -16,7 +16,7 @@ const ChoseAudioGalleryFile = () => {
   return (
     <GalleryFileContainer width={'25.125rem'} height={'5.81rem'}>
       <button>
-        <img src={plusButton} />
+        <Image src={plusButton} style={{ width: '3rem', height: '3rem' }} />
       </button>
 
       <span>برای پردازش صوت کلیک کنید</span>
