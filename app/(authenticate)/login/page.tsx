@@ -1,4 +1,5 @@
 'use client';
+import { getTokenWithUserPassService } from '@/app/redux/features/userAuth/authSlice';
 import {
   Button,
   Checkbox,
@@ -11,19 +12,25 @@ import {
   useToast,
 } from '@haip/design-system';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import Container from './style';
 
 const Login = () => {
+  const {
+    authenticateReducer: { loginToken },
+  } = useSelector((state) => state);
+  console.log(useSelector((state) => state));
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { toast } = useToast();
   const phoneRegExp = /^(\+98|0)?9\d{9}$/;
   const schema = Yup.object().shape({
-    phone: Yup.string()
+    username: Yup.string()
       .matches(phoneRegExp, 'فرمت وارد شده صحیح نمی باشد')
       .required('پر کردن این فیلد اجباریست'),
     password: Yup.string().required('پر کردن این فیلد اجباریست'),
@@ -31,25 +38,19 @@ const Login = () => {
   const form = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const res = await signIn('login', {
-        phone_number: data.phone,
-        password: data.password,
-        redirect: false,
-      });
-      console.log('res', res);
 
-      if (res) {
-        toast({
-          description: ` کاربری با این مشخصات وجود ندارد`,
-          variant: 'destructive',
-        });
-      } else {
-        router.push('/dashboard');
-      }
-    } catch (e) {}
+  const onSubmit = async (data) => {
+    await dispatch(getTokenWithUserPassService(data));
+    const { isAuthenticate } = await loginToken;
+    console.log('isAuthenticate', isAuthenticate);
+    if (isAuthenticate) {
+      router.push('/dashboard');
+    } else {
+      toast({
+        description: ` کاربری با این مشخصات وجود ندارد`,
+        variant: 'destructive',
+      });
+    }
   };
   return (
     <Container>
@@ -73,7 +74,7 @@ const Login = () => {
             <div className='input-margin'>
               <FormField
                 control={form.control}
-                name='phone'
+                name='username'
                 render={({ field }) => (
                   <FormItem>
                     <Input

@@ -3,21 +3,27 @@
 import ArrowBackIcon from '@/app/_assets/icon/arrowBack';
 import LoadingContainer from '@/app/_components/loadingContainer';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
+import { getTokenWithUserPassService } from '@/app/redux/features/userAuth/authSlice';
 import {
   Button,
   OTPInputComponent,
   Toaster,
   useToast,
 } from '@haip/design-system';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from '../forget-otp-code/style';
 
 const OtpCode = () => {
   const baseUrl = process.env.baseUrl;
+  const dispatch = useDispatch();
   const router = useRouter();
+  console.log;
+  const {
+    authenticateReducer: { loginToken },
+  } = useSelector((state) => state);
   const { toast } = useToast();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -58,28 +64,31 @@ const OtpCode = () => {
       });
     }
   };
-  const sendData = async (otpCode: string) => {
-    // const jsonOtpCode = JSON.stringify({
-    //   phone_number: phoneNumber,
-    //   sms_code: parseInt(otpCode),
-    // });
 
-    try {
-      const res = await signIn('otp-verfication', {
-        phone_number: phoneNumber,
-        sms_code: parseInt(otpCode),
-        redirect: false,
-      });
-      console.log('res', res);
-      if (res?.error !== null) {
-        toast({
-          description: ` کاربری با این مشخصات وجود ندارد`,
-          variant: 'destructive',
-        });
-      } else {
-        router.push('/choose-password');
-      }
-    } catch (e) {}
+  const sendData = async (otpCode: string) => {
+    const entryData = {
+      phone_number: phoneNumber,
+      sms_code: parseInt(otpCode),
+    };
+    await dispatch(getTokenWithUserPassService(entryData));
+    const { isAuthenticate } = await loginToken;
+    console.log('isAuthenticate', isAuthenticate);
+    // try {
+    //   const res = await signIn('otp-verfication', {
+    //     phone_number: phoneNumber,
+    //     sms_code: parseInt(otpCode),
+    //     redirect: false,
+    //   });
+    //   console.log('res', res);
+    //   if (res?.error !== null) {
+    //     toast({
+    //       description: ` کاربری با این مشخصات وجود ندارد`,
+    //       variant: 'destructive',
+    //     });
+    //   } else {
+    //     router.push('/choose-password');
+    //   }
+    // } catch (e) {}
 
     // try {
     //   const res = await fetch(`${baseUrl}/accounts/otp-validation/`, {
