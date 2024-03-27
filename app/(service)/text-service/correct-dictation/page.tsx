@@ -1,5 +1,6 @@
 'use client';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import ResultNotReady from '@/app/_components/resultNotReady';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
@@ -27,7 +28,8 @@ import {
 const CorrectDictation = () => {
   const { toast } = useToast();
   const form = useForm();
-  const [normalizer, setNormalizer] = useState('صحیح نیست');
+  const [normalizer, setNormalizer] = useState('');
+  const [readyToShow, setReadyToShow] = useState(false);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -36,6 +38,7 @@ const CorrectDictation = () => {
     try {
       const response = await getCorrectDictation(formdata);
       setNormalizer(response.text);
+      setReadyToShow(true);
     } catch (e) {
       toast({
         description: translatorٍErrorMessage(e),
@@ -76,14 +79,13 @@ const CorrectDictation = () => {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FlexBox>
                   <FormField
-                    defaultValue={'سحیح نیست'}
                     control={form.control}
                     name='textfield'
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
                           <CustomTextarea
-                            onKeyDown={() => setNormalizer('')}
+                            onKeyDown={() => setReadyToShow(false)}
                             {...field}
                             label=''
                             dir='rtl'
@@ -101,9 +103,13 @@ const CorrectDictation = () => {
             </Form>
             <Divider />
             <H2>نتیجه نهایی</H2>
-            <ShowResultBox className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
-              {normalizer}
-            </ShowResultBox>
+            {readyToShow ? (
+              <ShowResultBox className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
+                {normalizer}
+              </ShowResultBox>
+            ) : (
+              <ResultNotReady />
+            )}
             <div />
             <div />
           </CorrectDictationContainer>

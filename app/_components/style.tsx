@@ -1,27 +1,32 @@
 import { Button } from '@haip/design-system';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const SearchContainer = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
-  width: 21.125rem;
+  width: 11.125rem;
   height: 2.06rem;
-  border-radius: 1rem;
+  border-radius: 0.25rem;
   background-color: #f7f7f9;
   input {
-    flex-basis: 100%;
-    border-radius: 1rem;
+    border-radius: 0 0.25rem 0.25rem 0;
     outline: none;
     height: 100%;
     padding: 0 0.87rem;
     background-color: inherit;
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
   button {
+    flex-basis: 25%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 100%;
     background-color: #8c43c9;
-    border-radius: 1rem 0.125rem 0.125rem 1rem;
-    width: 4.062rem;
-    height: 2.0625rem;
+    border-radius: 0.25rem 0 0 0.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,7 +104,9 @@ const StatusResult = styled.div`
     border-color: ${({ status }) => status.color};
   }
 `;
-
+const BreadcrumbItem = styled.span`
+  color: ${({ lastName }) => lastName && '#8C43C9'};
+`;
 const Wrap = styled.div`
   display: grid;
   grid-template-columns: 40px 1fr;
@@ -112,37 +119,94 @@ const Wrap = styled.div`
     padding: 0;
   }
 `;
-const AudioPlayerBox = styled.div`
-  background-color: #e8e8e9;
-  height: 4rem;
-  width: 26.125rem;
-  border-radius: 32px;
-  border: 1px dash red;
-  display: flex;
-  justify-content: end;
-`;
-const AudioPlayerProgressBar = styled.div`
-  position: absolute;
-  top: 0;
-  right: 5%;
-`;
 const ResultNotReadyContainer = styled.p`
   color: #a0a4a8;
-  font-size: 14;
+  font-size: 1.01rem;
   text-align: center;
-  margin: 6rem 0;
+  margin: 10% 0;
 `;
-const BreadcrumbItem = styled.span`
-  color: ${({ lastName }) => lastName && '#8C43C9'};
+const AudioPlayerBox = styled.div`
+  direction: ltr;
+  background-color: #e8e8e9;
+  height: 4.5rem;
+  width: 27.125rem;
+  border-radius: 2.5rem;
 `;
+const PlayerContainerItems = styled.div`
+  display: grid;
+  height: 100%;
+  grid-template-areas:
+    ' playerButton audioPlayerProgressBar '
+    '  playerButton remainingTime ';
+  grid-template-rows: 2.1fr 0.3fr;
+  grid-template-columns: 0.5fr 3fr;
+`;
+const AudioPlayerProgressBar = styled.div`
+  grid-area: audioPlayerProgressBar;
+  align-self: end;
+  justify-self: start;
+`;
+
+const AudioPlayerButton = styled.div`
+  grid-area: playerButton;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+`;
+const MusicTimeRemainingContainer = styled.div`
+  grid-area: remainingTime;
+  font-size: 0.7rem;
+  align-self: end;
+`;
+const CardContainer = styled(Link)`
+  display: flex;
+  flex-basis: 32%;
+
+  flex-direction: column;
+
+  border-radius: 0.5rem;
+  align-items: start;
+  padding: 0.4rem 0.9rem;
+  h1 {
+    font-size: 0.87rem;
+  }
+  p {
+    font-size: 0.87rem;
+    color: #52575c;
+  }
+
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.15),
+    0px 1px 2px rgba(0, 0, 0, 0.3);
+  height: 8.25rem;
+`;
+const EmptyLogoContainer = styled.div`
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.6rem;
+  background-color: #efefef;
+  border-radius: 100%;
+`;
+const CardHeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+`;
+
 export {
   AudioPlayerBox,
+  AudioPlayerButton,
   AudioPlayerProgressBar,
   BreadCrumbContainer,
   BreadcrumbItem,
+  CardContainer,
+  CardHeaderContainer,
   ChildDownloadButton,
   DateBox,
+  EmptyLogoContainer,
   FileContainer,
+  MusicTimeRemainingContainer,
+  PlayerContainerItems,
   ResultNotReadyContainer,
   SearchContainer,
   StatusItemContainer,

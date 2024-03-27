@@ -71,7 +71,7 @@ const FlexAudioPlayerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-top: 3.44rem;
+  margin: 4% 0 10% 0;
   justify-content: center;
   p {
     margin-right: 1.69rem;

@@ -1,14 +1,11 @@
 'use client';
-import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
-import Gallery from '@/app/_components/gallery-modal/gallery';
+import ResultNotReady from '@/app/_components/resultNotReady';
 import UploadButton from '@/app/_components/uploadButton';
 import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
-  Dialog,
-  DialogTrigger,
   Tabs,
   TabsContent,
   TabsList,
@@ -26,18 +23,18 @@ import {
   H1,
   H2,
 } from '../denoiser/style';
-import { AsrContainer, ResultContainer } from './style';
+import { AsrContainer, ResultContainer, UploadButtonContainer } from './style';
 const ASR = () => {
   const { toast } = useToast();
   const [voice, setVoice] = useState();
-  const [asrVoice, setAsrVoice] = useState('تست ویف تست ویف خسوه');
-  const [voiceUrl, setVoiceUrl] = useState('/defaultVoice.wav');
-  const [showResult, setShowResult] = useState(true);
-  const [focusItem, setFocusItem] = useState({});
+  const [asrVoice, setAsrVoice] = useState();
+  const [voiceUrl, setVoiceUrl] = useState();
+  const [readyToShow, setReadyToShow] = useState(false);
+
   const browseFile = (e) => {
     setVoice(e.target.files[0]);
     setVoiceUrl(URL.createObjectURL(e.target.files[0]));
-    setShowResult(false);
+    setReadyToShow(false);
   };
   const submitFile = async () => {
     const formData = new FormData();
@@ -53,11 +50,12 @@ const ASR = () => {
         description: translatorٍErrorMessage(res.status),
         variant: 'destructive',
       });
-      setShowResult(false);
+
+      setReadyToShow(false);
     }
     const response = await res.json();
     setAsrVoice(response.text);
-    setShowResult(true);
+    setReadyToShow(true);
   };
 
   return (
@@ -85,29 +83,30 @@ const ASR = () => {
         <Divider />
         <TabsContent value='process'>
           <AsrContainer>
-            <H2>بارگذاری فایل</H2>
-            <AudioContainer>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <UploadButton send={browseFile} variant='outline'>
-                    <FileIcon />
-                    <span
-                      style={{
-                        color: '#8C43C9',
+            <UploadButtonContainer>
+              <H2>بارگذاری فایل</H2>
+              <UploadButton send={browseFile} variant='outline'>
+                <FileIcon />
+                <span
+                  style={{
+                    color: '#8C43C9',
 
-                        margin: '1.2rem .5rem',
-                        fontSize: '.9rem',
-                      }}
-                    >
-                      فایل ها
-                    </span>
-                  </UploadButton>
-                </DialogTrigger>
+                    margin: '0 .3rem 0 0',
+                    fontSize: '.9rem',
+                  }}
+                >
+                  فایل ها
+                </span>
+              </UploadButton>
+            </UploadButtonContainer>
+            <AudioContainer>
+              {/* <Dialog>
+                <DialogTrigger asChild></DialogTrigger>
 
                 <DialogContentContainer dir={'rtl'}>
                   <Gallery defaultTab={'user-voice'} />
                 </DialogContentContainer>
-              </Dialog>
+              </Dialog> */}
 
               <FlexContainer>
                 <AudioPlayerContainer>
@@ -121,9 +120,13 @@ const ASR = () => {
             <div />
             <Divider />
             <H2>نتیجه نهایی</H2>
-            <ResultContainer className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
-              {showResult && asrVoice}
-            </ResultContainer>
+            {readyToShow ? (
+              <ResultContainer className='flex ring-offset-8  ring-light-gray-inactivestates   text-dark-secondary-2 resize  outline-none min-h-[80px] w-full rounded-8  p-[.5rem]  m-[.5rem] border-input  px-3 py-2 text-sm  focus-visible:ring-primary100	 ring-1 '>
+                {asrVoice}
+              </ResultContainer>
+            ) : (
+              <ResultNotReady />
+            )}
           </AsrContainer>
         </TabsContent>
       </Tabs>

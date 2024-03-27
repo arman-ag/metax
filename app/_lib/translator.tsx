@@ -93,6 +93,9 @@ const breadCrumbTranslator = (text: string) => {
     case 'plaque-diagnose':
       result = 'نشخیص پلاک';
       break;
+    case 'plaque-diagnose':
+      result = 'نشخیص پلاک';
+      break;
   }
   return result;
 };

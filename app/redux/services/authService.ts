@@ -11,6 +11,7 @@ const getTokenWithUserPass = async (enteryData) => {
       body: json,
       redirect: 'follow',
     });
+    return res;
   } else {
     const res = await fetch(`${baseUrl}/metax/auth/v1/otp-validation/`, {
       method: 'POST',
@@ -20,9 +21,8 @@ const getTokenWithUserPass = async (enteryData) => {
       body: json,
       redirect: 'follow',
     });
+    return res;
   }
-
-  return res.json();
 };
 
 // const getTokenWithOtp = async (enteryData) => {

@@ -2,7 +2,7 @@ import axios from 'axios';
 const voiceService = process.env.voiceService;
 const callDenoiseService = async (path) => {
   const res = await axios.post(
-    'http://172.16.60.111:8004/metax/voice/assistant/v1/denoise/denoiser/',
+    `${voiceService}/metax/voice/assistant/v1/denoise/denoiser/`,
     path
   );
   return res.data;
@@ -10,14 +10,14 @@ const callDenoiseService = async (path) => {
 
 const getHighDenoiseResult = async (celeryTaskId) => {
   const res = await axios.post(
-    'http://172.16.60.111:8004/metax/voice/assistant/v1/results/denoiser/',
+    `${voiceService}/metax/voice/assistant/v1/results/get-denoiser/`,
     celeryTaskId
   );
   return res.data;
 };
 const getDownloadFileLink = async (formData) => {
   const res = await axios.post(
-    'http://172.16.60.111:8004/metax/voice/assistant/v1/results/denoiser/',
+    `${voiceService}/metax/voice/assistant/v1/results/download-file/`,
     formData,
     {
       responseType: 'blob',

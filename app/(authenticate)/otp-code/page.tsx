@@ -20,10 +20,8 @@ const OtpCode = () => {
   const baseUrl = process.env.baseUrl;
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log;
-  const {
-    authenticateReducer: { loginToken },
-  } = useSelector((state) => state);
+  const { authenticateReducer } = useSelector((state) => state);
+  console.log(useSelector((state) => state));
   const { toast } = useToast();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,8 +69,16 @@ const OtpCode = () => {
       sms_code: parseInt(otpCode),
     };
     await dispatch(getTokenWithUserPassService(entryData));
-    const { isAuthenticate } = await loginToken;
-    console.log('isAuthenticate', isAuthenticate);
+  };
+  useEffect(() => {
+    const counter = setInterval(countdown, 1000);
+    return () => clearInterval(counter);
+  });
+  useEffect(() => {
+    const phone = localStorage.getItem('username');
+    setPhoneNumber(phone!);
+  }, []);
+  useEffect(() => {
     // try {
     //   const res = await signIn('otp-verfication', {
     //     phone_number: phoneNumber,
@@ -89,7 +95,6 @@ const OtpCode = () => {
     //     router.push('/choose-password');
     //   }
     // } catch (e) {}
-
     // try {
     //   const res = await fetch(`${baseUrl}/accounts/otp-validation/`, {
     //     method: 'POST',
@@ -119,15 +124,7 @@ const OtpCode = () => {
     //     variant: 'destructive',
     //   });
     // }
-  };
-  useEffect(() => {
-    const counter = setInterval(countdown, 1000);
-    return () => clearInterval(counter);
-  });
-  useEffect(() => {
-    const phone = localStorage.getItem('username');
-    setPhoneNumber(phone!);
-  }, []);
+  }, [authenticateReducer]);
 
   const sendOtp = (otpCode: string) => {
     if (otpCode.length === 5) {

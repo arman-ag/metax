@@ -3,7 +3,6 @@ import { getUserDetail } from '@/app/(withoutSidebar)/profile/service';
 import ArrowDownIcon from '@/app/_assets/icon/arrowdown';
 import ExitIcon from '@/app/_assets/icon/exit';
 import Person2Icon from '@/app/_assets/icon/person2';
-import { Search } from '@/app/_components/search';
 import { storeUserImage } from '@/app/redux/features/userImage/imageSlice';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { signOut } from 'next-auth/react';
@@ -42,12 +41,10 @@ const Header = () => {
     <HeaderElement>
       <HeadingContainer>
         <h1>داشبورد متاکس</h1>
-
-        <Search />
       </HeadingContainer>
-      <div className='flex justify-between items-center '>
+      <div className='flex justify-between items-center  h-full'>
         <BellIconElement />
-        <div className='flex items-center'>
+        <div className='flex items-center h-full'>
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <HeaderProfileContainer onClick={() => setButtonFocus(false)}>

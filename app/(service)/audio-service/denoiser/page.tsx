@@ -1,6 +1,5 @@
 'use client';
 
-import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import { ChoseAudioGalleryFile } from '@/app/_components/choseGalleryFile';
@@ -8,6 +7,7 @@ import Gallery from '@/app/_components/gallery-modal/gallery';
 import ResultNotReady from '@/app/_components/resultNotReady';
 import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
+import { DialogContentContainer } from '@/app/dashboard/style';
 import { getServiceStatusList } from '@/app/redux/features/serviceStatus/statusSlice';
 import {
   Dialog,
@@ -22,7 +22,11 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChoseImageGalleryFileContainer } from '../../image-service/age-detection/style';
-import { callDenoiseService } from './service';
+import {
+  callDenoiseService,
+  getDownloadFileLink,
+  getHighDenoiseResult,
+} from './service';
 import {
   AudioContainer,
   AudioPlayerContainer,
@@ -50,7 +54,7 @@ const Denoiser = () => {
   //send highDenoise result
   const submitFile = async () => {
     const formData = new FormData();
-    formData.append('voice_path', selectedItemGallery['denoiser']?.voice_file);
+    formData.append('file_path', selectedItemGallery['denoiser']?.voice_file);
     try {
       const response = await callDenoiseService(formData);
       localStorage.setItem('denoiser', response.celery_task_id);
@@ -71,6 +75,7 @@ const Denoiser = () => {
     const result = serviceSliceReducer?.data?.some((item) => {
       return item.celery_task_id === celeryTaskId && item.status === 'success';
     });
+
     //get audio link
     (async function () {
       if (result) {
@@ -88,7 +93,9 @@ const Denoiser = () => {
         });
       }
     })();
+    console.log('result', result);
   }, [serviceSliceReducer]);
+  //show music player when chose audio from gallery
   useEffect(() => {
     selectedItemGallery['denoiser'] &&
       setReadyToShow({ response: false, entryData: true });

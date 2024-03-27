@@ -45,5 +45,6 @@ const RightSlot = styled('div', {
 const MusicIconContainer = styled('div', {
   display: 'flex',
   justifyContent: 'start',
+  flexWrap: 'wrap',
 });
 export { ContextMenuContent, ContextMenuItem, MusicIconContainer, RightSlot };

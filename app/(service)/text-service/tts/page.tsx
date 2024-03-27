@@ -1,6 +1,7 @@
 'use client';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import DownloadFile from '@/app/_components/download';
+import ResultNotReady from '@/app/_components/resultNotReady';
 import Waveform from '@/app/_components/waveform';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
@@ -35,11 +36,14 @@ const TTS = () => {
   const { toast } = useToast();
 
   const form = useForm();
-  const [tts, setTTS] = useState('./ttsAudio.wav');
+  const [tts, setTTS] = useState();
+  const [readyToShow, setReadyToShow] = useState(false);
+
   const onSubmit = async (data) => {
     try {
       const blobRes = await getAudioFile(data.textfield);
       setTTS(URL.createObjectURL(blobRes));
+      setReadyToShow(true);
     } catch (e) {
       toast({
         description: translatorٍErrorMessage(e.response.status),
@@ -81,7 +85,6 @@ const TTS = () => {
                 <FlexBox>
                   <FormField
                     control={form.control}
-                    defaultValue={'سلام چطوری'}
                     name='textfield'
                     render={({ field }) => (
                       <FormItem>
@@ -105,11 +108,17 @@ const TTS = () => {
             <Divider />
             <H2>نتیجه نهایی</H2>
             <FlexAudioPlayerContainer>
-              <p>متن خوانده شده</p>
-              <AudioPlayerContainer>
-                <Waveform audio={tts} />
-                <DownloadFile size='sm' href={tts} />
-              </AudioPlayerContainer>
+              {readyToShow ? (
+                <div>
+                  <p>متن خوانده شده</p>
+                  <AudioPlayerContainer>
+                    <Waveform audio={tts} />
+                    <DownloadFile size='sm' href={tts} />
+                  </AudioPlayerContainer>
+                </div>
+              ) : (
+                <ResultNotReady />
+              )}
             </FlexAudioPlayerContainer>
 
             <div />

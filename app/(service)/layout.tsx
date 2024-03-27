@@ -29,8 +29,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const form = useForm();
   const dispatch = useDispatch();
+  const form = useForm();
 
   const onSubmit = (data) => {
     console.log(data);

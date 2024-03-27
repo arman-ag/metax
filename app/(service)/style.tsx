@@ -6,11 +6,10 @@ const MainContainer = styled.div`
   grid-template-areas:
     ' viewService viewService viewService paymentBar'
     ' viewService viewService viewService serviceStatus ';
-  grid-template-rows: 6.37rem auto;
-  grid-template-columns: auto auto auto 21rem;
+  grid-template-rows: 18% auto;
+  grid-template-columns: auto auto auto 27%;
   row-gap: 0.69rem;
   column-gap: 1.5rem;
-  height: 90vh;
 `;
 const StatusContainer = styled.div`
   grid-area: serviceStatus;

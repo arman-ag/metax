@@ -1,11 +1,11 @@
 'use client';
-import { DialogContentContainer } from '@/app/(withoutSidebar)/dashboard/style';
 import FileIcon from '@/app/_assets/icon/file';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
 import { ChoseImageGalleryFile } from '@/app/_components/choseGalleryFile';
 import Gallery from '@/app/_components/gallery-modal/gallery';
 import ResultNotReady from '@/app/_components/resultNotReady';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
+import { DialogContentContainer } from '@/app/dashboard/dashboard/style';
 import {
   Button,
   Dialog,

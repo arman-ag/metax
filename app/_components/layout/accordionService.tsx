@@ -5,23 +5,21 @@ import * as Accordion from '@radix-ui/react-accordion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { AccordionContent, AccordionTrigger } from '../accordion';
+import { AccordionContent } from '../accordion';
 import { AccordionContainer, ChildItem, ParentItem } from './stylesAcorddion';
 
 const AccordionService = () => {
   const paths = usePathname();
-  const [openChild, setOpenChild] = useState('');
   const [openParent, setOpenParent] = useState('');
   useEffect(() => {
     if (paths.search('audio-service') > 0) {
       setOpenParent('item-1');
-      setOpenChild('item-2');
     } else if (paths.search('text-service') > 0) {
       setOpenParent('item-1');
-      setOpenChild('item-3');
     } else if (paths.search('image-service') > 0) {
       setOpenParent('item-1');
-      setOpenChild('item-4');
+    } else {
+      setOpenParent('');
     }
   }, [paths]);
   return (
@@ -44,164 +42,34 @@ const AccordionService = () => {
             </div>
           </ParentItem>
           <AccordionContent>
-            <Accordion.Root
-              onValueChange={(value) => setOpenChild(value)}
-              className='AccordionRoot'
-              value={openChild}
-              type='single'
-              collapsible
-            >
-              <Accordion.Item className='AccordionItem' value='item-2'>
-                <AccordionTrigger>سرویس صوت</AccordionTrigger>
-                <AccordionContent>
-                  <Link href='/audio-service/denoiser'>
-                    <ChildItem
-                      path={paths.search('denoiser') > 0}
-                      className='content'
-                    >
-                      دینویزر
-                    </ChildItem>
-                  </Link>
-                </AccordionContent>
-                <AccordionContent>
-                  <Link href='/audio-service/music-separator'>
-                    <ChildItem
-                      path={paths.search('music-separator') > 0}
-                      className='content'
-                    >
-                      جدا سازی موسیقی و خواننده
-                    </ChildItem>
-                  </Link>
-                </AccordionContent>
-                <AccordionContent>
-                  <Link href='/audio-service/asr'>
-                    <ChildItem
-                      path={paths.search('asr') > 0}
-                      className='content'
-                    >
-                      تبدیل صوت به متن
-                    </ChildItem>
-                  </Link>
-                </AccordionContent>
-              </Accordion.Item>
-
-              <Accordion.Item className='AccordionItem' value='item-3'>
-                <AccordionTrigger>سرویس متن</AccordionTrigger>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/text-service/tts'>
-                    <ChildItem
-                      path={paths.search('tts') > 0}
-                      className='content'
-                    >
-                      تبدیل متن به صوت
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <AccordionContent>
-                  <Link href='/text-service/text-to-image'>
-                    <ChildItem
-                      path={paths.search('text-to-image') > 0}
-                      className='content'
-                    >
-                      تبدیل متن به عکس
-                    </ChildItem>
-                  </Link>
-                </AccordionContent>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/text-service/correct-dictation'>
-                    <ChildItem
-                      path={paths.search('correct-dictation') > 0}
-                      className='content'
-                    >
-                      غلط املایی
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/text-service/recognize-insult'>
-                    <ChildItem
-                      path={paths.search('recognize-insult') > 0}
-                      className='content'
-                    >
-                      تشخیص توهین
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-              </Accordion.Item>
-              <Accordion.Item className='AccordionItem' value='item-4'>
-                <AccordionTrigger>سرویس تصویر</AccordionTrigger>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/plaque-diagnose'>
-                    <ChildItem
-                      path={paths.search('plaque-diagnose') > 0}
-                      className='content'
-                    >
-                      تشخیص پلاک
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/face-detection'>
-                    <ChildItem
-                      path={paths.search('face-detection') > 0}
-                      className='content'
-                    >
-                      تشخیص چهره
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/body-detection'>
-                    <ChildItem
-                      path={paths.search('body-detection') > 0}
-                      className='content'
-                    >
-                      تشخیص بدن
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/card-diagnose'>
-                    <ChildItem
-                      path={paths.search('card-diagnos') > 0}
-                      className='content'
-                    >
-                      تشخیص کارت
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/gender-detection'>
-                    <ChildItem
-                      path={paths.search('gender-detection') > 0}
-                      className='content'
-                    >
-                      تشخیص جنسیت
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/emotion-diagnose'>
-                    <ChildItem
-                      path={paths.search('emotion-diagnose') > 0}
-                      className='content'
-                    >
-                      تشخیص احساسات
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-                <Accordion.Content className='AccordionContent'>
-                  <Link href='/image-service/age-detection'>
-                    <ChildItem
-                      path={paths.search('age-detection') > 0}
-                      className='content'
-                    >
-                      تشخیص سن
-                    </ChildItem>
-                  </Link>
-                </Accordion.Content>
-              </Accordion.Item>
-            </Accordion.Root>
+            <Link href='/audio-service'>
+              <ChildItem
+                path={paths.search('audio-service') > 0}
+                className='content'
+              >
+                سرویس صوت
+              </ChildItem>
+            </Link>
+          </AccordionContent>
+          <AccordionContent>
+            <Link href='/text-service'>
+              <ChildItem
+                path={paths.search('text-service') > 0}
+                className='content'
+              >
+                سرویس متن
+              </ChildItem>
+            </Link>
+          </AccordionContent>
+          <AccordionContent>
+            <Link href='/image-service'>
+              <ChildItem
+                path={paths.search('image-service') > 0}
+                className='content'
+              >
+                سرویس تصویر
+              </ChildItem>
+            </Link>
           </AccordionContent>
         </Accordion.Item>
       </Accordion.Root>

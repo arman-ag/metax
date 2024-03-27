@@ -14,15 +14,14 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import Container from './style';
 
 const Login = () => {
-  const {
-    authenticateReducer: { loginToken },
-  } = useSelector((state) => state);
+  const { userPassAuthentication } = useSelector((state) => state);
   console.log(useSelector((state) => state));
   const router = useRouter();
   const dispatch = useDispatch();
@@ -41,17 +40,18 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     await dispatch(getTokenWithUserPassService(data));
-    const { isAuthenticate } = await loginToken;
-    console.log('isAuthenticate', isAuthenticate);
-    if (isAuthenticate) {
+  };
+  useEffect(() => {
+    if (userPassAuthentication.isAuthenticate) {
       router.push('/dashboard');
-    } else {
+    } else if (userPassAuthentication.error) {
       toast({
         description: ` کاربری با این مشخصات وجود ندارد`,
         variant: 'destructive',
       });
     }
-  };
+  }, [userPassAuthentication]);
+
   return (
     <Container>
       <Toaster dir={'rtl'} />

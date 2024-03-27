@@ -7,19 +7,20 @@ const GridContainer = styled.div`
     'header header header header header header'
     '  menu main main main main main ';
   background-color: #ededed;
-  grid-template-rows: 4.68rem auto;
-  grid-template-columns: 13.4rem auto auto auto auto auto;
+  grid-template-rows: 9.1% auto;
+  grid-template-columns: 16% auto auto auto auto auto;
   height: 100vh;
+  overflow: scroll;
 `;
 
 const MainContainer = styled.div`
   grid-area: main;
-  padding: 1.31rem 1.5rem 0 1.5rem;
+  padding: 1.4% 1.9%;
 `;
 const HeaderContainer = styled.div`
   grid-area: header;
   background-color: white;
-  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.04);
 `;
 const MenuContainer = styled.div`
   grid-area: menu;
@@ -119,12 +120,12 @@ const HeaderProfileContainer = styled.button`
   /* background-color: ${({ focus }) => (focus ? '#fbf7fd' : 'white')}; */
   outline: none;
   width: 12.5rem;
-  height: 4.68rem;
   /* padding: 0 1rem; */
   justify-content: space-around;
   display: flex;
   align-items: center;
   cursor: pointer;
+  height: 100%;
 `;
 const DividerProfileItem = styled.div`
   width: 100%;

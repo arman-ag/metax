@@ -22,6 +22,7 @@ const slideLeftAndFade = keyframes({
 });
 
 const contentStyles = {
+  top: '1.5rem',
   minWidth: '12.5rem',
   backgroundColor: '#FBF7FD',
   borderRadius: '0rem 0rem 1rem 1rem',

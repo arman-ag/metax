@@ -1,15 +1,14 @@
-import { combineSlices, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  getTokenWithOtp,
-  getTokenWithUserPass,
-} from '../../services/authService';
+'use client';
+
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getTokenWithUserPass } from '../../services/authService';
 
 const initialState = {
   isLoading: false,
   isAuthenticate: false,
-  access: '',
-  refresh: '',
-  error: '',
+  access: null,
+  refresh: null,
+  error: null,
 };
 export const getTokenWithUserPassService = createAsyncThunk(
   'getTokenWithUserPassService',
@@ -20,18 +19,17 @@ export const getTokenWithUserPassService = createAsyncThunk(
     } else {
       const res = await result.json();
 
-      console.log('ress', res.detail);
       throw res.detail;
     }
   }
 );
-export const getTokenWitOtpService = createAsyncThunk(
-  'getTokenWithUserPassService',
-  async (data) => {
-    const result = await getTokenWithOtp(data);
-    return result;
-  }
-);
+// export const getTokenWitOtpService = createAsyncThunk(
+//   'getTokenWithUserPassService',
+//   async (data) => {
+//     const result = await getTokenWithOtp(data);
+//     return result;
+//   }
+// );
 export const userPassAuthentication = createSlice({
   name: 'loginToken',
   initialState,
@@ -39,10 +37,10 @@ export const userPassAuthentication = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getTokenWithUserPassService.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(getTokenWithUserPassService.fulfilled, (state, action) => {
-      state.isLoading = true;
-      state.error = '';
+      state.isLoading = false;
       state.access = action.payload.access;
       state.refresh = action.payload.refresh;
       state.isAuthenticate = true;
@@ -74,5 +72,5 @@ export const otpAuthentication = createSlice({
     });
   },
 });
-const authenticateReducer = combineSlices(userPassAuthentication);
-export default authenticateReducer;
+export default userPassAuthentication.reducer;
+// export default authenticateReducer;

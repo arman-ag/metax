@@ -3,6 +3,7 @@
 import HappyIcon from '@/app/_assets/icon/happy';
 import SadIcon from '@/app/_assets/icon/sad';
 import NextBreadcrumb from '@/app/_components/NextBreadcrumb';
+import ResultNotReady from '@/app/_components/resultNotReady';
 import { translatorٍErrorMessage } from '@/app/_lib/translator';
 import {
   Form,
@@ -30,7 +31,7 @@ const RecognizeInsult = () => {
   const form = useForm();
   const { toast } = useToast();
   const [sensation, setSensation] = useState('Neutral');
-  const [showResult, setShowResult] = useState(true);
+  const [readyToShow, setReadyToShow] = useState(false);
   const onSubmit = async (data) => {
     console.log(data);
     const formdata = new FormData();
@@ -39,7 +40,7 @@ const RecognizeInsult = () => {
       const response = await insultResult(formdata);
       setSensation(response);
 
-      setShowResult(false);
+      setReadyToShow(true);
     } catch (e) {
       toast({
         description: translatorٍErrorMessage(e),
@@ -82,13 +83,12 @@ const RecognizeInsult = () => {
                 <FlexBox>
                   <FormField
                     control={form.control}
-                    defaultValue={'زیبا'}
                     name='textfield'
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
                           <CustomTextarea
-                            onKeyDown={() => setShowResult(false)}
+                            onKeyDown={() => setReadyToShow(false)}
                             label=''
                             {...field}
                             dir='rtl'
@@ -106,20 +106,23 @@ const RecognizeInsult = () => {
             <Divider />
             <H2>نتیجه نهایی</H2>
             <div className='flex justify-center'>
-              <InsultResultBox sensation={sensation}>
-                {/* {!showResult && <LoadingContainer />} */}
-                {sensation === 'Neutral' ? (
-                  <div>
-                    <HappyIcon />
-                    <span>این متن توهین آمیز نیست</span>
-                  </div>
-                ) : (
-                  <div>
-                    <SadIcon />
-                    <span>این متن توهین آمیز است</span>
-                  </div>
-                )}
-              </InsultResultBox>
+              {readyToShow ? (
+                <InsultResultBox sensation={sensation}>
+                  {sensation === 'Neutral' ? (
+                    <div>
+                      <HappyIcon />
+                      <span>این متن توهین آمیز نیست</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <SadIcon />
+                      <span>این متن توهین آمیز است</span>
+                    </div>
+                  )}
+                </InsultResultBox>
+              ) : (
+                <ResultNotReady />
+              )}
             </div>
             <div />
             <div />
